@@ -26,7 +26,7 @@ const DestCards = (() => {
         <p class="postcard__programs">${esc(d.programs)}</p>
         <p class="postcard__note">${esc(d.note)}</p>
         <div class="postcard__foot">
-          <a class="link-arrow" href="#destinations" data-phase="4" tabindex="-1">Explore ${esc(d.country)}${icon('arrow')}</a>
+          <a class="link-arrow" href="destination.html#${d.id}" tabindex="-1">Explore ${esc(d.country)}${icon('arrow')}</a>
           <span class="postcard__count">${esc(d.city)}</span>
         </div>
       </div>

@@ -3,7 +3,8 @@
    Naming: block, block__element, block--modifier (BEM-style).
    Contents: icons · buttons · eyebrow · section head · link arrow ·
    status chips · tags · TBC badge · package labels · cards ·
-   person card · form fields · image frames · toast
+   person card · form fields · image frames · toast ·
+   check list · process steps · consultation banner
    ===================================================================== */
 
 /* ---------- icons (SVG sprite) ---------- */
@@ -77,7 +78,7 @@ html[lang="bn"] .eyebrow{font-family:var(--font-bn);letter-spacing:.02em;font-si
 .card--link{display:block;text-decoration:none;color:inherit;transition:transform .15s var(--ease),border-color .15s,box-shadow .15s}
 .card--link:hover{transform:translateY(-2px);border-color:var(--brand);box-shadow:var(--shadow)}
 .card--night{background:var(--night);border-color:var(--night);color:var(--night-fg)}
-.card--night h3{color:var(--night-fg)}
+.card--night :is(h2,h3){color:var(--night-fg)}
 .card--night p{color:var(--night-dim)}
 .card__icon{width:44px;height:44px;border-radius:12px;background:var(--brand-soft);color:var(--brand-text);display:grid;place-items:center;margin-bottom:14px}
 .card__icon .icon{width:22px;height:22px}
@@ -132,3 +133,35 @@ select.field__control{appearance:none;padding-right:38px;background-image:linear
 /* ---------- toast ---------- */
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:90;max-width:calc(100% - 32px);transform:translate(-50%,16px);opacity:0;pointer-events:none;background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:var(--r-sm);font-weight:600;font-size:14.5px;box-shadow:var(--shadow);transition:opacity .2s,transform .2s var(--ease)}
 .toast.is-visible{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- check list (icon + text) ---------- */
+.checks{display:grid;gap:14px;margin:0;padding:0;list-style:none}
+.checks li{display:flex;align-items:flex-start;gap:12px;font-size:16px;font-weight:500}
+.checks .icon{width:24px;height:24px;margin-top:-1px;color:var(--go-text)}
+
+/* ---------- process steps (numbered, used on home and services) ---------- */
+.process{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;margin:0;padding:0;list-style:none;counter-reset:step}
+.process li{position:relative;padding-top:64px;min-width:0}
+.process li::before{counter-increment:step;content:counter(step,decimal-leading-zero);position:absolute;top:0;left:0;z-index:1;display:grid;place-items:center;width:48px;height:48px;border:2px solid var(--brand);border-radius:50%;background:var(--surface);color:var(--brand-text);font:700 14px/1 var(--font-mono)}
+.process li::after{content:"";position:absolute;top:24px;left:56px;right:-8px;border-top:2px dashed var(--line)}
+.process li:last-child::after{display:none}
+.process li:last-child::before{background:var(--brand);color:var(--brand-ink)}
+.process h3{font-size:16px}
+.process p{margin-top:6px;font-size:14px;color:var(--ink-2)}
+@media (max-width:1024px){
+  .process{grid-template-columns:1fr;gap:0}
+  .process li{padding:0 0 28px 68px}
+  .process li::after{top:52px;bottom:4px;left:23px;right:auto;border-top:0;border-left:2px dashed var(--line)}
+  .process li:last-child{padding-bottom:0}
+}
+
+/* ---------- consultation banner (used at the end of most pages) ---------- */
+.cta-band{position:relative;overflow:hidden;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:clamp(28px,4vw,44px);border-radius:var(--r-lg);background:var(--night);color:var(--night-fg)}
+.cta-band::before{content:"";position:absolute;inset:0;background:radial-gradient(500px 240px at 100% 0%,rgba(47,92,203,.5),transparent 60%);pointer-events:none}
+.cta-band > *{position:relative}
+.cta-band h2{color:var(--night-fg);font-size:clamp(24px,2.8vw,32px)}
+.cta-band p{max-width:52ch;margin-top:8px;color:var(--night-dim)}
+.cta-band__actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px}
+.cta-band__phone{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--night-fg)}
+.cta-band__phone .icon{color:var(--sun)}
+@media (max-width:560px){.cta-band__actions .btn{flex:1 1 100%}}

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact Us | EduRise Global</title>
+<meta name="description" content="Book a free study abroad consultation with EduRise Global in Dhaka. Call, WhatsApp or send a message.">
+<meta name="theme-color" content="#0E1F3C">
+<link rel="icon" type="image/png" href="assets/img/brand/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="contact">
+<main id="main">
+  <section class="page-head">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><span aria-current="page">Contact</span></nav>
+      <span class="eyebrow eyebrow--sun">Free consultation</span>
+      <h1>Talk to a counsellor</h1>
+      <p>Visit our Dhaka office, call or WhatsApp us, or send a message below.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container contact">
+      <div class="card contact__form">
+        <form id="contactForm">
+          <h2>Send us a message</h2>
+          <p class="lead">Fields marked * are required. Email is optional, because most families prefer WhatsApp.</p>
+          <div class="form-grid">
+            <div class="field"><label class="field__label" for="c-name">Full name <span class="req">*</span></label><input class="field__control" id="c-name" name="name" autocomplete="name"><span class="field__error">Enter your full name.</span></div>
+            <div class="field"><label class="field__label" for="c-phone">Phone / WhatsApp <span class="req">*</span></label><input class="field__control tnum" id="c-phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="01XXX-XXXXXX"><span class="field__error">Enter a Bangladeshi mobile number, for example 01712-345678.</span></div>
+            <div class="field"><label class="field__label" for="c-email">Email (optional)</label><input class="field__control" id="c-email" name="email" type="email" autocomplete="email" placeholder="you@example.com"><span class="field__error">Check the email address, or leave it empty.</span></div>
+            <div class="field"><label class="field__label" for="c-qual">Highest qualification <span class="req">*</span></label>
+              <select class="field__control" id="c-qual" name="qual"><option value="">Select</option><option>SSC / O-levels</option><option>HSC / A-levels</option><option>Diploma</option><option>Bachelor’s</option><option>Master’s</option></select>
+              <span class="field__error">Choose your highest qualification.</span></div>
+            <div class="field full"><label class="field__label" for="contactCountry">Preferred country</label><select class="field__control" id="contactCountry" name="country"></select></div>
+            <div class="field full"><label class="field__label" for="c-msg">Message</label><textarea class="field__control" id="c-msg" name="msg" rows="4" placeholder="Tell us your results, English score and what you would like to study."></textarea></div>
+          </div>
+          <button class="btn btn--go btn--lg" type="submit" style="margin-top:20px">Send message</button>
+          <p class="form-note">We use your details only to reply to your enquiry.</p>
+        </form>
+        <div class="success" id="contactSuccess" hidden tabindex="-1" role="status"></div>
+      </div>
+      <aside class="contact__aside">
+        <div class="card">
+          <h2 class="h3">Reach us directly</h2>
+          <div class="contact-line"><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg><div><small>Phone</small><b class="tnum" data-site="phone"></b></div></div>
+          <div class="contact-line"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"></use></svg><div><small>WhatsApp</small><a data-site-href="whatsapp" target="_blank" rel="noopener">Start a chat</a></div></div>
+          <div class="contact-line"><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg><div><small>Email</small><b data-site="email"></b></div></div>
+          <div class="contact-line"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><div><small>Office hours</small><b id="contactHours"></b><span class="tbc">TBC</span></div></div>
+        </div>
+        <div class="offices" id="contactOffices" style="grid-template-columns:1fr"></div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/forms.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/home.js"></script>
+<script src="js/pages.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

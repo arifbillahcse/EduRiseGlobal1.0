@@ -6,14 +6,37 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 
 | Phase | Scope | Package | Status |
 |---|---|---|---|
-| 1 | Design foundation and style guide | All | ✅ Ready for review |
-| 2 | Header, navigation, footer, WhatsApp button | All | Waiting |
-| 3 | Homepage: hero, services, process, leadership, commitment | Package 1 | Waiting |
-| 4 | Destinations, scholarships list, About, Contact, policies | Package 1 | Waiting |
+| 1 | Design foundation and style guide | All | ✅ Done |
+| 2 | Header, navigation, footer, WhatsApp button | All | ✅ Done |
+| 3 | Homepage: hero, services, process, leadership, commitment | Package 1 | ✅ Done |
+| 4 | Destinations, country guides, programs, scholarships, services, about, contact, policies | Package 1 | ✅ Done |
 | 5 | Listings with filters, enquiry forms, intake list | Package 2 | Waiting |
 | 6 | Testimonials, news, admin preview | Package 2 | Waiting |
 | 7 | Program detail pages, application board, eligibility quiz, cost estimator | Package 3 | Waiting |
 | 8 | Full Bangla, lead list, downloads, final QA, handover | Package 3 | Waiting |
+
+## Pages
+
+| File | Page |
+|---|---|
+| `index.html` | Homepage |
+| `destinations.html` | All destinations |
+| `destination.html#korea` | Country guide (one template; `#korea`, `#japan`, `#uk`, `#malta`, `#italy`, `#russia`, `#finland`, `#malaysia`, `#china`) |
+| `programs.html` | Program types |
+| `scholarships.html` | University offers and government scholarships |
+| `services.html` | Services and process |
+| `about.html` | About, leadership, offices |
+| `contact.html` | Contact form and offices |
+| `policies.html` | Privacy, terms, disclaimer |
+| `styleguide.html` | Design system (internal) |
+
+## How the code is organised
+
+- Each page contains only its own `<main>`. The header, menu, footer and WhatsApp button are added by `js/layout.js`, so they are written once.
+- **All text and data** (contact details, destinations, services, team, scholarships, policies) lives in `js/data.js`.
+- `js/icons.js` adds the icon set to every page (master copy: `partials/icons.html`).
+- Script order on every page: `icons → data → utils → forms → layout → home → pages → main`.
+- Styles: `tokens.css` (design tokens), `base.css`, `components.css` (shared pieces), `layout.css` (header/footer), `home.css`, `pages.css`.
 
 ## Phase 1 files
 
