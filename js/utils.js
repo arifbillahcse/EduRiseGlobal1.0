@@ -33,3 +33,32 @@ const Toast = (() => {
     }
   };
 })();
+
+/* ---------- dates and application status (always Dhaka time) ---------- */
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function todayISO() {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Dhaka', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+}
+const dayNumber = iso => { const [y, m, d] = iso.split('-').map(Number); return Date.UTC(y, m - 1, d) / 864e5; };
+function formatDate(iso) { const [y, m, d] = iso.split('-').map(Number); return `${d} ${MONTHS[m - 1]} ${y}`; }
+function formatRange(s, e) {
+  const [y1, m1, d1] = s.split('-').map(Number), [y2, m2, d2] = e.split('-').map(Number);
+  return (y1 === y2 && m1 === m2) ? `${d1} to ${d2} ${MONTHS[m2 - 1]} ${y2}` : `${formatDate(s)} to ${formatDate(e)}`;
+}
+
+/* status of one application window: { state: open | closing | upcoming | closed, label, days }
+   rounds without dates ({ tba: true }) count as upcoming with "Dates to be announced" */
+function windowStatus(item) {
+  if (item.tba || !item.s) return { state: 'upcoming', label: 'Dates to be announced' };
+  const today = dayNumber(todayISO()), start = dayNumber(item.s), end = dayNumber(item.e);
+  if (today < start) { const n = start - today; return { state: 'upcoming', days: n, label: n === 1 ? 'Opens tomorrow' : `Opens in ${n} days` }; }
+  if (today <= end) {
+    const n = end - today;
+    return { state: n <= 3 ? 'closing' : 'open', days: n, label: n === 0 ? 'Closes today' : n === 1 ? 'Closes tomorrow' : `Open · ${n} days left` };
+  }
+  return { state: 'closed', label: 'Closed' };
+}
+/* chip markup for a status (classes from components.css) */
+const STATUS_CHIP = { open: 'chip--open', closing: 'chip--urgent', upcoming: 'chip--soon', closed: 'chip--closed' };
+const statusChip = st => `<span class="chip ${STATUS_CHIP[st.state] || 'chip--tba'}">${esc(st.label)}</span>`;
+const STATUS_ORDER = { closing: 0, open: 1, upcoming: 2, closed: 3 };

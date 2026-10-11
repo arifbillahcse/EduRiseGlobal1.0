@@ -2,12 +2,13 @@
    main.js — start-up for every page.
    Each page sets <body data-page="…">; this file runs the matching
    renderer, then builds the shared shell around the page.
-   Load order: icons → data → utils → forms → layout → home → pages → main
+   Load order: icons → data → utils → forms → layout → home → pages → listings → main
    ===================================================================== */
 const PAGE_RENDERERS = {
-  home:         () => initHome(),
+  home:         () => { initHome(); renderHomeIntakes(); },
   destinations: () => renderDestinationsPage(),
   destination:  () => { renderCountryPage(); window.addEventListener('hashchange', () => { renderCountryPage(); bindSite(); }); },
+  universities: () => renderUniversitiesPage(),
   programs:     () => renderProgramsPage(),
   scholarships: () => renderScholarshipsPage(),
   services:     () => renderServicesPage(),
@@ -25,4 +26,5 @@ document.addEventListener('DOMContentLoaded', () => {
   (PAGE_RENDERERS[page] || (() => {}))();               // page content first …
   initLayout(page in ACTIVE_NAV ? ACTIVE_NAV[page] : page); // … then the shell, which binds links inside it
   initToastButtons();
+  Enquiry.init();                                     // Package 2 enquiry dialog
 });

@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="css/listings.css">
 </head>
 <body data-page="home">
 <main id="main">
@@ -56,8 +57,23 @@
     </div>
   </section>
 
+  <!-- ---------- UPCOMING INTAKES (Package 2) ---------- -->
+  <section class="section section--alt" id="intakes" aria-labelledby="intakesTitle">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <div class="label-row"><span class="eyebrow">Current intakes</span><span class="pkg pkg--2">Package 2</span></div>
+          <h2 id="intakesTitle">Applications open and coming up</h2>
+          <p>Status updates on its own from the application dates, so a closed round never stays on the site.</p>
+        </div>
+        <a class="link-arrow" href="universities.html#intakes">All intakes<svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+      </div>
+      <ul class="intakes" id="homeIntakes"></ul>
+    </div>
+  </section>
+
   <!-- ---------- PROCESS ---------- -->
-  <section class="section section--alt" id="process" aria-labelledby="processTitle">
+  <section class="section" id="process" aria-labelledby="processTitle">
     <div class="container">
       <div class="sec-head">
         <div>
@@ -71,7 +87,7 @@
   </section>
 
   <!-- ---------- LEADERSHIP ---------- -->
-  <section class="section" id="team" aria-labelledby="teamTitle">
+  <section class="section section--alt" id="team" aria-labelledby="teamTitle">
     <div class="container">
       <div class="sec-head">
         <div>
@@ -86,7 +102,7 @@
   </section>
 
   <!-- ---------- COMMITMENT + CONSULTATION ---------- -->
-  <section class="section section--alt" id="commitment" aria-labelledby="commitTitle">
+  <section class="section" id="commitment" aria-labelledby="commitTitle">
     <div class="container">
       <div class="commitment">
         <div>
@@ -117,6 +133,7 @@
 <script src="js/layout.js"></script>
 <script src="js/home.js"></script>
 <script src="js/pages.js"></script>
+<script src="js/listings.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

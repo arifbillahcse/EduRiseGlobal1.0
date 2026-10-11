@@ -10,7 +10,7 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 | 2 | Header, navigation, footer, WhatsApp button | All | ✅ Done |
 | 3 | Homepage: hero, services, process, leadership, commitment | Package 1 | ✅ Done |
 | 4 | Destinations, country guides, programs, scholarships, services, about, contact, policies | Package 1 | ✅ Done |
-| 5 | Listings with filters, enquiry forms, intake list | Package 2 | Waiting |
+| 5 | Universities and intakes, filters, WhatsApp enquiry dialog, filterable scholarships | Package 2 | ✅ Done |
 | 6 | Testimonials, news, admin preview | Package 2 | Waiting |
 | 7 | Program detail pages, application board, eligibility quiz, cost estimator | Package 3 | Waiting |
 | 8 | Full Bangla, lead list, downloads, final QA, handover | Package 3 | Waiting |
@@ -22,6 +22,7 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 | `index.html` | Homepage |
 | `destinations.html` | All destinations |
 | `destination.html#korea` | Country guide (one template; `#korea`, `#japan`, `#uk`, `#malta`, `#italy`, `#russia`, `#finland`, `#malaysia`, `#china`) |
+| `universities.html` | Universities and application intakes (Package 2) |
 | `programs.html` | Program types |
 | `scholarships.html` | University offers and government scholarships |
 | `services.html` | Services and process |
@@ -35,8 +36,9 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 - Each page contains only its own `<main>`. The header, menu, footer and WhatsApp button are added by `js/layout.js`, so they are written once.
 - **All text and data** (contact details, destinations, services, team, scholarships, policies) lives in `js/data.js`.
 - `js/icons.js` adds the icon set to every page (master copy: `partials/icons.html`).
-- Script order on every page: `icons → data → utils → forms → layout → home → pages → main`.
-- Styles: `tokens.css` (design tokens), `base.css`, `components.css` (shared pieces), `layout.css` (header/footer), `home.css`, `pages.css`.
+- Script order on every page: `icons → data → utils → forms → layout → home → pages → listings → main`.
+- Package 2 features (filters, enquiry dialog, intakes) live in `js/listings.js` and `css/listings.css`. Intake status is calculated from the dates in `INTAKES` (Dhaka time); closed windows are hidden automatically.
+- Styles: `tokens.css` (design tokens), `base.css`, `components.css` (shared pieces), `layout.css` (header/footer), `home.css`, `pages.css`, `listings.css`.
 
 ## Phase 1 files
 

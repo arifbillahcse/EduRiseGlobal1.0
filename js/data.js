@@ -21,13 +21,14 @@ const SITE = {
     linkedin: ''                              // TBC
   },
   whatsappGreeting: 'Hello EduRise Global, I would like a free consultation about studying abroad.',
-  currentPhase: 4                             // links to features from later phases explain when they arrive
+  currentPhase: 5                             // links to features from later phases explain when they arrive
 };
 
 /* ---------- navigation: one list feeds the header, the mobile drawer and the footer ---------- */
 const NAV = [
   { id: 'home',         label: 'Home',         href: 'index.html',        phase: 2 },
   { id: 'destinations', label: 'Destinations', href: 'destinations.html', phase: 4 },
+  { id: 'universities', label: 'Universities', href: 'universities.html', phase: 5 },
   { id: 'programs',     label: 'Programs',     href: 'programs.html',     phase: 4 },
   { id: 'scholarships', label: 'Scholarships', href: 'scholarships.html', phase: 4 },
   { id: 'services',     label: 'Services',     href: 'services.html',     phase: 4 },
@@ -210,11 +211,12 @@ const PROGRAM_TYPES = [
    University offers are SAMPLE data from EduRise Facebook posts (TBC).
    ===================================================================== */
 const SCHOLARSHIP_OFFERS = [
-  { university: 'Gachon University', country: 'South Korea', level: 'Master’s (MBA)', award: '50% tuition waiver', condition: 'First semester, all admitted students', intake: 'March 2027' },
-  { university: 'Kyungsung University', country: 'South Korea', level: 'Bachelor’s', award: '30% to 50%', condition: 'First semester, by IELTS score (5.5 / 7.0 / 7.5+)', intake: 'March 2027' },
-  { university: 'Pyeongtaek University', country: 'South Korea', level: 'Master’s', award: '30% to 50%', condition: 'By IELTS or TOEFL score', intake: 'March 2027' },
-  { university: 'Russian universities', country: 'Russia', level: 'Master’s', award: 'Fully funded places', condition: 'Tuition waiver, stipend, dormitory and insurance', intake: '2027' },
-  { university: 'Chinese universities', country: 'China', level: 'Bachelor’s · Master’s', award: 'Up to 100% tuition', condition: 'CSC and university scholarships', intake: 'September / March' }
+  { university: 'Gachon University', dest: 'korea', levels: ['Master’s'], level: 'Master’s (MBA)', award: '50% tuition waiver', condition: 'First semester, all admitted students', intakeId: 'gachon-r1' },
+  { university: 'Kyungsung University', dest: 'korea', levels: ['Bachelor’s'], level: 'Bachelor’s', award: '30% to 50%', condition: 'First semester, by IELTS score (5.5 / 7.0 / 7.5+)', intakeId: 'kyungsung-r2' },
+  { university: 'Pyeongtaek University', dest: 'korea', levels: ['Master’s'], level: 'Master’s', award: '30% to 50%', condition: 'By IELTS or TOEFL score', intakeId: 'pyeongtaek' },
+  { university: 'Russian universities', dest: 'russia', levels: ['Master’s'], level: 'Master’s', award: 'Fully funded places', condition: 'Tuition waiver, stipend, dormitory and insurance', intakeId: 'russia' },
+  { university: 'Chinese universities', dest: 'china', levels: ['Bachelor’s', 'Master’s'], level: 'Bachelor’s · Master’s', award: 'Up to 100% tuition', condition: 'CSC and university scholarships', intakeId: 'china' },
+  { university: 'Jeonbuk National University', dest: 'korea', levels: ['Master’s'], level: 'Master’s', award: 'Up to 80%', condition: 'Selected applicants', intakeId: 'jeonbuk' }
 ];
 const GOV_SCHOLARSHIPS = [
   { code: 'US', name: 'Fulbright Foreign Student Program', country: 'USA', coverage: 'Fully funded', levels: 'Master’s · PhD', url: 'https://foreign.fulbrightonline.org' },
@@ -244,4 +246,43 @@ const POLICIES = [
     'Admission requirements, tuition, scholarships, work rights and family accompaniment rules are set by universities and governments, and they can change without notice.',
     'EduRise Global cannot guarantee admission, a scholarship or a visa. Those decisions belong to the university, the scholarship body or the immigration authority.',
     'University and scholarship names are used for information only and do not imply a partnership unless stated.'] }
+];
+
+/* =====================================================================
+   PACKAGE 2 LISTINGS (Phase 5)
+   On the live site staff manage these lists from the admin panel.
+   Sample data from EduRise Facebook posts; every item is TBC.
+   ===================================================================== */
+const LEVELS = ['Foundation', 'Diploma', 'Bachelor’s', 'Master’s', 'Language'];
+
+/* universities: summary cards with an enquiry button (no detail pages in Package 2) */
+const UNIVERSITIES = [
+  { id: 'gachon', name: 'Gachon University', dest: 'korea', city: 'Seongnam, 20 to 30 minutes from Seoul', levels: ['Master’s'],
+    summary: 'Private university near Seoul with an English-taught MBA and an E-visa route.',
+    facts: [['English', 'IELTS 5.5'], ['Scholarship', '50% first-semester tuition'], ['Next intake', 'March 2027']] },
+  { id: 'kyungsung', name: 'Kyungsung University', dest: 'korea', city: 'Busan', levels: ['Bachelor’s'],
+    summary: 'Six Bachelor’s programs including Global Business, Hospitality, Korean Studies and IT Engineering.',
+    facts: [['English', 'IELTS 5.5 or TOEFL iBT 71'], ['Scholarship', '30% to 50% by IELTS score'], ['Next intake', 'March 2027']] },
+  { id: 'pyeongtaek', name: 'Pyeongtaek University', dest: 'korea', city: 'Pyeongtaek', levels: ['Master’s'],
+    summary: 'Fully English-taught Master’s in Business Administration and Environmental Convergence Engineering.',
+    facts: [['English', 'IELTS 5.5 / TOEFL 71 / CEFR B2'], ['Scholarship', '30% to 50% by English score'], ['Next intake', 'March 2027']] },
+  { id: 'jeonbuk', name: 'Jeonbuk National University', dest: 'korea', city: 'Jeonju', levels: ['Master’s'],
+    summary: 'National university with large scholarships for selected Master’s applicants.',
+    facts: [['English', 'Depends on the program'], ['Scholarship', 'Up to 80% for selected applicants'], ['Next intake', 'To be announced']] }
+];
+
+/* intakes: application windows with automatic status
+   s / e = first and last day to apply (Dhaka time); tba = dates not announced yet.
+   Closed windows disappear from the site on their own. */
+const INTAKES = [
+  { id: 'gachon-r1',    dest: 'korea',    title: 'Gachon University · MBA',                        levels: ['Master’s'],   intake: 'March 2027',  round: 'Round 1', s: '2026-10-07', e: '2026-10-14' },
+  { id: 'gachon-r2',    dest: 'korea',    title: 'Gachon University · MBA',                        levels: ['Master’s'],   intake: 'March 2027',  round: 'Round 2', s: '2026-11-11', e: '2026-11-18' },
+  { id: 'kyungsung-r2', dest: 'korea',    title: 'Kyungsung University · Bachelor’s',              levels: ['Bachelor’s'], intake: 'March 2027',  round: 'Round 2 (incl. transfer)', s: '2026-09-28', e: '2026-10-12' },
+  { id: 'pyeongtaek',   dest: 'korea',    title: 'Pyeongtaek University · Master’s',               levels: ['Master’s'],   intake: 'March 2027',  round: 'Spring 2027 admission', tba: true },
+  { id: 'russia',       dest: 'russia',   title: 'Russian universities · Fully funded Master’s',   levels: ['Master’s'],   intake: '2027',        round: '2027 scholarship round', tba: true },
+  { id: 'finland',      dest: 'finland',  title: 'Finnish universities · Bachelor’s and Master’s', levels: ['Bachelor’s', 'Master’s'], intake: 'January 2027', round: 'January intake', tba: true },
+  { id: 'malaysia',     dest: 'malaysia', title: 'Malaysian universities · Foundation to Master’s', levels: ['Foundation', 'Diploma', 'Bachelor’s', 'Master’s'], intake: 'Next intake', round: 'Rolling intakes', tba: true },
+  { id: 'china',        dest: 'china',    title: 'Chinese universities · Degree and language',     levels: ['Bachelor’s', 'Master’s', 'Language'], intake: 'September 2027', round: 'September intake', tba: true },
+  { id: 'korea-lang',   dest: 'korea',    title: 'Korean universities · KLP and EAP',              levels: ['Language'],   intake: '2027',        round: 'Language programs', tba: true },
+  { id: 'jeonbuk',      dest: 'korea',    title: 'Jeonbuk National University · Master’s',         levels: ['Master’s'],   intake: 'Fall 2026',   round: 'Application', s: '2026-05-18', e: '2026-05-29' }
 ];

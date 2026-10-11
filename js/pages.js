@@ -1,5 +1,5 @@
 /* =====================================================================
-   pages.js — inner pages (Phase 4). Each page calls one render function.
+   pages.js — inner pages (Phase 4, extended in Phase 5). Each page calls one render function.
    All content comes from data.js.
    ===================================================================== */
 
@@ -47,7 +47,7 @@ function officeHTML(o) {
 
 /* ================= destinations.html ================= */
 function renderDestinationsPage() {
-  $('#destGrid').innerHTML = DESTINATIONS.map(destCardHTML).join('');
+  renderDestinationFilter();                      // Package 2: filter by study level (listings.js)
   $('#otherRegions').innerHTML = OTHER_REGIONS.map(r =>
     `<div class="card"><h3 class="region__title">${esc(r.region)}</h3><p>${r.countries.map(esc).join(', ')}</p></div>`).join('');
   mountCTA('destCta', 'Not sure which country fits you?', 'Tell us your results, English score and budget. We will suggest the countries where you have a real chance.');
@@ -124,12 +124,7 @@ function renderProgramsPage() {
 
 /* ================= scholarships.html ================= */
 function renderScholarshipsPage() {
-  $('#offerRows').innerHTML = SCHOLARSHIP_OFFERS.map(o => `<tr>
-    <th scope="row">${esc(o.university)}<span class="cell-sub">${esc(o.country)}</span></th>
-    <td>${esc(o.level)}</td>
-    <td><b class="award">${esc(o.award)}</b><span class="cell-sub">${esc(o.condition)}</span></td>
-    <td class="nowrap">${esc(o.intake)}</td>
-  </tr>`).join('');
+  renderScholarshipOffers();                      // Package 2: filterable offers with enquiry (listings.js)
   $('#govGrid').innerHTML = GOV_SCHOLARSHIPS.map(g => `<article class="card gov">
     <div class="gov__top"><h3>${esc(g.name)}</h3><span class="gov__code">${g.code}</span></div>
     <div class="tag-row"><span class="tag">${esc(g.country)}</span><span class="tag">${esc(g.levels)}</span></div>

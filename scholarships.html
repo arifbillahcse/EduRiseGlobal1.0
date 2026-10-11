@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="css/listings.css">
 </head>
 <body data-page="scholarships">
 <main id="main">
@@ -29,15 +30,11 @@
   </section>
   <section class="section">
     <div class="container">
-      <div class="sec-head"><div><span class="eyebrow">Through EduRise</span><h2>Current university scholarships</h2>
+      <div class="sec-head"><div><div class="label-row"><span class="eyebrow">Through EduRise</span><span class="pkg pkg--2">Package 2</span></div><h2>Current university scholarships</h2>
         <p>Many Korean universities set the scholarship by your English score. Higher scores mean a bigger tuition waiver.</p></div></div>
-      <div class="card">
-        <div class="table-wrap"><table class="data-table">
-          <thead><tr><th scope="col">University</th><th scope="col">Level</th><th scope="col">Scholarship</th><th scope="col">Intake</th></tr></thead>
-          <tbody id="offerRows"></tbody>
-        </table></div>
-        <p class="note">Sample offers taken from EduRise’s posts. <span class="tbc">TBC</span> Each offer is confirmed with the university before publishing.</p>
-      </div>
+      <div id="offerFilters"></div>
+      <div class="offer-grid" id="offerGrid"></div>
+      <p class="note">Sample offers taken from EduRise’s posts. <span class="tbc">TBC</span> Each offer is confirmed with the university before publishing.</p>
     </div>
   </section>
   <section class="section section--alt">
@@ -57,6 +54,7 @@
 <script src="js/layout.js"></script>
 <script src="js/home.js"></script>
 <script src="js/pages.js"></script>
+<script src="js/listings.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
