@@ -21,7 +21,7 @@ const SITE = {
     linkedin: ''                              // TBC
   },
   whatsappGreeting: 'Hello EduRise Global, I would like a free consultation about studying abroad.',
-  currentPhase: 5                             // links to features from later phases explain when they arrive
+  currentPhase: 6                             // links to features from later phases explain when they arrive
 };
 
 /* ---------- navigation: one list feeds the header, the mobile drawer and the footer ---------- */
@@ -34,6 +34,12 @@ const NAV = [
   { id: 'services',     label: 'Services',     href: 'services.html',     phase: 4 },
   { id: 'about',        label: 'About',        href: 'about.html',        phase: 4 },
   { id: 'contact',      label: 'Contact',      href: 'contact.html',      phase: 4 }
+];
+
+/* extra footer links (not in the main menu) */
+const FOOTER_EXTRA = [
+  { label: 'News',                   href: 'news.html',  phase: 6 },
+  { label: 'Staff dashboard (demo)', href: 'admin.html', phase: 6 }
 ];
 
 const LEGAL = [
@@ -145,15 +151,15 @@ const PROCESS = [
 
 /* leadership (PDF "Leadership Team"): bio for the homepage, story for the About page */
 const TEAM = [
-  { name: 'MD Ibna Faysal', role: 'Chief Executive Officer & Country Director', location: 'Dhaka, Bangladesh', photo: 'assets/img/team/ceo.jpg',
+  { id: 'ceo', name: 'MD Ibna Faysal', role: 'Chief Executive Officer & Country Director', location: 'Dhaka, Bangladesh', photo: 'assets/img/team/ceo.jpg',
     bio: 'Leads EduRise in Bangladesh: student counselling, admissions and service standards. His own studies in Malaysia inspired him to start EduRise.',
     story: 'MD Ibna Faysal leads the overall operations of EduRise Global in Bangladesh and is responsible for student counselling, admission management and the consultancy’s service standards. He studied in Malaysia, where his journey in international education began, and that experience inspired him to establish EduRise Global. Because he faced the same challenges himself, he focuses on honest, practical and student-focused guidance, so that every student gets accurate information and realistic expectations before a life-changing decision.',
     tags: ['Studied in Malaysia'] },
-  { name: 'Faysal Ahmed', role: 'Chairman, European Affairs', location: 'Madrid, Spain', photo: 'assets/img/team/faysal.jpg',
+  { id: 'faysal', name: 'Faysal Ahmed', role: 'Chairman, European Affairs', location: 'Madrid, Spain', photo: 'assets/img/team/faysal.jpg',
     bio: 'Oversees European operations and supervises admissions for Malta, South Korea, Japan and other European destinations.',
     story: 'Faysal Ahmed lives in Spain and oversees EduRise Global’s European operations and international coordination. He completed his studies in South Korea, moved to Austria for further study, and then settled in Spain. He supervises admission processes for Malta, South Korea, Japan and several European destinations, and strengthens EduRise Global’s academic network with first-hand knowledge of studying and living abroad.',
     tags: ['Studied in South Korea', 'Austria'] },
-  { name: 'Raihan Gazi', role: 'Managing Director, Global Partnerships', location: 'United Kingdom', photo: 'assets/img/team/raihan.jpg',
+  { id: 'raihan', name: 'Raihan Gazi', role: 'Managing Director, Global Partnerships', location: 'United Kingdom', photo: 'assets/img/team/raihan.jpg',
     bio: 'Builds relationships with universities and explores new study destinations. ACCA qualified and runs his own business in the UK.',
     story: 'Raihan Gazi is based in the United Kingdom and leads EduRise Global’s global partnerships and international collaborations. He has completed ACCA and runs his own professional business in the UK. His role is to build relationships with institutions, explore new study destinations and keep EduRise Global well connected across the global education industry.',
     tags: ['ACCA qualified', 'Business owner in the UK'] }
@@ -211,12 +217,12 @@ const PROGRAM_TYPES = [
    University offers are SAMPLE data from EduRise Facebook posts (TBC).
    ===================================================================== */
 const SCHOLARSHIP_OFFERS = [
-  { university: 'Gachon University', dest: 'korea', levels: ['Master’s'], level: 'Master’s (MBA)', award: '50% tuition waiver', condition: 'First semester, all admitted students', intakeId: 'gachon-r1' },
-  { university: 'Kyungsung University', dest: 'korea', levels: ['Bachelor’s'], level: 'Bachelor’s', award: '30% to 50%', condition: 'First semester, by IELTS score (5.5 / 7.0 / 7.5+)', intakeId: 'kyungsung-r2' },
-  { university: 'Pyeongtaek University', dest: 'korea', levels: ['Master’s'], level: 'Master’s', award: '30% to 50%', condition: 'By IELTS or TOEFL score', intakeId: 'pyeongtaek' },
-  { university: 'Russian universities', dest: 'russia', levels: ['Master’s'], level: 'Master’s', award: 'Fully funded places', condition: 'Tuition waiver, stipend, dormitory and insurance', intakeId: 'russia' },
-  { university: 'Chinese universities', dest: 'china', levels: ['Bachelor’s', 'Master’s'], level: 'Bachelor’s · Master’s', award: 'Up to 100% tuition', condition: 'CSC and university scholarships', intakeId: 'china' },
-  { university: 'Jeonbuk National University', dest: 'korea', levels: ['Master’s'], level: 'Master’s', award: 'Up to 80%', condition: 'Selected applicants', intakeId: 'jeonbuk' }
+  { id: 'sch-gachon', university: 'Gachon University', dest: 'korea', levels: ['Master’s'], level: 'Master’s (MBA)', award: '50% tuition waiver', condition: 'First semester, all admitted students', intakeId: 'gachon-r1' },
+  { id: 'sch-kyungsung', university: 'Kyungsung University', dest: 'korea', levels: ['Bachelor’s'], level: 'Bachelor’s', award: '30% to 50%', condition: 'First semester, by IELTS score (5.5 / 7.0 / 7.5+)', intakeId: 'kyungsung-r2' },
+  { id: 'sch-pyeongtaek', university: 'Pyeongtaek University', dest: 'korea', levels: ['Master’s'], level: 'Master’s', award: '30% to 50%', condition: 'By IELTS or TOEFL score', intakeId: 'pyeongtaek' },
+  { id: 'sch-russia', university: 'Russian universities', dest: 'russia', levels: ['Master’s'], level: 'Master’s', award: 'Fully funded places', condition: 'Tuition waiver, stipend, dormitory and insurance', intakeId: 'russia' },
+  { id: 'sch-china', university: 'Chinese universities', dest: 'china', levels: ['Bachelor’s', 'Master’s'], level: 'Bachelor’s · Master’s', award: 'Up to 100% tuition', condition: 'CSC and university scholarships', intakeId: 'china' },
+  { id: 'sch-jeonbuk', university: 'Jeonbuk National University', dest: 'korea', levels: ['Master’s'], level: 'Master’s', award: 'Up to 80%', condition: 'Selected applicants', intakeId: 'jeonbuk' }
 ];
 const GOV_SCHOLARSHIPS = [
   { code: 'US', name: 'Fulbright Foreign Student Program', country: 'USA', coverage: 'Fully funded', levels: 'Master’s · PhD', url: 'https://foreign.fulbrightonline.org' },
@@ -285,4 +291,28 @@ const INTAKES = [
   { id: 'china',        dest: 'china',    title: 'Chinese universities · Degree and language',     levels: ['Bachelor’s', 'Master’s', 'Language'], intake: 'September 2027', round: 'September intake', tba: true },
   { id: 'korea-lang',   dest: 'korea',    title: 'Korean universities · KLP and EAP',              levels: ['Language'],   intake: '2027',        round: 'Language programs', tba: true },
   { id: 'jeonbuk',      dest: 'korea',    title: 'Jeonbuk National University · Master’s',         levels: ['Master’s'],   intake: 'Fall 2026',   round: 'Application', s: '2026-05-18', e: '2026-05-29' }
+];
+
+/* =====================================================================
+   STORIES AND NEWS (Phase 6, Package 2)
+   ===================================================================== */
+
+/* Student testimonials. Empty on purpose: only real stories, published with the
+   student's written consent, may appear. The homepage section stays hidden until
+   at least one story with consent: true exists. Format:
+   { id: 't-1', name: 'Student name', destination: 'South Korea', university: 'University name',
+     program: 'Master’s in …', quote: 'In the student’s own words', consent: true } */
+const TESTIMONIALS = [];
+
+/* News posts. SAMPLE posts written from EduRise's Facebook announcements (TBC). */
+const NEWS = [
+  { id: 'n-gachon', date: '2026-10-07', tag: 'Intake', title: 'Gachon University MBA: March 2027 applications are open',
+    summary: 'Round 1 for the English-taught MBA at Gachon University near Seoul runs from 7 to 14 October 2026, with a 50% first-semester tuition waiver.',
+    body: 'Gachon University in Seongnam, 20 to 30 minutes from Seoul, is accepting applications for its March 2027 MBA intake. Round 1 runs from 7 to 14 October 2026 and Round 2 from 11 to 18 November 2026. Admitted students receive a 50% tuition waiver in the first semester. The minimum English requirement is IELTS 5.5. Talk to a counsellor to check your documents before the deadline.' },
+  { id: 'n-kyungsung', date: '2026-09-28', tag: 'Intake', title: 'Kyungsung University opens Round 2 for Bachelor’s and transfer students',
+    summary: 'Busan-based Kyungsung University is taking first-year and transfer applications for March 2027 until 12 October 2026.',
+    body: 'Kyungsung University in Busan offers Bachelor’s programs in Global Business Administration, Global Hospitality Management, Global Korean Studies, International Studies, Global Mechanical Design Engineering and Global IT Engineering. Round 2 applications, including transfer applications, are open from 28 September to 12 October 2026. Scholarships of 30%, 40% or 50% for the first semester are linked to IELTS scores of 5.5, 7.0 and 7.5+.' },
+  { id: 'n-russia', date: '2026-09-15', tag: 'Scholarship', title: 'Fully funded Master’s places in Russia for 2027',
+    summary: 'Scholarship places cover tuition, a monthly stipend, dormitory accommodation and health insurance.',
+    body: 'Russian universities are offering fully funded Master’s places for the 2027 intake in engineering, computer science, business, economics, natural sciences, agriculture and the humanities. Applicants usually need a completed Bachelor’s degree with a CGPA of 2.70 or higher (some programs accept 2.50), and many programs do not require IELTS. A study gap of up to 10 years and an age limit of around 35 apply at most universities.' }
 ];

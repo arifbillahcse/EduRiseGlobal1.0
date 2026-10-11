@@ -80,3 +80,6 @@
 .commitment__quote::before{content:"“";display:block;height:40px;font:700 72px/1 var(--font-display);color:var(--sun)}
 @media (max-width:900px){.commitment{grid-template-columns:1fr;gap:28px}}
 
+
+/* separates the closing section when the section above has the same background */
+.section--divided{border-top:1px solid var(--line)}

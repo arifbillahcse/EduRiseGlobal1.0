@@ -11,7 +11,7 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 | 3 | Homepage: hero, services, process, leadership, commitment | Package 1 | ✅ Done |
 | 4 | Destinations, country guides, programs, scholarships, services, about, contact, policies | Package 1 | ✅ Done |
 | 5 | Universities and intakes, filters, WhatsApp enquiry dialog, filterable scholarships | Package 2 | ✅ Done |
-| 6 | Testimonials, news, admin preview | Package 2 | Waiting |
+| 6 | Testimonials (consent-gated), news, staff dashboard preview | Package 2 | ✅ Done |
 | 7 | Program detail pages, application board, eligibility quiz, cost estimator | Package 3 | Waiting |
 | 8 | Full Bangla, lead list, downloads, final QA, handover | Package 3 | Waiting |
 
@@ -28,6 +28,8 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 | `services.html` | Services and process |
 | `about.html` | About, leadership, offices |
 | `contact.html` | Contact form and offices |
+| `news.html` | News posts (Package 2) |
+| `admin.html` | Staff dashboard preview (Package 2, demo only) |
 | `policies.html` | Privacy, terms, disclaimer |
 | `styleguide.html` | Design system (internal) |
 
@@ -37,6 +39,9 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 - **All text and data** (contact details, destinations, services, team, scholarships, policies) lives in `js/data.js`.
 - `js/icons.js` adds the icon set to every page (master copy: `partials/icons.html`).
 - Script order on every page: `icons → data → utils → forms → layout → home → pages → listings → main`.
+- **Content store (`js/store.js`):** pages read lists through `Store.list('universities')` etc. The admin preview saves edits, hidden items, order and new items in the visitor's browser, and the pages apply them. On the live site this is the database behind the admin panel.
+- **Admin preview (`admin.html`, `js/admin.js`):** choose a role (Administrator, Content editor, Counsellor) to see role-based access; edit, hide/show, reorder, and add intakes, testimonials and news. "Reset demo data" restores the original content.
+- **Testimonials:** `TESTIMONIALS` is empty on purpose. The homepage section appears only when a story with the student's consent is published.
 - Package 2 features (filters, enquiry dialog, intakes) live in `js/listings.js` and `css/listings.css`. Intake status is calculated from the dates in `INTAKES` (Dhaka time); closed windows are hidden automatically.
 - Styles: `tokens.css` (design tokens), `base.css`, `components.css` (shared pieces), `layout.css` (header/footer), `home.css`, `pages.css`, `listings.css`.
 

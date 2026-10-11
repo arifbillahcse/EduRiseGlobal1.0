@@ -99,7 +99,7 @@ function renderProcess() {
 
 /* ---------- leadership ---------- */
 function renderTeam() {
-  $('#teamGrid').innerHTML = TEAM.map(p => `<article class="person">
+  $('#teamGrid').innerHTML = Store.list('team').map(p => `<article class="person">
       <img class="person__photo" src="${p.photo}" alt="Portrait of ${esc(p.name)}" width="320" height="320" loading="lazy">
       <div class="person__body">
         <span class="person__loc">${icon('pin', 'icon--sm')}${esc(p.location)}</span>

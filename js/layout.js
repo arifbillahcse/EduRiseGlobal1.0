@@ -132,7 +132,7 @@ function renderNav(activeId) {
     `<li><a class="nav__link" href="${n.href}" data-phase="${n.phase}"${n.id === activeId ? ' aria-current="page"' : ''}>${esc(n.label)}${inDrawer ? icon('arrow') : ''}</a></li>`;
   $('#navList').innerHTML    = NAV.map(n => item(n, false)).join('');
   $('#drawerList').innerHTML = NAV.map(n => item(n, true)).join('');
-  $('#footerNav').innerHTML  = NAV.filter(n => n.id !== 'home')
+  $('#footerNav').innerHTML  = NAV.filter(n => n.id !== 'home').concat(FOOTER_EXTRA)
     .map(n => `<li><a href="${n.href}" data-phase="${n.phase}">${esc(n.label)}</a></li>`).join('');
   $('#footerDest').innerHTML = DESTINATIONS.slice(0, 8)
     .map(d => `<li><a href="destination.html#${d.id}">${esc(d.name)}</a></li>`).join('');

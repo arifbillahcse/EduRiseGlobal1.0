@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="css/pages.css">
 <link rel="stylesheet" href="css/listings.css">
+<link rel="stylesheet" href="css/stories.css">
 </head>
 <body data-page="home">
 <main id="main">
@@ -101,8 +102,27 @@
     </div>
   </section>
 
+  <!-- ---------- LATEST NEWS (Package 2) ---------- -->
+  <section class="section" id="news" aria-labelledby="newsTitle">
+    <div class="container">
+      <div class="sec-head">
+        <div><div class="label-row"><span class="eyebrow">News</span><span class="pkg pkg--2">Package 2</span></div><h2 id="newsTitle">Latest updates</h2><p>New intakes, scholarships and changes to the rules, as soon as we know about them.</p></div>
+        <a class="link-arrow" href="news.html">All news<svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+      </div>
+      <div class="news-grid" id="homeNews"></div>
+    </div>
+  </section>
+
+  <!-- ---------- STUDENT STORIES (Package 2; hidden until a real story with consent is published) ---------- -->
+  <section class="section section--alt" id="stories" aria-labelledby="storiesTitle" hidden>
+    <div class="container">
+      <div class="sec-head"><div><div class="label-row"><span class="eyebrow">Student stories</span><span class="pkg pkg--2">Package 2</span></div><h2 id="storiesTitle">In our students’ own words</h2></div></div>
+      <div class="story-grid" id="storyGrid"></div>
+    </div>
+  </section>
+
   <!-- ---------- COMMITMENT + CONSULTATION ---------- -->
-  <section class="section" id="commitment" aria-labelledby="commitTitle">
+  <section class="section section--divided" id="commitment" aria-labelledby="commitTitle">
     <div class="container">
       <div class="commitment">
         <div>
@@ -129,11 +149,13 @@
 <script src="js/icons.js"></script>
 <script src="js/data.js"></script>
 <script src="js/utils.js"></script>
+<script src="js/store.js"></script>
 <script src="js/forms.js"></script>
 <script src="js/layout.js"></script>
 <script src="js/home.js"></script>
 <script src="js/pages.js"></script>
 <script src="js/listings.js"></script>
+<script src="js/stories.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

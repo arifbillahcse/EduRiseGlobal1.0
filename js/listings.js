@@ -130,7 +130,7 @@ function intakeRowHTML(it) {
   </li>`;
 }
 /* open and upcoming windows only, soonest first; closed ones are hidden automatically */
-function liveIntakes(list = INTAKES) {
+function liveIntakes(list = Store.list('intakes')) {
   return list.map(it => ({ it, st: windowStatus(it) }))
     .filter(x => x.st.state !== 'closed')
     .sort((a, b) => (STATUS_ORDER[a.st.state] - STATUS_ORDER[b.st.state]) || ((a.st.days ?? 999) - (b.st.days ?? 999)))
@@ -156,12 +156,12 @@ function universityCardHTML(u) {
 }
 function renderUniversitiesPage() {
   FilterBar.mount($('#uniFilters'), { onChange: f => {
-    const list = UNIVERSITIES.filter(u => FilterBar.matches(u, f));
+    const list = Store.list('universities').filter(u => FilterBar.matches(u, f));
     $('#uniGrid').innerHTML = list.length ? list.map(universityCardHTML).join('') : emptyHTML('universities');
     return list.length;
   } });
   FilterBar.mount($('#intakeFilters'), { onChange: f => {
-    const list = liveIntakes(INTAKES.filter(it => FilterBar.matches(it, f)));
+    const list = liveIntakes(Store.list('intakes').filter(it => FilterBar.matches(it, f)));
     $('#intakeList').innerHTML = list.length ? list.map(intakeRowHTML).join('') : `<li>${emptyHTML('intakes')}</li>`;
     return list.length;
   } });
@@ -171,7 +171,7 @@ function renderUniversitiesPage() {
 /* ---------- scholarships.html: filterable offers ---------- */
 function offerCardHTML(o) {
   const d = DESTINATIONS.find(x => x.id === o.dest);
-  const it = INTAKES.find(x => x.id === o.intakeId);
+  const it = Store.list('intakes', { withHidden: true }).find(x => x.id === o.intakeId);
   const st = it ? windowStatus(it) : { state: 'upcoming', label: 'Dates to be announced' };
   return `<article class="offer card${st.state === 'closed' ? ' is-closed' : ''}">
     <div class="offer__top"><span class="uni-card__country">${d.code} · ${esc(d.name)}</span>${statusChip(st)}</div>
@@ -186,7 +186,7 @@ function offerCardHTML(o) {
 }
 function renderScholarshipOffers() {
   FilterBar.mount($('#offerFilters'), { onChange: f => {
-    const list = SCHOLARSHIP_OFFERS.filter(o => FilterBar.matches(o, f));
+    const list = Store.list('scholarships').filter(o => FilterBar.matches(o, f));
     $('#offerGrid').innerHTML = list.length ? list.map(offerCardHTML).join('') : emptyHTML('scholarships');
     return list.length;
   } });
@@ -195,7 +195,7 @@ function renderScholarshipOffers() {
 /* ---------- destinations.html: filter by study level ---------- */
 function renderDestinationFilter() {
   FilterBar.mount($('#destFilters'), { countries: false, onChange: f => {
-    const list = DESTINATIONS.filter(d => !f.level || d.levels.some(l => l.startsWith(f.level.replace('’s', '')) || l === f.level));
+    const list = Store.list('destinations').filter(d => !f.level || d.levels.some(l => l.startsWith(f.level.replace('’s', '')) || l === f.level));
     $('#destGrid').innerHTML = list.length ? list.map(destCardHTML).join('') : emptyHTML('destinations');
     return list.length;
   } });
