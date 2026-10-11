@@ -1,0 +1,37 @@
+/* =====================================================================
+   base.css — reset, typography, layout primitives and utilities.
+   ===================================================================== */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:var(--fs-base);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body.no-scroll{overflow:hidden}
+html[lang="bn"] body{font-family:var(--font-bn)}
+img,svg{display:block;max-width:100%}
+img{height:auto}
+a{color:var(--brand-text)}
+button{font:inherit}
+[hidden]{display:none!important}
+
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.15;margin:0;letter-spacing:-.015em;color:var(--ink);text-wrap:balance}
+html[lang="bn"] :is(h1,h2,h3,h4){font-family:var(--font-bn);letter-spacing:0;line-height:1.3}
+p{margin:0}
+
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:var(--r-xs)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* layout primitives */
+.container{max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
+.section{padding-block:var(--sp-section)}
+.section--alt{background:var(--surface)}
+.section--night{background:var(--night);color:var(--night-fg)}
+
+/* utilities */
+.tnum{font-variant-numeric:tabular-nums}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip-link{position:absolute;left:12px;top:-60px;z-index:100;background:var(--sun);color:var(--sun-ink);padding:10px 14px;border-radius:var(--r-sm);font-weight:700;text-decoration:none}
+.skip-link:focus{top:12px}
+.muted{color:var(--ink-2)}
