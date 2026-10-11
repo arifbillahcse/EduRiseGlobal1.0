@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="css/pages.css">
 <link rel="stylesheet" href="css/listings.css">
 <link rel="stylesheet" href="css/stories.css">
+<link rel="stylesheet" href="css/premium.css">
 </head>
 <body data-page="programs">
 <main id="main">
@@ -31,6 +32,16 @@
   </section>
   <section class="section">
     <div class="container">
+      <div class="sec-head"><div><div class="label-row"><span class="eyebrow">Program finder</span><span class="pkg pkg--3">Package 3</span></div><h2>Find a program</h2><p>Search by country, level, teaching language, intake and English requirement.</p></div>
+        <a class="link-arrow" href="cost-estimator.html">Estimate your cost<svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></a></div>
+      <div class="finder" id="finder"></div>
+      <div class="finder__bar"><span id="finderCount"></span><span>Sample programs (TBC)</span></div>
+      <div class="prog-grid" id="finderResults"></div>
+    </div>
+  </section>
+  <section class="section section--alt">
+    <div class="container">
+      <div class="sec-head"><div><span class="eyebrow">Study levels</span><h2>Which level is right for you?</h2></div></div>
       <div class="program-list" id="programList"></div>
       <div class="section-gap" id="programCta"></div>
     </div>
@@ -47,6 +58,7 @@
 <script src="js/pages.js"></script>
 <script src="js/listings.js"></script>
 <script src="js/stories.js"></script>
+<script src="js/premium.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

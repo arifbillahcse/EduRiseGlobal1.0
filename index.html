@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="css/pages.css">
 <link rel="stylesheet" href="css/listings.css">
 <link rel="stylesheet" href="css/stories.css">
+<link rel="stylesheet" href="css/premium.css">
 </head>
 <body data-page="home">
 <main id="main">
@@ -58,18 +59,23 @@
     </div>
   </section>
 
-  <!-- ---------- UPCOMING INTAKES (Package 2) ---------- -->
-  <section class="section section--alt" id="intakes" aria-labelledby="intakesTitle">
+  <!-- ---------- LIVE APPLICATION BOARD (Package 3) ---------- -->
+  <section class="section board-section" id="intakes" aria-labelledby="intakesTitle">
     <div class="container">
       <div class="sec-head">
         <div>
-          <div class="label-row"><span class="eyebrow">Current intakes</span><span class="pkg pkg--2">Package 2</span></div>
-          <h2 id="intakesTitle">Applications open and coming up</h2>
-          <p>Status updates on its own from the application dates, so a closed round never stays on the site.</p>
+          <div class="label-row"><span class="eyebrow eyebrow--sun">Current intakes</span><span class="pkg pkg--3" style="color:var(--sun)">Package 3</span></div>
+          <h2 id="intakesTitle">Application board</h2>
+          <p>Live application windows, soonest deadline first. Status updates on its own, and closed rounds leave the board.</p>
         </div>
-        <a class="link-arrow" href="universities.html#intakes">All intakes<svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+        <a class="link-arrow" href="eligibility.html">Check your eligibility<svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
       </div>
-      <ul class="intakes" id="homeIntakes"></ul>
+      <div class="board" role="region" aria-labelledby="boardTitle">
+        <div class="board__top"><h3 class="board__title" id="boardTitle"><svg class="icon" aria-hidden="true"><use href="#i-plane"></use></svg>Departures</h3><span class="board__clock tnum" id="boardClock">DAC --:--</span></div>
+        <div class="board__head" aria-hidden="true"><span>Destination</span><span>University · Program</span><span>Intake</span><span style="text-align:right">Status</span></div>
+        <ul class="board__list" id="boardList"></ul>
+        <div class="board__foot"><span>Dhaka time (GMT+6) · updates automatically</span><a href="universities.html#intakes">All intakes →</a></div>
+      </div>
     </div>
   </section>
 
@@ -156,6 +162,7 @@
 <script src="js/pages.js"></script>
 <script src="js/listings.js"></script>
 <script src="js/stories.js"></script>
+<script src="js/premium.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

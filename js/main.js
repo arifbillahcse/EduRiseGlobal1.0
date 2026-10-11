@@ -2,14 +2,17 @@
    main.js — start-up for every page.
    Each page sets <body data-page="…">; this file runs the matching
    renderer, then builds the shared shell around the page.
-   Load order: icons → data → utils → store → forms → layout → home → pages → listings → stories → main (+ admin on admin.html)
+   Load order: icons → data → utils → store → forms → layout → home → pages → listings → stories → premium → main (+ admin on admin.html)
    ===================================================================== */
 const PAGE_RENDERERS = {
-  home:         () => { initHome(); renderHomeIntakes(); renderHomeNews(); renderHomeStories(); },
+  home:         () => { initHome(); renderBoard(); renderHomeNews(); renderHomeStories(); },
   destinations: () => renderDestinationsPage(),
   destination:  () => { renderCountryPage(); window.addEventListener('hashchange', () => { renderCountryPage(); bindSite(); }); },
   universities: () => renderUniversitiesPage(),
-  programs:     () => renderProgramsPage(),
+  programs:     () => { renderProgramFinder(); renderProgramsPage(); },
+  program:      () => { renderProgramPage(); window.addEventListener('hashchange', renderProgramPage); },
+  eligibility:  () => renderEligibility(),
+  estimator:    () => { renderEstimator(); window.addEventListener('hashchange', renderEstimator); },
   scholarships: () => renderScholarshipsPage(),
   services:     () => renderServicesPage(),
   about:        () => renderAboutPage(),
@@ -19,7 +22,7 @@ const PAGE_RENDERERS = {
 };
 
 /* which menu item is highlighted for each page */
-const ACTIVE_NAV = { destination: 'destinations', policies: '', news: '' };
+const ACTIVE_NAV = { destination: 'destinations', policies: '', news: '', program: 'programs', eligibility: '', estimator: '' };
 
 document.addEventListener('DOMContentLoaded', () => {
   injectIcons();

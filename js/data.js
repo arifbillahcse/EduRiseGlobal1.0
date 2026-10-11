@@ -21,7 +21,7 @@ const SITE = {
     linkedin: ''                              // TBC
   },
   whatsappGreeting: 'Hello EduRise Global, I would like a free consultation about studying abroad.',
-  currentPhase: 6                             // links to features from later phases explain when they arrive
+  currentPhase: 7                             // links to features from later phases explain when they arrive
 };
 
 /* ---------- navigation: one list feeds the header, the mobile drawer and the footer ---------- */
@@ -38,6 +38,8 @@ const NAV = [
 
 /* extra footer links (not in the main menu) */
 const FOOTER_EXTRA = [
+  { label: 'Eligibility check',      href: 'eligibility.html',    phase: 7 },
+  { label: 'Cost estimator',         href: 'cost-estimator.html', phase: 7 },
   { label: 'News',                   href: 'news.html',  phase: 6 },
   { label: 'Staff dashboard (demo)', href: 'admin.html', phase: 6 }
 ];
@@ -315,4 +317,92 @@ const NEWS = [
   { id: 'n-russia', date: '2026-09-15', tag: 'Scholarship', title: 'Fully funded Master’s places in Russia for 2027',
     summary: 'Scholarship places cover tuition, a monthly stipend, dormitory accommodation and health insurance.',
     body: 'Russian universities are offering fully funded Master’s places for the 2027 intake in engineering, computer science, business, economics, natural sciences, agriculture and the humanities. Applicants usually need a completed Bachelor’s degree with a CGPA of 2.70 or higher (some programs accept 2.50), and many programs do not require IELTS. A study gap of up to 10 years and an age limit of around 35 apply at most universities.' }
+];
+
+/* =====================================================================
+   PACKAGE 3: PROGRAM DETAILS, ESTIMATOR, ELIGIBILITY (Phase 7)
+   SAMPLE data from EduRise Facebook posts. Every figure is TBC and must be
+   checked against the university's current notice before launch.
+   ===================================================================== */
+
+/* exchange rates: 1 unit = X taka. Staff update these; every taka figure is calculated from them. (TBC) */
+const RATES = { KRW: 0.088, USD: 122, EUR: 132, MYR: 27.5, CNY: 16.9 };
+const RATES_UPDATED = '2026-10-01';
+
+/* typical monthly living cost per country, in local currency (TBC) */
+const LIVING_COSTS = {
+  korea:    { amount: 900000, cur: 'KRW', note: 'Shared housing, food and transport outside Seoul' },
+  japan:    { amount: 900,    cur: 'USD', note: 'Shared housing, food and transport' },
+  russia:   { amount: 250,    cur: 'USD', note: 'Dormitory, food and transport' },
+  finland:  { amount: 800,    cur: 'EUR', note: 'Student housing, food and transport' },
+  malaysia: { amount: 2000,   cur: 'MYR', note: 'Shared housing, food and transport' },
+  china:    { amount: 170,    cur: 'USD', note: 'Dormitory, food and transport' }
+};
+
+/* programs with full detail pages: program.html#<id>
+   tuition: { amount, per: 'semester' | 'year', cur } or { min, max, per, cur } for a range; null = ask a counsellor
+   scholarships: pct is a tuition discount; scope 'first' = first semester only, 'all' = whole program
+   english: { ielts: 5.5 } or { none: true }; budget: low | mid | high (used by the eligibility check)
+   intakes: ids from INTAKES (dates and status come from there) */
+const PROGRAMS = [
+  { id: 'gachon-mba', university: 'Gachon University', uni: 'gachon', dest: 'korea', city: 'Seongnam, near Seoul',
+    title: 'Master’s in Business Administration (MBA)', levels: ['Master’s'], language: 'English', duration: '2 years', visa: 'E-visa',
+    english: { ielts: 5.5, text: 'IELTS 5.5' }, cgpa: null, budget: 'mid',
+    majors: ['Business Administration'],
+    tuition: { amount: 5243000, per: 'semester', cur: 'KRW' },
+    oneTime: [['Application fee', 120000], ['Entrance fee', 907000], ['E-visa submission fee', 95000]],
+    scholarships: [{ label: 'All admitted students', pct: 50, scope: 'first' }],
+    intakes: ['gachon-r1', 'gachon-r2'],
+    highlights: ['Private university 20 to 30 minutes from Seoul', 'E-visa route; embassy interview requirements to be confirmed', '50% tuition waiver in the first semester'] },
+  { id: 'kyungsung-ba', university: 'Kyungsung University', uni: 'kyungsung', dest: 'korea', city: 'Busan',
+    title: 'Bachelor’s programs (first-year and transfer)', levels: ['Bachelor’s'], language: 'English and Korean', duration: '4 years', visa: 'E-visa',
+    english: { ielts: 5.5, text: 'IELTS 5.5+ or TOEFL iBT 71+ (preferred)' }, cgpa: null, budget: 'mid',
+    majors: ['Global Business Administration', 'Global Hospitality Management', 'Global Korean Studies', 'International Studies', 'Global Mechanical Design Engineering', 'Global IT Engineering'],
+    tuition: { amount: 3396000, per: 'semester', cur: 'KRW', note: 'Business, Hospitality and Korean Studies. Mechanical and IT: 4,436,000 KRW' },
+    oneTime: [['Application fee', 80000]],
+    scholarships: [{ label: 'IELTS 5.5', pct: 30, scope: 'first' }, { label: 'IELTS 7.0', pct: 40, scope: 'first' }, { label: 'IELTS 7.5+', pct: 50, scope: 'first' }],
+    intakes: ['kyungsung-r2'],
+    milestones: [['Interview', '4 to 9 Nov 2026'], ['Admission result', '16 Nov 2026'], ['Semester begins', '2 Mar 2027']],
+    highlights: ['Well-regarded university in Busan', 'Six programs for international students', 'Online university interview'] },
+  { id: 'pyeongtaek-ma', university: 'Pyeongtaek University', uni: 'pyeongtaek', dest: 'korea', city: 'Pyeongtaek',
+    title: 'Master’s programs, 100% English track', levels: ['Master’s'], language: 'English', duration: '2 years', visa: 'E-visa',
+    english: { ielts: 5.5, text: 'IELTS 5.5 / TOEFL iBT 71 / CEFR B2 / NEW TEPS 327' }, cgpa: null, budget: 'mid',
+    majors: ['Business Administration', 'Environmental Convergence Engineering'],
+    tuition: { amount: 4502000, per: 'semester', cur: 'KRW', note: 'Business Administration. Environmental Convergence Engineering: 5,095,000 KRW' },
+    oneTime: [['Application fee', 100000], ['Enrollment fee', 840000], ['E-visa fee', 100000]],
+    scholarships: [{ label: 'IELTS 5.5 / TOEFL 71', pct: 30, scope: 'first' }, { label: 'IELTS 6.5 / TOEFL 90', pct: 40, scope: 'first' }, { label: 'IELTS 7.5 / TOEFL 100', pct: 50, scope: 'first' }],
+    intakes: ['pyeongtaek'],
+    highlights: ['Fully English-taught Master’s', 'Scholarship set by your English score', 'Spring 2027 timeline to be announced'] },
+  { id: 'korea-language', university: 'Korean universities (various)', uni: null, dest: 'korea', city: 'Seoul and other cities',
+    title: 'KLP and EAP language programs', levels: ['Language'], language: 'Korean / English', duration: '6 to 12 months', visa: 'D-4',
+    english: { none: true, text: 'No IELTS needed' }, cgpa: null, budget: 'low',
+    majors: ['Korean Language Program (KLP)', 'English for Academic Purposes (EAP)'],
+    tuition: null, oneTime: [], scholarships: [], intakes: ['korea-lang'],
+    highlights: ['Build language skills before a degree', 'Progress to a Bachelor’s or Master’s afterwards'] },
+  { id: 'russia-funded', university: 'Russian universities (various)', uni: null, dest: 'russia', city: 'Moscow, Kazan and other cities',
+    title: 'Fully funded Master’s scholarship places', levels: ['Master’s'], language: 'English or Russian', duration: '2 years', visa: 'Student visa',
+    english: { none: true, text: 'IELTS, TOEFL or Duolingo; many programs without IELTS' }, cgpa: 2.7, budget: 'low',
+    majors: ['Engineering', 'Computer Science and IT', 'Business Administration', 'Economics and Finance', 'Natural Sciences', 'Humanities and Social Sciences'],
+    tuition: { amount: 0, per: 'year', cur: 'USD', note: 'Tuition is waived on scholarship places' },
+    oneTime: [], scholarships: [{ label: 'Scholarship places', pct: 100, scope: 'all' }], intakes: ['russia'],
+    highlights: ['Monthly stipend, which varies by university', 'Dormitory accommodation and health insurance', 'Age usually under 35; study gap up to 10 years'] },
+  { id: 'finland-jan', university: 'Finnish universities (various)', uni: null, dest: 'finland', city: 'Helsinki and other cities',
+    title: 'Bachelor’s and Master’s programs', levels: ['Bachelor’s', 'Master’s'], language: 'English', duration: '2 to 4 years', visa: 'Residence permit',
+    english: { ielts: 6.0, text: 'IELTS 6.0+ or TOEFL iBT 90+' }, cgpa: null, budget: 'high',
+    majors: ['Business', 'Engineering', 'IT', 'Hospitality', 'Health and Social Services'],
+    tuition: null, oneTime: [], scholarships: [], intakes: ['finland'],
+    highlights: ['Study gap of 10+ years considered for Master’s at some universities', 'Spouse may apply, subject to immigration rules'] },
+  { id: 'malaysia-all', university: 'Malaysian universities (various)', uni: null, dest: 'malaysia', city: 'Kuala Lumpur and other cities',
+    title: 'Foundation, Diploma, Bachelor’s and Master’s', levels: ['Foundation', 'Diploma', 'Bachelor’s', 'Master’s'], language: 'English', duration: '1 to 4 years', visa: 'Student pass',
+    english: { none: true, text: 'Low IELTS or without IELTS at selected universities' }, cgpa: null, budget: 'mid',
+    majors: ['Business', 'Computing', 'Engineering', 'Hospitality', 'Media'],
+    tuition: null, oneTime: [], scholarships: [], intakes: ['malaysia'],
+    highlights: ['Credit transfer options', 'Internship and job exposure', 'Lower living costs'] },
+  { id: 'china-all', university: 'Chinese universities (various)', uni: null, dest: 'china', city: 'Beijing, Shanghai and other cities',
+    title: 'Degree and Chinese language programs', levels: ['Bachelor’s', 'Master’s', 'Language'], language: 'English or Chinese', duration: '1 to 4 years', visa: 'X1 / X2',
+    english: { none: true, text: 'Without IELTS options available' }, cgpa: null, budget: 'mid',
+    majors: ['Engineering', 'Computer Science and IT', 'Business and Management', 'Medicine and Health Sciences', 'Chinese Language'],
+    tuition: { min: 2000, max: 6000, per: 'year', cur: 'USD' },
+    oneTime: [], scholarships: [{ label: 'CSC and university scholarships', pct: 100, scope: 'all', upTo: true }], intakes: ['china'],
+    highlights: ['Chinese Government (CSC) and university scholarships', 'Airport pickup and accommodation support', 'Part-time work rules are strict; confirm before relying on income'] }
 ];

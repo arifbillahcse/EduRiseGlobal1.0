@@ -12,7 +12,7 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 | 4 | Destinations, country guides, programs, scholarships, services, about, contact, policies | Package 1 | ✅ Done |
 | 5 | Universities and intakes, filters, WhatsApp enquiry dialog, filterable scholarships | Package 2 | ✅ Done |
 | 6 | Testimonials (consent-gated), news, staff dashboard preview | Package 2 | ✅ Done |
-| 7 | Program detail pages, application board, eligibility quiz, cost estimator | Package 3 | Waiting |
+| 7 | Program detail pages, program finder, live application board, eligibility check, cost estimator | Package 3 | ✅ Done |
 | 8 | Full Bangla, lead list, downloads, final QA, handover | Package 3 | Waiting |
 
 ## Pages
@@ -23,7 +23,10 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 | `destinations.html` | All destinations |
 | `destination.html#korea` | Country guide (one template; `#korea`, `#japan`, `#uk`, `#malta`, `#italy`, `#russia`, `#finland`, `#malaysia`, `#china`) |
 | `universities.html` | Universities and application intakes (Package 2) |
-| `programs.html` | Program types |
+| `program.html#gachon-mba` | Program detail (one template; ids in `PROGRAMS`) — Package 3 |
+| `eligibility.html` | Eligibility check (Package 3) |
+| `cost-estimator.html` | Cost estimator in taka (Package 3) |
+| `programs.html` | Program finder (Package 3) and program types |
 | `scholarships.html` | University offers and government scholarships |
 | `services.html` | Services and process |
 | `about.html` | About, leadership, offices |
@@ -42,6 +45,7 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 - **Content store (`js/store.js`):** pages read lists through `Store.list('universities')` etc. The admin preview saves edits, hidden items, order and new items in the visitor's browser, and the pages apply them. On the live site this is the database behind the admin panel.
 - **Admin preview (`admin.html`, `js/admin.js`):** choose a role (Administrator, Content editor, Counsellor) to see role-based access; edit, hide/show, reorder, and add intakes, testimonials and news. "Reset demo data" restores the original content.
 - **Testimonials:** `TESTIMONIALS` is empty on purpose. The homepage section appears only when a story with the student's consent is published.
+- **Package 3 (`js/premium.js`, `css/premium.css`):** `PROGRAMS` holds fees, scholarships and linked intakes; `RATES` and `LIVING_COSTS` drive every taka figure. Program pages show fees with taka, scholarship tiers, timeline and a live countdown; the homepage board lists live intakes; `eligibility.html` scores programs against five answers; `cost-estimator.html` adds tuition, scholarship, one-time fees and living costs.
 - Package 2 features (filters, enquiry dialog, intakes) live in `js/listings.js` and `css/listings.css`. Intake status is calculated from the dates in `INTAKES` (Dhaka time); closed windows are hidden automatically.
 - Styles: `tokens.css` (design tokens), `base.css`, `components.css` (shared pieces), `layout.css` (header/footer), `home.css`, `pages.css`, `listings.css`.
 
