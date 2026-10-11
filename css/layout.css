@@ -1,0 +1,133 @@
+/* =====================================================================
+   layout.css — the shell shared by every page (Phase 2):
+   demo ribbon · top bar · sticky header · desktop navigation ·
+   mobile drawer · footer · floating WhatsApp button
+   Uses only tokens from tokens.css and classes from components.css.
+   ===================================================================== */
+
+/* ---------- demo ribbon (delete the element in index.html at launch) ---------- */
+.ribbon{background:var(--sun);color:var(--sun-ink);font-size:13px;font-weight:600}
+.ribbon .container{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:center;padding-block:6px;text-align:center}
+.ribbon .tbc{margin:0;color:var(--sun-ink);border-color:var(--sun-ink);background:transparent}
+
+/* ---------- top bar ---------- */
+.topbar{background:var(--night);color:var(--night-dim);font-size:13px}
+.topbar .container{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:38px;padding-block:6px}
+.topbar__contacts{display:flex;flex-wrap:wrap;align-items:center;gap:6px 22px}
+.topbar__item{display:inline-flex;align-items:center;gap:7px;color:inherit;text-decoration:none;white-space:nowrap}
+a.topbar__item:hover{color:var(--night-fg)}
+.topbar__item .icon{width:14px;height:14px;color:var(--sun)}
+.topbar__right{display:flex;align-items:center;gap:14px}
+.topbar__social{display:flex;gap:4px}
+.topbar__social a{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;color:var(--night-dim)}
+.topbar__social a:hover{color:var(--night-fg);background:rgba(255,255,255,.06)}
+.topbar__social .icon{width:14px;height:14px}
+@media (max-width:860px){.topbar__item--md{display:none}}
+@media (max-width:560px){.topbar__item--sm,.topbar__social{display:none}}
+
+/* language switch */
+.lang-switch{display:inline-flex;flex-shrink:0;border:1px solid #2A3D66;border-radius:var(--r-pill);overflow:hidden}
+.lang-switch button{all:unset;cursor:pointer;padding:4px 12px;font-size:12px;font-weight:700;color:var(--night-dim)}
+.lang-switch button[aria-pressed="true"]{background:var(--night-fg);color:var(--night)}
+.lang-switch button:focus-visible{outline:2px solid var(--sun);outline-offset:-2px}
+.lang-switch--light{border-color:var(--line)}
+.lang-switch--light button{padding:8px 16px;font-size:13px;color:var(--ink-2)}
+.lang-switch--light button[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink)}
+
+/* ---------- header ---------- */
+.site-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:color-mix(in srgb,var(--surface) 92%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line);transition:box-shadow .2s}
+.site-header.is-scrolled{box-shadow:var(--shadow)}
+.site-header .container{display:flex;align-items:center;gap:20px;min-height:var(--header-h)}
+
+.brand{display:flex;align-items:center;gap:10px;flex-shrink:0;text-decoration:none}
+.brand img{height:40px;width:auto;background:var(--mark-chip);border-radius:8px;padding:2px}
+.brand__name{display:block;font:700 20px/1 var(--font-display);letter-spacing:-.02em;color:var(--brand-text)}
+.brand__sub{display:block;margin-top:4px;font-size:10px;font-weight:700;letter-spacing:.32em;color:var(--ink-2)}
+
+.nav{margin-left:auto}
+.nav__list{display:flex;gap:2px;margin:0;padding:0;list-style:none}
+.nav__link{position:relative;display:block;padding:9px 13px;border-radius:var(--r-pill);font-size:15px;font-weight:600;color:var(--ink-2);text-decoration:none;transition:background-color .15s,color .15s}
+.nav__link:hover{color:var(--ink);background:var(--surface-2)}
+.nav__link[aria-current="page"]{color:var(--brand-text);background:var(--brand-soft)}
+
+.header__actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.menu-toggle{all:unset;display:none;cursor:pointer;padding:9px;border-radius:var(--r-sm);color:var(--ink)}
+.menu-toggle:hover{background:var(--surface-2)}
+.menu-toggle .icon{width:24px;height:24px}
+.menu-toggle:focus-visible{outline:3px solid var(--sun)}
+
+@media (max-width:1080px){
+  .nav{display:none}
+  .menu-toggle{display:block}
+  .header__actions{margin-left:auto}
+}
+@media (max-width:560px){
+  .header__cta{display:none}          /* the floating WhatsApp button takes over on phones */
+  .brand img{height:36px}
+  .brand__name{font-size:18px}
+}
+
+/* ---------- mobile drawer ---------- */
+.drawer{position:fixed;inset:0;z-index:80;visibility:hidden;pointer-events:none}
+.drawer.is-open{visibility:visible;pointer-events:auto}
+.drawer__overlay{position:absolute;inset:0;background:rgba(6,14,32,.55);opacity:0;transition:opacity .25s}
+.drawer.is-open .drawer__overlay{opacity:1}
+.drawer__panel{position:absolute;top:0;right:0;bottom:0;display:flex;flex-direction:column;width:min(360px,88vw);overflow-y:auto;background:var(--surface);box-shadow:var(--shadow-lg);
+  padding:calc(14px + env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(100%);transition:transform .3s var(--ease)}
+.drawer.is-open .drawer__panel{transform:none}
+.drawer__head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.drawer__close{all:unset;cursor:pointer;padding:9px;border-radius:var(--r-sm);color:var(--ink)}
+.drawer__close:hover{background:var(--surface-2)}
+.drawer__close .icon{width:22px;height:22px}
+.drawer__close:focus-visible{outline:3px solid var(--sun)}
+.drawer .nav__list{flex-direction:column;gap:2px}
+.drawer .nav__link{display:flex;justify-content:space-between;align-items:center;padding:13px 14px;border-radius:var(--r-sm);font-size:17px}
+.drawer .nav__link .icon{width:16px;height:16px;color:var(--ink-3)}
+.drawer__foot{display:grid;gap:16px;margin-top:auto;padding-top:20px;border-top:1px solid var(--line)}
+.drawer__contact{display:grid;gap:8px;font-size:14.5px;color:var(--ink-2)}
+.drawer__contact span{display:flex;align-items:center;gap:8px}
+.drawer__contact .icon{color:var(--brand-text)}
+.drawer .lang-switch{justify-self:start}
+
+/* ---------- footer ---------- */
+.site-footer{background:var(--night);color:var(--night-dim);font-size:14.5px;padding-block:60px 28px}
+.site-footer a{color:var(--night-dim);text-decoration:none}
+.site-footer a:hover{color:var(--night-fg)}
+.footer__grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.4fr;gap:36px}
+.footer__about{max-width:36ch;margin-top:16px}
+.footer__title{margin-bottom:14px;font:700 14px/1.2 var(--font-display);color:var(--night-fg)}
+.footer__list{display:grid;gap:9px;margin:0;padding:0;list-style:none}
+.footer__contact li{display:flex;align-items:flex-start;gap:10px}
+.footer__contact .icon{width:15px;height:15px;margin-top:4px;color:var(--sun)}
+.footer__offices{margin-top:14px;padding-top:14px;border-top:1px solid var(--night-line);font-size:13px;line-height:1.5}
+.site-footer .brand__name{color:var(--night-fg)}
+.site-footer .brand__sub{color:var(--night-dim)}
+.site-footer .brand img{background:#FFFFFF}
+.socials{display:flex;gap:10px;margin-top:18px}
+.socials a{display:grid;place-items:center;width:38px;height:38px;border:1px solid #2A3D66;border-radius:50%;transition:border-color .15s,color .15s}
+.socials a:hover{border-color:var(--night-fg)}
+.socials a[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
+.socials .icon{width:16px;height:16px}
+.footer__bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:44px;padding-top:20px;border-top:1px solid var(--night-line);font-size:13px}
+.footer__legal{display:flex;flex-wrap:wrap;gap:18px}
+@media (max-width:900px){.footer__grid{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){
+  .footer__grid{grid-template-columns:1fr 1fr;gap:28px 20px}
+  .footer__grid > :first-child,.footer__grid > :last-child{grid-column:1/-1}   /* brand and contact full width, links side by side */
+  .site-footer{padding-bottom:96px}                                            /* room for the floating WhatsApp button */
+}
+
+/* ---------- floating WhatsApp ---------- */
+.wa-float{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;align-items:center;gap:10px;padding:12px 18px 12px 14px;border-radius:var(--r-pill);background:var(--go);color:var(--go-ink);font-weight:700;text-decoration:none;box-shadow:0 10px 24px -4px rgba(19,128,74,.5);transition:transform .15s var(--ease)}
+.wa-float:hover{transform:translateY(-2px)}
+.wa-float .icon{width:24px;height:24px}
+@media (max-width:560px){.wa-float{padding:14px}.wa-float span{display:none}}
+
+/* ---------- placeholder for content from later phases (development only) ---------- */
+.upcoming{display:grid;gap:14px;padding:clamp(24px,4vw,40px);border:2px dashed var(--line);border-radius:var(--r-lg);background:var(--surface)}
+.upcoming h1{font-size:clamp(24px,3vw,32px)}
+.upcoming p{max-width:62ch;color:var(--ink-2)}
+.upcoming ol{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin:6px 0 0;padding:0;list-style:none}
+.upcoming li{display:flex;align-items:baseline;gap:10px;font-size:14.5px;color:var(--ink-2)}
+.upcoming li b{flex-shrink:0;padding:4px 7px;border-radius:5px;background:var(--brand-soft);color:var(--brand-text);font:700 12px/1 var(--font-mono)}
+.upcoming li.is-done b{background:var(--go-soft);color:var(--go-text)}
