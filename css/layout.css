@@ -123,11 +123,3 @@ a.topbar__item:hover{color:var(--night-fg)}
 .wa-float .icon{width:24px;height:24px}
 @media (max-width:560px){.wa-float{padding:14px}.wa-float span{display:none}}
 
-/* ---------- placeholder for content from later phases (development only) ---------- */
-.upcoming{display:grid;gap:14px;padding:clamp(24px,4vw,40px);border:2px dashed var(--line);border-radius:var(--r-lg);background:var(--surface)}
-.upcoming h1{font-size:clamp(24px,3vw,32px)}
-.upcoming p{max-width:62ch;color:var(--ink-2)}
-.upcoming ol{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin:6px 0 0;padding:0;list-style:none}
-.upcoming li{display:flex;align-items:baseline;gap:10px;font-size:14.5px;color:var(--ink-2)}
-.upcoming li b{flex-shrink:0;padding:4px 7px;border-radius:5px;background:var(--brand-soft);color:var(--brand-text);font:700 12px/1 var(--font-mono)}
-.upcoming li.is-done b{background:var(--go-soft);color:var(--go-text)}

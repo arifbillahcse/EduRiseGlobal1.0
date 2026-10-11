@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/components.css">
 <link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/home.css">
 </head>
 <body>
 <!-- SVG icon sprite. Use: <svg class="icon" aria-hidden="true"><use href="#i-NAME"></use></svg> -->
@@ -115,18 +116,96 @@
 
 <!-- ================= PAGE CONTENT ================= -->
 <main id="main">
-  <section class="section" id="home">
-    <div class="container">
-      <!-- Placeholder: the homepage content is designed in Phase 3. Remove this block then. -->
-      <div class="upcoming">
-        <span class="eyebrow" style="margin:0">Phase 2 · Global layout</span>
-        <h1>Homepage content arrives in Phase 3</h1>
-        <p>This phase builds the frame every page shares: the top bar, the sticky header and navigation, the mobile menu, the footer and the WhatsApp button. Scroll down to see the footer, or make the window narrow to try the mobile menu.</p>
-        <ol id="buildPlan"></ol>
+
+  <!-- ---------- HERO ---------- -->
+  <section class="hero" id="home" aria-labelledby="heroTitle">
+    <svg class="hero__route" viewBox="0 0 680 380" fill="none" aria-hidden="true"><path d="M10 360 C 190 70, 480 10, 670 130" stroke="currentColor" stroke-width="2" stroke-dasharray="2 11" stroke-linecap="round"/><circle cx="10" cy="360" r="5" fill="currentColor"/><circle cx="670" cy="130" r="5" fill="currentColor"/></svg>
+    <div class="container hero__inner">
+      <div>
+        <span class="eyebrow eyebrow--sun">International Education &amp; Career Consultancy</span>
+        <h1 class="hero__title" id="heroTitle">Study abroad with advice from people who have <em>done it themselves.</em></h1>
+        <p class="hero__lead">EduRise Global helps Bangladeshi students choose the right country, university and program for their results, goals and budget, from the first counselling session to pre-departure.</p>
+        <div class="hero__ctas">
+          <a class="btn btn--go btn--lg" data-site-href="whatsapp" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"></use></svg>Book a free consultation</a>
+          <a class="btn btn--ghost-light btn--lg" href="#services">Our services<svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+        </div>
+        <ul class="hero__trust" id="heroTrust"></ul>
+      </div>
+
+      <div class="destcards" id="destCards" aria-label="Study destinations">
+        <div class="destcards__stack" id="destStack"></div>
+        <div class="destcards__tabs" id="destTabs" role="tablist" aria-label="Choose a destination"></div>
+        <p class="destcards__more" id="destMore"></p>
       </div>
     </div>
   </section>
-  <section class="section section--alt" aria-hidden="true"><div class="container" style="min-height:40vh"></div></section>
+
+  <!-- ---------- SERVICES ---------- -->
+  <section class="section" id="services" aria-labelledby="servicesTitle">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow">What we do</span>
+          <h2 id="servicesTitle">Support at every step of your journey</h2>
+          <p>Seven services that cover the whole process. Use all of them, or only the ones you need.</p>
+        </div>
+      </div>
+      <div class="services" id="servicesGrid"></div>
+    </div>
+  </section>
+
+  <!-- ---------- PROCESS ---------- -->
+  <section class="section section--alt" id="process" aria-labelledby="processTitle">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow">How it works</span>
+          <h2 id="processTitle">Six steps from first call to departure</h2>
+          <p>A clear path, with one counsellor following your file from start to finish.</p>
+        </div>
+      </div>
+      <ol class="process" id="processList"></ol>
+    </div>
+  </section>
+
+  <!-- ---------- LEADERSHIP ---------- -->
+  <section class="section" id="team" aria-labelledby="teamTitle">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow">Leadership</span>
+          <h2 id="teamTitle">The people who guide your application</h2>
+          <p>Each of our leaders has studied or built a career abroad, so the advice you get comes from experience.</p>
+        </div>
+        <a class="link-arrow" href="#about" data-phase="4">About EduRise<svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+      </div>
+      <div class="team" id="teamGrid"></div>
+    </div>
+  </section>
+
+  <!-- ---------- COMMITMENT + CONSULTATION ---------- -->
+  <section class="section section--alt" id="commitment" aria-labelledby="commitTitle">
+    <div class="container">
+      <div class="commitment">
+        <div>
+          <span class="eyebrow" id="commitTitle">Our commitment</span>
+          <blockquote class="commitment__quote" id="commitQuote"></blockquote>
+        </div>
+        <ul class="checks" id="commitList"></ul>
+      </div>
+
+      <div class="cta-band" style="margin-top:56px">
+        <div>
+          <h2>Talk to a counsellor this week</h2>
+          <p>Most families contact us on WhatsApp. Send a message and a counsellor will reply, usually on the same working day.</p>
+        </div>
+        <div class="cta-band__actions">
+          <a class="btn btn--go btn--lg" data-site-href="whatsapp" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"></use></svg>Chat on WhatsApp</a>
+          <span class="cta-band__phone tnum"><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg><span data-site="phone">+880 1321-216402</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <!-- ================= FOOTER ================= -->
@@ -168,6 +247,7 @@
 <script src="js/data.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/layout.js"></script>
+<script src="js/home.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
