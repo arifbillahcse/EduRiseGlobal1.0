@@ -134,28 +134,7 @@ function renderTeam() {
     </article>`).join('');
 }
 
-/* ---------- destinations (DOCX §4.1) — bento grid, no photos yet: each country has its own colours ---------- */
-const DEST_TONES = {
-  korea: ['#16337A', '#3B6FE0'], japan: ['#7E1733', '#C93D5A'], uk: ['#14254A', '#3E5A9E'], malta: ['#7A4300', '#C7801C'],
-  italy: ['#0D5A3D', '#23935F'], russia: ['#3D1E6E', '#7449C4'], finland: ['#0A4F72', '#2A8DBE'], malaysia: ['#6B2E0C', '#B9581F'],
-  china: ['#7A1717', '#C4402B']
-};
-function renderHomeDestinations() {
-  const box = $('#homeDest'); if (!box) return;
-  box.innerHTML = Store.list('destinations').map((d, i) => {
-    const [a, b] = DEST_TONES[d.id] || ['#14254A', '#2F5CCB'];
-    return `<a class="dcard${i === 0 ? ' dcard--feature' : ''}" href="destination.html#${d.id}" style="--a:${a};--b:${b}">
-      <span class="dcard__code" aria-hidden="true">${d.code}</span>
-      <span class="dcard__route" aria-hidden="true">DAC <i></i>${icon('plane')}</span>
-      <span class="dcard__body">
-        <span class="dcard__city">${esc(d.city)}</span>
-        <span class="dcard__name">${esc(d.name)}</span>
-        <span class="dcard__levels">${d.levels.map(l => `<span>${esc(l)}</span>`).join('')}</span>
-      </span>
-      <span class="dcard__go" aria-hidden="true">${icon('arrow')}</span>
-    </a>`;
-  }).join('');
-}
+/* ---------- destinations (DOCX §4.1): interactive route map, see routemap.js ---------- */
 
 /* ---------- programs (DOCX §4.1) ---------- */
 function renderHomePrograms() {
@@ -249,7 +228,7 @@ function initHome() {
   renderServices();
   renderProcess();
   renderTeam();
-  renderHomeDestinations();
+  RouteMap.init();
   renderHomePrograms();
   renderWhy();
   renderHomeScholarships();

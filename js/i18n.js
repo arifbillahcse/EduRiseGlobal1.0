@@ -225,6 +225,12 @@ const BN = {
   'Include one-time fees (application, entrance, visa)': 'এককালীন ফি যোগ করুন (আবেদন, ভর্তি, ভিসা)', 'Estimated total': 'আনুমানিক মোট', 'One-time fees': 'এককালীন ফি',
   'This is an estimate, not a quote.': 'এটি আনুমানিক হিসাব, কোটেশন নয়।', 'Discuss this estimate': 'এই হিসাব নিয়ে কথা বলুন',
   'It does not include flights, visa medicals, insurance or our service charge.': 'এতে বিমান ভাড়া, ভিসা মেডিকেল, বীমা বা আমাদের সার্ভিস চার্জ ধরা নেই।',
+  /* ---------- destinations route map ---------- */
+  'Routes from Dhaka': 'ঢাকা থেকে রুট', 'Open intakes': 'চলমান ইনটেক', 'Scholarship offers': 'স্কলারশিপ অফার', 'Ask us': 'জিজ্ঞাসা করুন',
+  'Fully funded scholarship places for Master’s programs at Russian universities, with English-taught options.': 'রাশিয়ার বিশ্ববিদ্যালয়ে স্নাতকোত্তর প্রোগ্রামে সম্পূর্ণ ফান্ডেড স্কলারশিপ আসন, ইংরেজি মাধ্যমের সুযোগসহ।',
+  'English-taught Bachelor’s and Master’s programs in one of Europe’s strongest education systems.': 'ইউরোপের অন্যতম শক্তিশালী শিক্ষাব্যবস্থায় ইংরেজি মাধ্যমে স্নাতক ও স্নাতকোত্তর প্রোগ্রাম।',
+  'An affordable route from Foundation to Master’s, with credit transfer options and lower English requirements at selected universities.': 'ফাউন্ডেশন থেকে স্নাতকোত্তর পর্যন্ত সাশ্রয়ী পথ, নির্বাচিত বিশ্ববিদ্যালয়ে ক্রেডিট ট্রান্সফার ও কম ইংরেজি যোগ্যতার সুযোগসহ।',
+  'Degree and Chinese language programs, with Chinese Government (CSC) and university scholarship options and two intakes a year.': 'ডিগ্রি ও চীনা ভাষা প্রোগ্রাম, চীন সরকার (CSC) ও বিশ্ববিদ্যালয়ের স্কলারশিপসহ, বছরে দুটি ইনটেক।',
   /* ---------- homepage sections in the DOCX order ---------- */
   'Explore your study destination': 'আপনার পড়াশোনার গন্তব্য খুঁজে নিন',
   'The countries we currently help students apply to. Open a guide for study levels, requirements and the documents you need.': 'যেসব দেশে আমরা এখন আবেদনে সহায়তা করি। পড়াশোনার স্তর, যোগ্যতা ও প্রয়োজনীয় কাগজপত্র জানতে গাইড খুলুন।',
@@ -280,6 +286,7 @@ const BN_PATTERNS = [
   [/^Open · (\d+) days left$/, 'খোলা · $1 দিন বাকি'],
   [/^(\d+) application windows? open now$/, 'এখন $1টি আবেদন চলছে'],
   [/^See all (\d+) open and upcoming offers$/, 'খোলা ও আসন্ন $1টি অফার দেখুন'],
+  [/^(\d+) open$/, '$1টি চলমান'],
   [/^Map: (.+) office$/, 'ম্যাপ: $1 অফিস'],
   [/^Opens in (\d+) days$/, '$1 দিন পর শুরু'],
   [/^(\d+) results?$/, '$1টি ফলাফল'],
