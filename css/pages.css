@@ -105,7 +105,7 @@
 .vm{display:grid;gap:20px}
 .vm__vision{font:600 19px/1.45 var(--font-display);color:var(--ink)}
 .leaders{display:grid;gap:20px}
-.leader{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;align-items:start;padding:20px}
+.leader{scroll-margin-top:calc(var(--header-h) + 20px);display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;align-items:start;padding:20px}
 .leader__photo{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:var(--r-sm)}
 .leader__body{display:grid;gap:6px}
 .leader__body p{color:var(--ink-2)}

@@ -118,15 +118,19 @@ function renderProcess() {
 
 /* ---------- leadership ---------- */
 function renderTeam() {
-  $('#teamGrid').innerHTML = Store.list('team').map(p => `<article class="person">
-      <img class="person__photo" src="${p.photo}" alt="Portrait of ${esc(p.name)}" width="320" height="320" loading="lazy">
-      <div class="person__body">
-        <span class="person__loc">${icon('pin', 'icon--sm')}${esc(p.location)}</span>
-        <h3 class="person__name">${esc(p.name)}</h3>
-        <span class="person__role">${esc(p.role)}</span>
-        <p class="person__bio">${esc(p.bio)}</p>
-        <div class="person__tags">${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>
+  $('#teamGrid').innerHTML = Store.list('team').map(p => `<article class="mentor">
+      <div class="mentor__cover" aria-hidden="true"></div>
+      <div class="mentor__top">
+        <div class="mentor__photo"><img src="${p.photo}" alt="Portrait of ${esc(p.name)}" width="112" height="112" loading="lazy"></div>
+        <span class="mentor__loc">${icon('pin', 'icon--sm')}${esc(p.location)}</span>
       </div>
+      <div class="mentor__body">
+        <h3 class="mentor__name">${esc(p.name)}</h3>
+        <span class="mentor__role">${esc(p.role)}</span>
+        <p class="mentor__bio">${esc(p.bio)}</p>
+        <div class="mentor__tags">${p.tags.map(t => `<span class="mentor__tag">${icon('cap', 'icon--sm')}${esc(t)}</span>`).join('')}</div>
+      </div>
+      <a class="mentor__more" href="about.html#leader-${p.id}">Read full story${icon('arrow')}</a>
     </article>`).join('');
 }
 

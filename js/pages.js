@@ -153,7 +153,7 @@ function renderAboutPage() {
   $('#aboutIntro').innerHTML = ABOUT.intro.map(p => `<p>${esc(p)}</p>`).join('');
   $('#aboutVision').textContent = ABOUT.vision;
   $('#aboutMission').innerHTML = ABOUT.mission.map(m => `<li>${icon('check')}<span>${esc(m)}</span></li>`).join('');
-  $('#aboutTeam').innerHTML = Store.list('team').map(p => `<article class="leader card">
+  $('#aboutTeam').innerHTML = Store.list('team').map(p => `<article class="leader card" id="leader-${p.id}">
     <img class="leader__photo" src="${p.photo}" alt="Portrait of ${esc(p.name)}" width="320" height="320" loading="lazy">
     <div class="leader__body">
       <span class="person__loc">${icon('pin', 'icon--sm')}${esc(p.location)}</span>
@@ -166,6 +166,8 @@ function renderAboutPage() {
   $('#aboutOffices').innerHTML = OFFICES.map(officeHTML).join('');
   $('#aboutCommit').innerHTML = COMMITMENT.points.map(p => `<li>${icon('check')}<span>${esc(p)}</span></li>`).join('');
   mountCTA('aboutCta');
+  const target = location.hash && document.getElementById(location.hash.slice(1));   // e.g. about.html#leader-ceo from the homepage
+  if (target) requestAnimationFrame(() => target.scrollIntoView());
 }
 
 /* ================= contact.html (Package 1: form goes to EduRise's email) ================= */

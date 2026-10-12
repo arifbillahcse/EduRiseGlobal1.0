@@ -226,6 +226,7 @@ const BN = {
   'This is an estimate, not a quote.': 'এটি আনুমানিক হিসাব, কোটেশন নয়।', 'Discuss this estimate': 'এই হিসাব নিয়ে কথা বলুন',
   'It does not include flights, visa medicals, insurance or our service charge.': 'এতে বিমান ভাড়া, ভিসা মেডিকেল, বীমা বা আমাদের সার্ভিস চার্জ ধরা নেই।',
   /* ---------- homepage hero boarding pass ---------- */
+  'Read full story': 'পুরো গল্প পড়ুন',
   'Boarding pass': 'বোর্ডিং পাস', 'From': 'যাত্রা', 'To': 'গন্তব্য', 'Dhaka': 'ঢাকা', 'Why go': 'কেন যাবেন',
   'Seoul': 'সিউল', 'Tokyo': 'টোকিও', 'London': 'লন্ডন', 'Valletta': 'ভ্যালেটা', 'Rome': 'রোম',
   'On WhatsApp or in Dhaka': 'হোয়াটসঅ্যাপে বা ঢাকায়', 'Visa support': 'ভিসা সহায়তা', 'Documents to departure': 'কাগজপত্র থেকে যাত্রা পর্যন্ত',

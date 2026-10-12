@@ -157,10 +157,39 @@ html[lang="bn"] :is(.postcard__band,.postcard__end small,.postcard__fields dt){l
 @media (max-width:560px){.services{grid-template-columns:1fr}}
 
 /* ---------- leadership ---------- */
-.team{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.person__tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-@media (max-width:900px){.team{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:600px){.team{grid-template-columns:1fr}}
+.team{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+/* leader cards: compact round photo on a brand cover */
+.mentor{position:relative;display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:var(--surface);
+  box-shadow:0 1px 2px rgba(14,31,60,.04);transition:transform .25s var(--ease),box-shadow .25s,border-color .25s}
+.mentor:hover{transform:translateY(-4px);border-color:transparent;box-shadow:0 24px 48px -24px rgba(14,31,60,.35)}
+.mentor__cover{position:absolute;inset:0 0 auto;height:92px;
+  background:radial-gradient(rgba(255,255,255,.14) 1px,transparent 1.4px) 0 0/16px 16px,linear-gradient(120deg,var(--night) 0%,#1C3F94 70%,#2F5CCB 100%)}
+.mentor__cover::after{content:"";position:absolute;right:-30px;top:-40px;width:140px;height:140px;border-radius:50%;border:1.5px dashed rgba(255,200,61,.45)}
+.mentor__top{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:36px 22px 0}
+.mentor__photo{flex-shrink:0;width:112px;height:112px;padding:4px;border-radius:50%;background:conic-gradient(from 200deg,var(--sun),#FFAE2B,var(--sun-soft),var(--sun));box-shadow:0 10px 24px -10px rgba(14,31,60,.5)}
+.mentor__photo img{width:100%;height:100%;border:3px solid var(--surface);border-radius:50%;object-fit:cover;object-position:50% 22%;background:var(--surface-2);transition:transform .35s var(--ease)}
+.mentor:hover .mentor__photo img{transform:scale(1.05)}
+.mentor__loc{display:inline-flex;align-items:center;gap:6px;margin-bottom:10px;padding:6px 10px;border-radius:var(--r-pill);background:var(--surface-2);
+  font:600 11px/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+.mentor__body{display:flex;flex-direction:column;gap:6px;padding:18px 22px 0}
+.mentor__name{font-size:20px}
+.mentor__role{font-size:14px;font-weight:700;color:var(--brand-text)}
+.mentor__bio{margin-top:4px;font-size:14.5px;line-height:1.6;color:var(--ink-2)}
+.mentor__tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.mentor__tag{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:var(--r-pill);background:var(--brand-soft);color:var(--brand-text);font-size:12.5px;font-weight:600}
+.mentor__tag .icon{width:13px;height:13px}
+.mentor__more{display:flex;align-items:center;justify-content:space-between;margin:18px 22px 0;padding:14px 0 18px;border-top:1px dashed var(--line);
+  color:var(--brand-text);font-weight:700;font-size:14px;text-decoration:none;margin-top:auto}
+.mentor__body{flex:1;padding-bottom:18px}
+.mentor__more .icon{transition:transform .2s}
+.mentor__more:hover .icon{transform:translateX(4px)}
+.mentor__more::after{content:"";position:absolute;inset:0}               /* whole card is clickable */
+.mentor__more:focus-visible{outline:none}
+.mentor:has(.mentor__more:focus-visible){outline:3px solid var(--sun);outline-offset:3px}
+@media (max-width:1024px){.team{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.team{grid-template-columns:1fr}.mentor__photo{width:96px;height:96px}}
+@media (prefers-reduced-motion:reduce){.mentor,.mentor__photo img{transition:none}.mentor:hover{transform:none}}
+html[lang="bn"] .mentor__loc{letter-spacing:0;font-family:var(--font-body)}
 
 /* ---------- commitment ---------- */
 .commitment{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:48px;align-items:center}
