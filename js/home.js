@@ -177,8 +177,7 @@ function renderHomePrograms() {
 function renderWhy() {
   $('#commitQuote').textContent = COMMITMENT.quote;
   $('#whyGrid').innerHTML = WHY_CHOOSE.map((w, i) => `<li class="whyc">
-      <span class="whyc__icon">${icon(w.icon)}</span>
-      <span class="whyc__num tnum" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+      <div class="whyc__top"><span class="whyc__num tnum" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span><span class="whyc__icon">${icon(w.icon)}</span></div>
       <h3>${esc(w.title)}</h3><p>${esc(w.text)}</p>
     </li>`).join('');
 }
