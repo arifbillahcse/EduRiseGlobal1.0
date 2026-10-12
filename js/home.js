@@ -134,11 +134,113 @@ function renderTeam() {
     </article>`).join('');
 }
 
-/* ---------- commitment ---------- */
-function renderCommitment() {
+/* ---------- destinations (DOCX §4.1) — bento grid, no photos yet: each country has its own colours ---------- */
+const DEST_TONES = {
+  korea: ['#16337A', '#3B6FE0'], japan: ['#7E1733', '#C93D5A'], uk: ['#14254A', '#3E5A9E'], malta: ['#7A4300', '#C7801C'],
+  italy: ['#0D5A3D', '#23935F'], russia: ['#3D1E6E', '#7449C4'], finland: ['#0A4F72', '#2A8DBE'], malaysia: ['#6B2E0C', '#B9581F'],
+  china: ['#7A1717', '#C4402B']
+};
+function renderHomeDestinations() {
+  const box = $('#homeDest'); if (!box) return;
+  box.innerHTML = Store.list('destinations').map((d, i) => {
+    const [a, b] = DEST_TONES[d.id] || ['#14254A', '#2F5CCB'];
+    return `<a class="dcard${i === 0 ? ' dcard--feature' : ''}" href="destination.html#${d.id}" style="--a:${a};--b:${b}">
+      <span class="dcard__code" aria-hidden="true">${d.code}</span>
+      <span class="dcard__route" aria-hidden="true">DAC <i></i>${icon('plane')}</span>
+      <span class="dcard__body">
+        <span class="dcard__city">${esc(d.city)}</span>
+        <span class="dcard__name">${esc(d.name)}</span>
+        <span class="dcard__levels">${d.levels.map(l => `<span>${esc(l)}</span>`).join('')}</span>
+      </span>
+      <span class="dcard__go" aria-hidden="true">${icon('arrow')}</span>
+    </a>`;
+  }).join('');
+}
+
+/* ---------- programs (DOCX §4.1) ---------- */
+function renderHomePrograms() {
+  const box = $('#homePrograms'); if (!box) return;
+  const tiles = PROGRAM_TYPES.map(p => ({ href: `programs.html#${p.id}`, icon: p.icon, title: p.title, text: p.who }))
+    .concat([
+      { href: 'scholarships.html', icon: 'award', title: 'Scholarships', text: 'University and government offers' },
+      { href: 'cost-estimator.html', icon: 'calendar', title: 'Cost estimator', text: 'Tuition and living costs in taka' }
+    ]);
+  box.innerHTML = tiles.map(t => `<a class="ptile" href="${t.href}">
+      <span class="ptile__icon">${icon(t.icon)}</span>
+      <span class="ptile__title">${esc(t.title)}</span>
+      <span class="ptile__text">${esc(t.text)}</span>
+      <span class="ptile__go" aria-hidden="true">${icon('arrow')}</span>
+    </a>`).join('');
+}
+
+/* ---------- why choose us + commitment quote (DOCX §4.1, PDF) ---------- */
+function renderWhy() {
   $('#commitQuote').textContent = COMMITMENT.quote;
-  $('#commitList').innerHTML = COMMITMENT.points
-    .map(p => `<li>${icon('check')}<span>${esc(p)}</span></li>`).join('');
+  $('#whyGrid').innerHTML = WHY_CHOOSE.map((w, i) => `<li class="whyc">
+      <span class="whyc__icon">${icon(w.icon)}</span>
+      <span class="whyc__num tnum" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+      <h3>${esc(w.title)}</h3><p>${esc(w.text)}</p>
+    </li>`).join('');
+}
+
+/* ---------- scholarship highlight (DOCX §4.1): one featured offer + the next three ---------- */
+function renderHomeScholarships() {
+  const box = $('#homeScholarships'); if (!box) return;
+  const intakes = Store.list('intakes', { withHidden: true });
+  const rank = { closing: 0, open: 1, upcoming: 2, closed: 3 };
+  const offers = Store.list('scholarships').map(o => {
+    const it = intakes.find(x => x.id === o.intakeId);
+    return { o, it, st: it ? windowStatus(it) : { state: 'upcoming', label: 'Dates to be announced' }, d: DESTINATIONS.find(x => x.id === o.dest) };
+  }).filter(x => x.st.state !== 'closed').sort((x, y) => rank[x.st.state] - rank[y.st.state]);
+  if (!offers.length) { box.innerHTML = ''; return; }
+  const [f, ...rest] = offers;
+  const dates = f.it && f.it.s ? `${formatDate(f.it.s)} to ${formatDate(f.it.e)}` : 'Dates to be announced';
+  box.innerHTML = `
+    <article class="schl__feature">
+      <div class="schl__top"><span class="schl__country">${f.d.code} · <span>${esc(f.d.name)}</span></span>${statusChip(f.st)}</div>
+      <h3>${esc(f.o.university)}</h3>
+      <p class="schl__award">${esc(f.o.award)}</p>
+      <p class="schl__cond">${esc(f.o.condition)}</p>
+      <dl class="schl__facts">
+        <div><dt>Level</dt><dd>${esc(f.o.level)}</dd></div>
+        <div><dt>Intake</dt><dd>${f.it ? esc(f.it.intake) : 'TBA'}</dd></div>
+        <div><dt>Applications</dt><dd class="tnum">${esc(dates)}</dd></div>
+      </dl>
+      <div class="schl__actions">
+        <button type="button" class="btn btn--sun" data-enquire="${esc(f.o.university + ' scholarship')}">${icon('whatsapp')}Ask about this offer</button>
+        <a class="link-arrow" href="scholarships.html">Full details${icon('arrow')}</a>
+      </div>
+    </article>
+    <ul class="schl__list">${rest.slice(0, 3).map(x => `<li>
+        <span class="schl__pill">${esc(x.o.award)}</span>
+        <div class="schl__info"><b>${esc(x.o.university)}</b><span><span>${esc(x.d.name)}</span> · <span>${esc(x.o.level)}</span></span></div>
+        ${statusChip(x.st)}
+        <button type="button" class="schl__ask" data-enquire="${esc(x.o.university + ' scholarship')}" aria-label="Ask about ${esc(x.o.university)} scholarship">${icon('arrow')}</button>
+      </li>`).join('')}
+      <li class="schl__more"><a class="link-arrow" href="scholarships.html">See all ${offers.length} open and upcoming offers${icon('arrow')}</a></li>
+    </ul>`;
+}
+
+/* ---------- contact summary form (DOCX §4.1) ---------- */
+function initHomeContact() {
+  const form = $('#homeForm'); if (!form) return;
+  $('#h-country').innerHTML = '<option value="">Not decided yet</option>' +
+    Store.list('destinations').map(d => `<option>${esc(d.name)}</option>`).join('') + '<option>Other</option>';
+  Forms.attach(form, { name: 'name', phone: 'bdPhone', qual: 'required' }, v => {
+    const message = `Hello EduRise Global, I am ${v.name}. Qualification: ${v.qual}. Interested in: ${v.country || 'not decided yet'}. Please call me back.`;
+    Leads.add({ name: v.name, phone: v.phone, qual: v.qual, interest: v.country || 'Not decided', source: 'Homepage form' });
+    form.hidden = true;
+    const ok = $('#homeSuccess');
+    ok.hidden = false;
+    ok.innerHTML = `<span class="success__tick">${icon('check')}</span>
+      <h3>Thank you, ${esc(v.name.split(' ')[0])}</h3>
+      <p>A counsellor will call you on <b class="tnum">${esc(v.phone)}</b>. For a faster reply, send it on WhatsApp too.</p>
+      <div class="success__actions">
+        <a class="btn btn--go" href="${waLink(message)}" target="_blank" rel="noopener">${icon('whatsapp')}Send on WhatsApp</a>
+        <a class="btn btn--ghost btn--sm" href="${Forms.mailLink('Call back request from ' + v.name, message + '\nPhone: ' + v.phone)}">${icon('mail')}Send by email</a>
+      </div>`;
+    ok.focus();
+  });
 }
 
 function initHome() {
@@ -148,5 +250,9 @@ function initHome() {
   renderServices();
   renderProcess();
   renderTeam();
-  renderCommitment();
+  renderHomeDestinations();
+  renderHomePrograms();
+  renderWhy();
+  renderHomeScholarships();
+  initHomeContact();
 }

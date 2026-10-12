@@ -39,9 +39,9 @@ const ADMIN_COLLECTIONS = {
 
 /* role-based access (demo): which sections each role can open */
 const ROLES = {
-  admin:      { label: 'Administrator',  leads: true,  sees: Object.keys(ADMIN_COLLECTIONS) },
-  editor:     { label: 'Content editor', leads: false, sees: ['universities', 'intakes', 'scholarships', 'destinations', 'testimonials', 'news'] },
-  counsellor: { label: 'Counsellor',     leads: true,  sees: ['intakes', 'scholarships'] }
+  admin:      { label: 'Administrator',  leads: true,  history: true,  sees: Object.keys(ADMIN_COLLECTIONS) },
+  editor:     { label: 'Content editor', leads: false, history: true,  sees: ['universities', 'intakes', 'scholarships', 'destinations', 'testimonials', 'news'] },
+  counsellor: { label: 'Counsellor',     leads: true,  history: false, sees: ['intakes', 'scholarships'] }
 };
 
 const Admin = (() => {
@@ -57,7 +57,7 @@ const Admin = (() => {
         <b>${r.label}</b><span>${r.sees.length === Object.keys(ADMIN_COLLECTIONS).length ? 'All sections' : (r.leads ? ['Leads'] : []).concat(r.sees.map(s => ADMIN_COLLECTIONS[s].label)).join(', ')}</span>${icon('arrow')}</button>`).join('')}</div>
       <a class="link-arrow" href="index.html">${icon('arrow')}Back to the website</a>
     </div>`;
-    $$('.role-btn').forEach(b => b.addEventListener('click', () => { role = b.dataset.role; section = 'dashboard'; renderApp(); }));
+    $$('.role-btn').forEach(b => b.addEventListener('click', () => { role = b.dataset.role; Store.setActor(ROLES[role].label); section = 'dashboard'; renderApp(); }));
   }
 
   /* ---------- shell ---------- */
@@ -77,6 +77,7 @@ const Admin = (() => {
           <button type="button" class="adm-nav__item" data-section="dashboard">${icon('filter')}Dashboard</button>
           ${ROLES[role].leads ? `<button type="button" class="adm-nav__item" data-section="leads">${icon('mail')}Leads${newLeads() ? ` <span class="adm-badge">${newLeads()}</span>` : ''}</button>` : ''}
           ${allowed.map(k => `<button type="button" class="adm-nav__item" data-section="${k}">${icon(ADMIN_COLLECTIONS[k].icon)}${ADMIN_COLLECTIONS[k].label}</button>`).join('')}
+          ${ROLES[role].history ? `<button type="button" class="adm-nav__item" data-section="history">${icon('clock')}History</button>` : ''}
         </nav>
         <main class="adm-main" id="admMain" tabindex="-1"></main>
       </div>`;
@@ -89,6 +90,7 @@ const Admin = (() => {
     $$('.adm-nav__item').forEach(b => b.setAttribute('aria-current', String(b.dataset.section === section)));
     if (section === 'dashboard') renderDashboard();
     else if (section === 'leads') renderLeads();
+    else if (section === 'history') renderHistory();
     else renderCollection(section);
   }
 
@@ -119,6 +121,29 @@ const Admin = (() => {
     $$('[data-goto]').forEach(b => b.addEventListener('click', () => { section = b.dataset.goto; renderSection(); }));
     const reset = $('#admReset');
     if (reset) reset.addEventListener('click', () => { Store.reset(); Toast.show('Demo data reset to the original content.'); renderDashboard(); });
+  }
+
+  /* ---------- content revision history (Package 3) ---------- */
+  function renderHistory() {
+    const h = Store.history();
+    const when = iso => { const d = new Date(iso); return formatDate(iso.slice(0, 10)) + ', ' + d.toTimeString().slice(0, 5); };
+    $('#admMain').innerHTML = `
+      <div class="adm-head"><div><h1>History</h1><p class="muted">Every change to the website content, newest first. Restoring a version also undoes the changes made after it.</p></div></div>
+      ${h.length ? `<div class="card adm-table-card"><div class="table-wrap"><table class="adm-table">
+        <thead><tr><th>When</th><th>Who</th><th>Change</th><th><span class="sr-only">Restore</span></th></tr></thead>
+        <tbody>${h.map((e, i) => `<tr>
+          <td class="nowrap tnum">${when(e.at)}</td>
+          <td>${esc(e.who)}</td>
+          <td><b>${esc(e.action)}</b>${e.collection ? ` <span class="adm-sub">${esc(ADMIN_COLLECTIONS[e.collection] ? ADMIN_COLLECTIONS[e.collection].label : e.collection)}</span>` : ''}${e.label ? `<br>${esc(e.label)}` : ''}${e.detail ? `<br><span class="adm-sub">${e.action === 'Edited' ? 'Fields: ' : ''}${esc(e.detail)}</span>` : ''}</td>
+          <td class="adm-actions"><button type="button" class="btn btn--ghost btn--sm" data-restore="${i}">Restore to before this</button></td>
+        </tr>`).join('')}</tbody></table></div></div>`
+      : '<div class="card"><p class="muted">No changes yet. Edits, new items, hide/show and reordering will be listed here.</p></div>'}
+      <p class="note">On the live site the history is kept in the database for every item, with the full text before and after each change. (Package 3)</p>`;
+    $$('[data-restore]').forEach(b => b.addEventListener('click', () => {
+      Store.restore(+b.dataset.restore);
+      Toast.show('Content restored to the version before that change.');
+      renderHistory();
+    }));
   }
 
   /* ---------- leads (Package 3) ---------- */

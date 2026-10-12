@@ -19,7 +19,7 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 
 | File | Page |
 |---|---|
-| `index.html` | Homepage |
+| `index.html` | Homepage, in the DOCX §4.1 order: hero, destinations, programs, why choose us, services, process, scholarship highlight, intakes board, team, news, stories, contact summary |
 | `destinations.html` | All destinations |
 | `destination.html#korea` | Country guide (one template; `#korea`, `#japan`, `#uk`, `#malta`, `#italy`, `#russia`, `#finland`, `#malaysia`, `#china`) |
 | `universities.html` | Universities and application intakes (Package 2) |
@@ -30,7 +30,7 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 | `scholarships.html` | University offers and government scholarships |
 | `services.html` | Services and process |
 | `about.html` | About, leadership, offices |
-| `contact.html` | Contact form and offices |
+| `contact.html` | Contact form, offices and an office map (Google Maps embed) |
 | `news.html` | News posts (Package 2) |
 | `admin.html` | Staff dashboard preview with Leads (Packages 2 + 3, demo only) |
 | `checklist.html#korea` | Printable document checklist per destination, save as PDF (Package 3) |
@@ -51,6 +51,10 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 - Package 2 features (filters, enquiry dialog, intakes) live in `js/listings.js` and `css/listings.css`. Intake status is calculated from the dates in `INTAKES` (Dhaka time); closed windows are hidden automatically.
 - **Bangla (`js/i18n.js`):** the EN / বাংলা switch swaps every text, placeholder and label found in the `BN` dictionary, including content drawn later by scripts, and shows numbers in Bangla digits. The choice is remembered. To translate new text, add `'English': 'বাংলা'` to `BN`. Elements with `data-no-i18n` are left alone.
 - **Leads (`Leads` in `js/store.js`):** the contact form and every enquiry dialog save a lead (name, phone, qualification, interest, source) before opening WhatsApp. Administrators and counsellors see them under **Leads** in `admin.html`: change status (New → Contacted → Applied → Converted / Not interested), reply on WhatsApp, delete, export to CSV (opens in Excel with Bangla intact). Demo leads live in the visitor's browser; on the live site they go to the database.
+- **Homepage sections (DOCX §4.1):** destinations bento grid (`renderHomeDestinations`, colours in `DEST_TONES`; add a photo per country later), program tiles, why choose us (`WHY_CHOOSE` in `data.js`, every point taken from the PDF), scholarship highlight (featured offer = soonest open window), contact summary form (saves a lead, then WhatsApp or email).
+- **Revision history (Package 3):** every admin change (edit, add, delete, hide/show, reorder, reset) is logged by `Store` with who, when and what, plus a copy of the content before the change. Administrators and content editors see **History** in `admin.html` and can restore any earlier version.
+- **Spam protection:** every form gets a hidden honeypot field and a 1.5-second minimum fill time (`forms.js`). The live backend must repeat both checks on the server.
+- **Contact by email:** the contact page and homepage forms offer "Send by email" (pre-filled `mailto:`) next to WhatsApp. On the live site the backend emails EduRise directly.
 - **Checklist downloads:** each country guide links to `checklist.html#id`, a clean A4 page built from `BASE_DOCUMENTS` plus the country's `extraDocs` (`documentsFor()` merges them). "Print or save as PDF" uses the browser's print dialog, so no PDF files need to be kept up to date.
 - Styles: `tokens.css` (design tokens), `base.css`, `components.css` (shared pieces), `layout.css` (header/footer), `home.css`, `pages.css`, `listings.css`, `stories.css`, `premium.css`, `admin.css`, `checklist.css` (print).
 
@@ -103,7 +107,7 @@ edurise-site/
 
 ## Handover: going live
 
-1. **Domain:** `sitemap.xml`, `robots.txt` and the canonical / Open Graph tags use `https://eduriseglobal.com` (TBC). If the domain differs, change `SITE_URL` in the page generator or find-and-replace it.
+1. **Domain:** `www.eduriseglobal.com` (confirmed in the EduRise PDF profile). `sitemap.xml`, `robots.txt` and the canonical / Open Graph tags use `https://www.eduriseglobal.com`.
 2. **Hosting:** any static host works (cPanel, Nginx, Cloudflare Pages, Netlify). Upload the folder as is; set `404.html` as the error page (Nginx: `error_page 404 /404.html;`, Apache: `ErrorDocument 404 /404.html`). Enable HTTPS and gzip/brotli.
 3. **Backend for the live site (Packages 2–3):** the admin preview, leads and content edits are saved in the browser for this demo. For launch they need a small backend (for example WordPress with custom post types, or a PHP/Laravel API) plus staff logins. The data shapes in `js/data.js` and `js/store.js` are the spec for that database.
 4. **Leads to WhatsApp / email:** today the form opens WhatsApp with the message pre-filled. To also receive an email or a Google Sheet row, post the lead to the backend or a form service when it is saved (`Leads.add`).
@@ -113,10 +117,10 @@ edurise-site/
 
 **Brand and media**
 - Original logo file (SVG or AI) and high-resolution leadership photos
-- Campus and student photos (free stock from Unsplash / Pexels can be added, or EduRise's own photos with consent)
+- Campus and student photos (free stock from Unsplash / Pexels can be added, or EduRise's own photos with consent). The homepage destination cards use colours until a photo per country is supplied
 
 **Contact and company**
-- Live domain and a domain email (currently `info.eduriseglobal@gmail.com`)
+- A domain email such as info@eduriseglobal.com (currently `info.eduriseglobal@gmail.com`)
 - Office hours, Instagram and LinkedIn links
 - Full addresses for the Madrid and Suffolk offices; company registration details if they should be shown
 
@@ -124,6 +128,7 @@ edurise-site/
 - University offers, intakes, tuition, scholarships and deadlines: sample data taken from EduRise Facebook posts; every figure must be checked
 - Exchange rates (`RATES`) and living costs (`LIVING_COSTS`) used for all taka figures
 - Country requirements and document lists
+- Destination list: the PDF names the UK, Japan, South Korea, Malta, Italy and other European countries; Russia, Finland, Malaysia and China come from Facebook posts and need confirming (DOCX §11)
 - News posts (sample) and the final privacy policy, terms and disclaimer wording
 - Student stories: none published; add only with each student's written consent
 

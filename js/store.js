@@ -37,47 +37,85 @@ const Store = (() => {
   }
   const get = (name, id) => list(name, { withHidden: true }).find(i => i.id === id);
 
+  /* ---------- revision history (DOCX §6.1, Package 3) ----------
+     Every change is logged with who made it, when, and a copy of the content
+     before the change, so any earlier version can be restored. */
+  const HKEY = 'edurise-admin-history', HMAX = 40;
+  let actor = 'Staff';
+  const history = () => store.get(HKEY, []);
+  const LABEL_FIELDS = ['name', 'title', 'university'];
+  const itemLabel = (name, id) => { const it = id && get(name, id); return it ? (LABEL_FIELDS.map(f => it[f]).find(Boolean) || id) : ''; };
+  function record(action, name, id, change, detail = '') {
+    const before = JSON.stringify(state);
+    const label = itemLabel(name, id);
+    change();
+    const h = history();
+    h.unshift({ at: new Date().toISOString(), who: actor, action, collection: name || '', label, detail, before });
+    store.set(HKEY, h.slice(0, HMAX));
+  }
+  function restore(index) {
+    const h = history(), entry = h[index];
+    if (!entry) return;
+    record('Restored', '', null, () => { state = JSON.parse(entry.before); save(); },
+      `to the version before “${entry.action}${entry.label ? ' ' + entry.label : ''}”`);
+  }
+  const setActor = who => { actor = who; };
+
   function update(name, id, fields) {
-    const c = col(name);
-    const added = c.added.find(a => a.id === id);
-    if (added) Object.assign(added, fields);
-    else c.edits[id] = Object.assign(c.edits[id] || {}, fields);
-    save();
+    const cur = get(name, id) || {};
+    const changed = Object.keys(fields).filter(k => JSON.stringify(cur[k]) !== JSON.stringify(fields[k]));
+    if (!changed.length) return;
+    record('Edited', name, id, () => {
+      const c = col(name);
+      const added = c.added.find(a => a.id === id);
+      if (added) Object.assign(added, fields);
+      else c.edits[id] = Object.assign(c.edits[id] || {}, fields);
+      save();
+    }, changed.join(', '));
   }
   function add(name, item) {
-    const c = col(name);
     item.id = item.id || name + '-' + Date.now().toString(36);
+    const before = JSON.stringify(state);
+    const c = col(name);
     c.added.push(item);
     c.order = list(name, { withHidden: true }).map(i => i.id).filter(i => i !== item.id);
     c.order.unshift(item.id);                       // new items appear first
     save();
+    const h = history();
+    h.unshift({ at: new Date().toISOString(), who: actor, action: 'Added', collection: name, label: itemLabel(name, item.id), detail: '', before });
+    store.set(HKEY, h.slice(0, HMAX));
     return item.id;
   }
   function remove(name, id) {                       // only items created in the admin can be deleted
-    const c = col(name);
-    c.added = c.added.filter(a => a.id !== id);
-    c.order = c.order.filter(i => i !== id);
-    save();
+    record('Deleted', name, id, () => {
+      const c = col(name);
+      c.added = c.added.filter(a => a.id !== id);
+      c.order = c.order.filter(i => i !== id);
+      save();
+    });
   }
   function setHidden(name, id, hidden) {
-    const c = col(name);
-    c.hidden = c.hidden.filter(i => i !== id);
-    if (hidden) c.hidden.push(id);
-    save();
+    record(hidden ? 'Hidden' : 'Shown', name, id, () => {
+      const c = col(name);
+      c.hidden = c.hidden.filter(i => i !== id);
+      if (hidden) c.hidden.push(id);
+      save();
+    });
   }
   function move(name, id, step) {
-    const c = col(name);
     const ids = list(name, { withHidden: true }).map(i => i.id);
     const i = ids.indexOf(id), j = i + step;
     if (i < 0 || j < 0 || j >= ids.length) return;
-    [ids[i], ids[j]] = [ids[j], ids[i]];
-    c.order = ids;
-    save();
+    record(step < 0 ? 'Moved up' : 'Moved down', name, id, () => {
+      [ids[i], ids[j]] = [ids[j], ids[i]];
+      col(name).order = ids;
+      save();
+    });
   }
-  function reset() { state = {}; save(); }
+  function reset() { record('Reset all content', '', null, () => { state = {}; save(); }); }
   const hasChanges = () => Object.values(state).some(c => c.order.length || c.hidden.length || c.added.length || Object.keys(c.edits).length);
 
-  return { list, get, update, add, remove, setHidden, move, reset, hasChanges, collections: Object.keys(SOURCES) };
+  return { list, get, update, add, remove, setHidden, move, reset, hasChanges, history, restore, setActor, collections: Object.keys(SOURCES) };
 })();
 
 /* =====================================================================

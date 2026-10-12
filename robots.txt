@@ -3,4 +3,4 @@ Disallow: /admin.html
 Disallow: /styleguide.html
 Disallow: /checklist.html
 
-Sitemap: https://eduriseglobal.com/sitemap.xml
+Sitemap: https://www.eduriseglobal.com/sitemap.xml

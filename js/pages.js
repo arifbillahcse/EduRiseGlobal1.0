@@ -176,6 +176,7 @@ function renderContactPage() {
   $('#contactCountry').innerHTML = '<option value="">Not decided yet</option>' +
     DESTINATIONS.map(d => `<option>${esc(d.name)}</option>`).join('') + '<option>Other</option>';
   $('#contactHours').textContent = SITE.hours;
+  renderOfficeMap();
 
   const form = $('#contactForm');
   Forms.attach(form, { name: 'name', phone: 'bdPhone', email: 'optionalEmail', qual: 'required' }, v => {
@@ -190,11 +191,33 @@ function renderContactPage() {
       <div class="success__summary">${esc(message)}</div>
       <div class="success__actions">
         <a class="btn btn--go" href="${waLink(message)}" target="_blank" rel="noopener">${icon('whatsapp')}Send on WhatsApp</a>
+        <a class="btn btn--ghost" href="${Forms.mailLink('Consultation request from ' + v.name, message + '\nPhone: ' + v.phone + (v.email ? '\nEmail: ' + v.email : ''))}">${icon('mail')}Send by email</a>
         <button class="btn btn--ghost btn--sm" type="button" id="contactAgain">Send another message</button>
       </div>`;
     $('#contactAgain').addEventListener('click', () => { ok.hidden = true; form.hidden = false; form.reset(); form.elements.name.focus(); });
     ok.focus();
   });
+}
+
+/* office map (DOCX §4.1: contact page with a map). Google Maps embed, one office at a time. */
+function renderOfficeMap() {
+  const box = $('#officeMap'); if (!box) return;
+  const src = o => `https://maps.google.com/maps?q=${encodeURIComponent(o.map)}&z=15&output=embed`;
+  box.innerHTML = `
+    <div class="map__tabs" role="tablist" aria-label="Choose an office">${OFFICES.map((o, i) =>
+      `<button type="button" role="tab" class="map__tab" aria-selected="${i === 0}" data-i="${i}">${esc(o.name)}${o.tbc ? ' <span class="tbc">TBC</span>' : ''}</button>`).join('')}</div>
+    <div class="map__frame">
+      <iframe id="mapFrame" src="${src(OFFICES[0])}" title="Map: ${esc(OFFICES[0].name)} office" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      <div class="map__card"><b id="mapName">${esc(OFFICES[0].name)}</b><span id="mapAddr">${esc(OFFICES[0].address)}</span>
+        <a class="link-arrow" id="mapLink" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(OFFICES[0].map)}" target="_blank" rel="noopener">Directions${icon('arrow')}</a></div>
+    </div>`;
+  $$('.map__tab', box).forEach(t => t.addEventListener('click', () => {
+    const o = OFFICES[+t.dataset.i];
+    $$('.map__tab', box).forEach(x => x.setAttribute('aria-selected', String(x === t)));
+    const f = $('#mapFrame'); f.src = src(o); f.title = `Map: ${o.name} office`;
+    $('#mapName').textContent = o.name; $('#mapAddr').textContent = o.address;
+    $('#mapLink').href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.map)}`;
+  }));
 }
 
 /* ================= policies.html ================= */

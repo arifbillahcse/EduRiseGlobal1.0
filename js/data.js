@@ -173,6 +173,16 @@ const TEAM = [
     tags: ['ACCA qualified', 'Business owner in the UK'] }
 ];
 
+/* homepage "Why choose us" (DOCX §4.1) — every point comes from the PDF company profile */
+const WHY_CHOOSE = [
+  { icon: 'check',    title: 'Honest, realistic advice',        text: 'We tell you what is possible for your profile, including when a plan is not a good fit.' },
+  { icon: 'user',     title: 'Leaders who studied abroad',      text: 'Our leadership studied in Malaysia, South Korea and Austria, so our guidance is practical, not theoretical.' },
+  { icon: 'cap',      title: 'The right pathway for you',       text: 'Country, university and program chosen around your results, career goals and budget.' },
+  { icon: 'doc',      title: 'Transparent process',             text: 'Clear steps and clear documentation, so you always know where your application stands.' },
+  { icon: 'globe',    title: 'Bangladesh, Europe and the UK',   text: 'An international network that keeps us connected with education systems and universities.' },
+  { icon: 'plane',    title: 'With you until departure',        text: 'Continuous guidance from the first counselling session to pre-departure.' }
+];
+
 const COMMITMENT = {
   quote: 'Studying abroad is one of the most important decisions in a student’s life. Our goal is not just to send students abroad, but to help them build a successful global future.',
   points: ['Honest and realistic advice', 'A transparent process and clear documentation', 'Professional support from an internationally experienced team', 'Continuous guidance from application to departure']
