@@ -79,7 +79,7 @@ html[lang="bn"] .eyebrow{font-family:var(--font-bn);letter-spacing:.02em;font-si
 .card--link:hover{transform:translateY(-2px);border-color:var(--brand);box-shadow:var(--shadow)}
 .card--night{background:var(--night);border-color:var(--night);color:var(--night-fg)}
 .card--night :is(h2,h3){color:var(--night-fg)}
-.card--night p{color:var(--night-dim)}
+.card--night p,.card.card--night p{color:var(--night-dim)}
 .card__icon{width:44px;height:44px;border-radius:12px;background:var(--brand-soft);color:var(--brand-text);display:grid;place-items:center;margin-bottom:14px}
 .card__icon .icon{width:22px;height:22px}
 .card h3{font-size:17px;margin-bottom:6px}

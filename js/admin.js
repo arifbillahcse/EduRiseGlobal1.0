@@ -39,9 +39,9 @@ const ADMIN_COLLECTIONS = {
 
 /* role-based access (demo): which sections each role can open */
 const ROLES = {
-  admin:      { label: 'Administrator',  sees: Object.keys(ADMIN_COLLECTIONS) },
-  editor:     { label: 'Content editor', sees: ['universities', 'intakes', 'scholarships', 'destinations', 'testimonials', 'news'] },
-  counsellor: { label: 'Counsellor',     sees: ['intakes', 'scholarships'] }
+  admin:      { label: 'Administrator',  leads: true,  sees: Object.keys(ADMIN_COLLECTIONS) },
+  editor:     { label: 'Content editor', leads: false, sees: ['universities', 'intakes', 'scholarships', 'destinations', 'testimonials', 'news'] },
+  counsellor: { label: 'Counsellor',     leads: true,  sees: ['intakes', 'scholarships'] }
 };
 
 const Admin = (() => {
@@ -54,7 +54,7 @@ const Admin = (() => {
       <h1>Sign in</h1>
       <p class="muted">This is a preview. Choose a role to see what each type of staff account can manage. The live panel uses real accounts and passwords.</p>
       <div class="signin__roles">${Object.entries(ROLES).map(([k, r]) => `<button type="button" class="role-btn" data-role="${k}">
-        <b>${r.label}</b><span>${r.sees.length === Object.keys(ADMIN_COLLECTIONS).length ? 'All sections' : r.sees.map(s => ADMIN_COLLECTIONS[s].label).join(', ')}</span>${icon('arrow')}</button>`).join('')}</div>
+        <b>${r.label}</b><span>${r.sees.length === Object.keys(ADMIN_COLLECTIONS).length ? 'All sections' : (r.leads ? ['Leads'] : []).concat(r.sees.map(s => ADMIN_COLLECTIONS[s].label)).join(', ')}</span>${icon('arrow')}</button>`).join('')}</div>
       <a class="link-arrow" href="index.html">${icon('arrow')}Back to the website</a>
     </div>`;
     $$('.role-btn').forEach(b => b.addEventListener('click', () => { role = b.dataset.role; section = 'dashboard'; renderApp(); }));
@@ -65,7 +65,7 @@ const Admin = (() => {
     const allowed = ROLES[role].sees;
     $('#adminApp').innerHTML = `
       <header class="adm-top">
-        <div class="adm-top__brand"><img src="assets/img/brand/logo-mark.png" alt="" width="57" height="32"><b>EduRise</b><span class="pkg pkg--2">Package 2</span></div>
+        <div class="adm-top__brand"><img src="assets/img/brand/logo-mark.png" alt="" width="57" height="32"><b>EduRise</b><span class="pkg pkg--3">Packages 2 + 3</span></div>
         <div class="adm-top__right">
           <span class="adm-user">${icon('user', 'icon--sm')}${ROLES[role].label}</span>
           <a class="btn btn--ghost btn--sm" href="index.html" target="_blank" rel="noopener">View website</a>
@@ -75,6 +75,7 @@ const Admin = (() => {
       <div class="adm">
         <nav class="adm-nav" aria-label="Admin sections">
           <button type="button" class="adm-nav__item" data-section="dashboard">${icon('filter')}Dashboard</button>
+          ${ROLES[role].leads ? `<button type="button" class="adm-nav__item" data-section="leads">${icon('mail')}Leads${newLeads() ? ` <span class="adm-badge">${newLeads()}</span>` : ''}</button>` : ''}
           ${allowed.map(k => `<button type="button" class="adm-nav__item" data-section="${k}">${icon(ADMIN_COLLECTIONS[k].icon)}${ADMIN_COLLECTIONS[k].label}</button>`).join('')}
         </nav>
         <main class="adm-main" id="admMain" tabindex="-1"></main>
@@ -86,7 +87,9 @@ const Admin = (() => {
 
   function renderSection() {
     $$('.adm-nav__item').forEach(b => b.setAttribute('aria-current', String(b.dataset.section === section)));
-    if (section === 'dashboard') renderDashboard(); else renderCollection(section);
+    if (section === 'dashboard') renderDashboard();
+    else if (section === 'leads') renderLeads();
+    else renderCollection(section);
   }
 
   /* ---------- dashboard ---------- */
@@ -96,7 +99,7 @@ const Admin = (() => {
     const closing = intakes.filter(x => x.st.state === 'closing');
     const stats = [
       ['Open intakes', open.length], ['Closing within 3 days', closing.length],
-      ['Universities listed', Store.list('universities').length], ['News posts', Store.list('news').length]
+      ['Universities listed', Store.list('universities').length], ['New leads', newLeads()]
     ];
     const allowed = ROLES[role].sees;
     $('#admMain').innerHTML = `
@@ -112,10 +115,53 @@ const Admin = (() => {
           <ul class="adm-list">${allowed.map(k => `<li><button type="button" class="adm-link" data-goto="${k}">${ADMIN_COLLECTIONS[k].label}</button><b class="tnum">${Store.list(k, { withHidden: true }).length}</b></li>`).join('')}</ul>
         </section>
       </div>
-      <p class="note">Enquiries go straight to WhatsApp in Package 2, so they are not stored here. A lead list with status tracking is part of Package 3.</p>`;
+      ${ROLES[role].leads ? `<p class="note">Every enquiry from the website is saved under <button type="button" class="adm-link" data-goto="leads">Leads</button> with a status, as well as being sent to WhatsApp (Package 3).</p>` : ''}`;
     $$('[data-goto]').forEach(b => b.addEventListener('click', () => { section = b.dataset.goto; renderSection(); }));
     const reset = $('#admReset');
     if (reset) reset.addEventListener('click', () => { Store.reset(); Toast.show('Demo data reset to the original content.'); renderDashboard(); });
+  }
+
+  /* ---------- leads (Package 3) ---------- */
+  function newLeads() { return Leads.all().filter(l => l.status === 'New').length; }
+  function renderLeads() {
+    const leads = Leads.all();
+    $('#admMain').innerHTML = `
+      <div class="adm-head"><div><h1>Leads</h1><p class="muted">${leads.length} ${leads.length === 1 ? 'enquiry' : 'enquiries'} · ${newLeads()} new. Update the status as you follow up.</p></div>
+        ${leads.length ? `<div class="row-actions"><button type="button" class="btn btn--brand btn--sm" id="leadCsv">${icon('download')}Export to spreadsheet (CSV)</button><button type="button" class="btn btn--ghost btn--sm" id="leadCopy">Copy as CSV</button></div>` : ''}</div>
+      ${leads.length ? `<div class="card adm-table-card"><div class="table-wrap"><table class="adm-table">
+        <thead><tr><th scope="col">Received</th><th scope="col">Name</th><th scope="col">Phone</th><th scope="col">Interested in</th><th scope="col">Source</th><th scope="col">Status</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead>
+        <tbody>${leads.map(l => `<tr data-id="${l.id}" class="${l.status === 'New' ? 'is-new' : ''}">
+          <td class="tnum nowrap">${formatDate(l.date.slice(0, 10))}<small class="adm-sub">${l.date.slice(11, 16)}</small></td>
+          <td class="adm-title">${esc(l.name)}${l.qual ? `<small class="adm-sub">${esc(l.qual)}</small>` : ''}</td>
+          <td class="tnum nowrap"><a href="${waLink('Hello ' + l.name.split(' ')[0] + ', this is EduRise Global replying to your enquiry.')}" target="_blank" rel="noopener">${esc(l.phone)}</a>${l.email ? `<small class="adm-sub">${esc(l.email)}</small>` : ''}</td>
+          <td>${esc(l.interest)}</td>
+          <td><span class="tag">${esc(l.source)}</span></td>
+          <td><select class="field__control adm-status" aria-label="Status for ${esc(l.name)}">${Leads.STATUSES.map(s => `<option ${s === l.status ? 'selected' : ''}>${s}</option>`).join('')}</select></td>
+          <td class="adm-actions"><button type="button" class="btn btn--ghost btn--sm adm-del" data-act="delete-lead">Delete</button></td>
+        </tr>`).join('')}</tbody></table></div></div>`
+      : `<div class="empty">${icon('mail', 'icon--lg')}<p>No leads yet.</p><p class="muted small">Send the contact form or a quick enquiry on the website, then come back here.</p></div>`}`;
+    $$('.adm-status').forEach(sel => sel.addEventListener('change', () => {
+      Leads.setStatus(sel.closest('tr').dataset.id, sel.value);
+      Toast.show(`Status set to ${sel.value}`);
+      renderApp(); section = 'leads'; renderSection();
+    }));
+    $$('[data-act="delete-lead"]').forEach(b => b.addEventListener('click', () => { Leads.remove(b.closest('tr').dataset.id); Toast.show('Lead deleted'); renderApp(); section = 'leads'; renderSection(); }));
+    const csvBtn = $('#leadCsv');
+    if (csvBtn) csvBtn.addEventListener('click', () => {
+      try {
+        const url = URL.createObjectURL(new Blob(['\ufeff' + Leads.csv()], { type: 'text/csv;charset=utf-8' }));
+        const a = Object.assign(document.createElement('a'), { href: url, download: `edurise-leads-${todayISO()}.csv` });
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+        Toast.show('Spreadsheet downloaded. If nothing downloaded, use "Copy as CSV".');
+      } catch (e) { Toast.show('Download blocked here. Use "Copy as CSV" instead.'); }
+    });
+    const copyBtn = $('#leadCopy');
+    if (copyBtn) copyBtn.addEventListener('click', () => {
+      const text = Leads.csv();
+      try { navigator.clipboard.writeText(text).then(() => Toast.show('Copied. Paste into Excel or Google Sheets.'), () => Toast.show('Copy blocked by the browser.')); }
+      catch (e) { Toast.show('Copy blocked by the browser.'); }
+    });
   }
 
   /* ---------- collection table ---------- */

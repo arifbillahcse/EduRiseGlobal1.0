@@ -22,7 +22,7 @@ const DestCards = (() => {
       <div class="postcard__body">
         <div class="postcard__route"><span>DAC</span><i></i>${icon('plane', 'icon--sm')}<i></i><span>${d.code}</span></div>
         <div class="postcard__code" aria-hidden="true">${d.code}</div>
-        <h3 class="postcard__country">${esc(d.country)}</h3>
+        <h2 class="postcard__country">${esc(d.country)}</h2>
         <p class="postcard__programs">${esc(d.programs)}</p>
         <p class="postcard__note">${esc(d.note)}</p>
         <div class="postcard__foot">

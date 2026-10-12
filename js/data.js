@@ -21,7 +21,7 @@ const SITE = {
     linkedin: ''                              // TBC
   },
   whatsappGreeting: 'Hello EduRise Global, I would like a free consultation about studying abroad.',
-  currentPhase: 7                             // links to features from later phases explain when they arrive
+  currentPhase: 8                             // links to features from later phases explain when they arrive
 };
 
 /* ---------- navigation: one list feeds the header, the mobile drawer and the footer ---------- */
@@ -106,6 +106,12 @@ const OTHER_REGIONS = [
   { region: 'North America', countries: ['USA', 'Canada'] },
   { region: 'Oceania',       countries: ['Australia', 'New Zealand'] }
 ];
+/* a country's own documents; an item that refines a base item replaces it (same first three words) */
+const documentsFor = d => {
+  const key = t => t.toLowerCase().split(' ').slice(0, 3).join(' ');
+  const extra = d.extraDocs || [];
+  return BASE_DOCUMENTS.map(b => extra.find(e => key(e) === key(b)) || b).concat(extra.filter(e => !BASE_DOCUMENTS.some(b => key(b) === key(e))));
+};
 const BASE_DOCUMENTS = ['Valid passport', 'SSC and HSC certificates and transcripts', 'Bachelor’s certificate and transcript (for Master’s)', 'English test result, if required', 'Statement of purpose', 'CV', 'Two recommendation letters', 'Bank solvency certificate and statement', 'Passport-size photographs'];
 
 /* =====================================================================

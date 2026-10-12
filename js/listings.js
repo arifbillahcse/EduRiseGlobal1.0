@@ -76,6 +76,7 @@ const Enquiry = (() => {
     dialog.addEventListener('click', e => { if (e.target === dialog) close(); });   // click on the backdrop
     Forms.attach(form, { name: 'name', phone: 'bdPhone', qual: 'required' }, v => {
       const text = `Hello EduRise Global, I am ${v.name} (${v.phone}). Qualification: ${v.qual}. I would like to know more about: ${interest}.`;
+      if (typeof Leads !== 'undefined') Leads.add({ name: v.name, phone: v.phone, qual: v.qual, interest, source: 'Enquiry form' });   // Package 3 lead list
       const url = waLink(text);
       window.open(url, '_blank', 'noopener');
       form.hidden = true;

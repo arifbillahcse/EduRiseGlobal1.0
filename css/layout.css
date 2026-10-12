@@ -120,6 +120,7 @@ a.topbar__item:hover{color:var(--night-fg)}
 /* ---------- floating WhatsApp ---------- */
 .wa-float{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;align-items:center;gap:10px;padding:12px 18px 12px 14px;border-radius:var(--r-pill);background:var(--go);color:var(--go-ink);font-weight:700;text-decoration:none;box-shadow:0 10px 24px -4px rgba(19,128,74,.5);transition:transform .15s var(--ease)}
 .wa-float:hover{transform:translateY(-2px)}
+.site-footer .wa-float,.site-footer .wa-float:hover{color:var(--go-ink)}
 .wa-float .icon{width:24px;height:24px}
 @media (max-width:560px){.wa-float{padding:14px}.wa-float span{display:none}}
 

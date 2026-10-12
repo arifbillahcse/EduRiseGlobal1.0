@@ -17,6 +17,7 @@ function brandHTML(label = 'EduRise Global, home') {
 function topHTML() {
   return `
   <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-top" role="region" aria-label="Contact and language">
   <div class="ribbon" role="note"><div class="container"><span>Website demo for client review.</span><span class="tbc">TBC</span><span>= information still to be confirmed by EduRise</span></div></div>
   <div class="topbar"><div class="container">
     <div class="topbar__contacts">
@@ -30,11 +31,12 @@ function topHTML() {
         <a data-site-href="instagram" target="_blank" rel="noopener" aria-label="Instagram">${ico('instagram')}</a>
         <a data-site-href="linkedin" target="_blank" rel="noopener" aria-label="LinkedIn">${ico('linkedin')}</a>
       </div>
-      <div class="lang-switch" role="group" aria-label="Language">
+      <div class="lang-switch" role="group" aria-label="Language / ভাষা" data-no-i18n>
         <button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="bn" aria-pressed="false">বাংলা</button>
       </div>
     </div>
   </div></div>
+  </div>
   <header class="site-header" id="siteHeader"><div class="container">
     ${brandHTML()}
     <nav class="nav" aria-label="Main"><ul class="nav__list" id="navList"></ul></nav>
@@ -54,7 +56,7 @@ function topHTML() {
           <span class="tnum">${ico('phone', 'icon--sm')}<span data-site="phone"></span></span>
           <span>${ico('mail', 'icon--sm')}<span data-site="email"></span></span>
         </div>
-        <div class="lang-switch lang-switch--light" role="group" aria-label="Language">
+        <div class="lang-switch lang-switch--light" role="group" aria-label="Language / ভাষা" data-no-i18n>
           <button type="button" data-lang="en" aria-pressed="true">English</button><button type="button" data-lang="bn" aria-pressed="false">বাংলা</button>
         </div>
       </div>
@@ -91,8 +93,9 @@ function bottomHTML() {
       <span>© <span id="year"></span> EduRise Global. All rights reserved.</span>
       <nav class="footer__legal" id="footerLegal" aria-label="Policies"></nav>
     </div>
-  </div></footer>
+  </div>
   <a class="wa-float" data-site-href="whatsapp" target="_blank" rel="noopener" aria-label="Chat with EduRise on WhatsApp">${ico('whatsapp')}<span>WhatsApp us</span></a>
+  </footer>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>`;
 }
 
@@ -118,6 +121,7 @@ function bindSite() {
     else if (SITE.social[key]) el.href = SITE.social[key];
     else {                                   // social link not supplied yet (TBC)
       el.removeAttribute('href');
+      el.setAttribute('role', 'link');
       el.setAttribute('aria-disabled', 'true');
       el.title = 'Link to be added (TBC)';
     }
@@ -207,13 +211,7 @@ const Drawer = (() => {
   return { init, open, close };
 })();
 
-/* ---------- language switch: control only; Bangla arrives in Phase 8 (Package 3) ---------- */
-function initLanguageSwitch() {
-  $$('[data-lang]').forEach(btn => btn.addEventListener('click', () => {
-    if (btn.dataset.lang === 'en') return;
-    Toast.show('বাংলা version arrives in Phase 8 (Package 3).');
-  }));
-}
+/* ---------- language switch: handled by I18n in i18n.js (Phase 8) ---------- */
 
 /* ---------- start the shell (called by main.js after page content is rendered) ---------- */
 function initLayout(activeId) {
@@ -223,5 +221,4 @@ function initLayout(activeId) {
   initHeader();
   Drawer.init();
   initPhaseLinks();
-  initLanguageSwitch();
 }

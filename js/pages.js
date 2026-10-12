@@ -58,7 +58,7 @@ function renderCountryPage() {
   const id = location.hash.replace('#', '');
   const d = destById(id) || DESTINATIONS[0];
   document.title = `Study in ${d.name} | EduRise Global`;
-  const docs = BASE_DOCUMENTS.concat(d.extraDocs);
+  const docs = documentsFor(d);
   const others = DESTINATIONS.filter(x => x.id !== d.id).slice(0, 4);
   const programLinks = PROGRAM_TYPES.filter(p => p.destinations.includes(d.id));
 
@@ -94,7 +94,7 @@ function renderCountryPage() {
       <h2 class="h3">Document checklist</h2>
       <p class="muted small">Tick what you already have.</p>
       <ul class="doclist">${docs.map((x, i) => `<li><input type="checkbox" id="doc-${d.id}-${i}"><label for="doc-${d.id}-${i}">${esc(x)}</label></li>`).join('')}</ul>
-      <button class="btn btn--ghost btn--sm btn--block" type="button" data-toast="The ${esc(d.name)} checklist PDF will be added before launch (TBC).">${icon('download')}Download checklist (PDF)</button>
+      <a class="btn btn--ghost btn--sm btn--block" href="checklist.html#${d.id}" target="_blank" rel="noopener">${icon('download')}Download checklist (PDF)</a>
     </section>
     <section class="card card--night">
       <h2 class="h3">Free profile review</h2>
@@ -178,6 +178,7 @@ function renderContactPage() {
   const form = $('#contactForm');
   Forms.attach(form, { name: 'name', phone: 'bdPhone', email: 'optionalEmail', qual: 'required' }, v => {
     const message = `Hello EduRise Global, I am ${v.name}. Qualification: ${v.qual}. Interested in: ${v.country || 'not decided yet'}.${v.msg ? ' ' + v.msg : ''}`;
+    Leads.add({ name: v.name, phone: v.phone, email: v.email, qual: v.qual, interest: (v.country || 'Not decided') + (v.msg ? ' · ' + v.msg : ''), source: 'Contact page' });   // Package 3 lead list
     form.hidden = true;
     const ok = $('#contactSuccess');
     ok.hidden = false;
@@ -208,4 +209,38 @@ function initToastButtons() {
     const b = e.target.closest('[data-toast]');
     if (b) Toast.show(b.dataset.toast);
   });
+}
+
+/* ================= checklist.html#<id> (Phase 8, Package 3) =================
+   A printable document checklist per country. "Print or save as PDF" uses the
+   browser's print dialog, where visitors choose "Save as PDF". */
+function renderChecklistPage() {
+  const d = destById(location.hash.slice(1)) || DESTINATIONS[0];
+  const docs = documentsFor(d);
+  document.title = `${d.name} document checklist | EduRise Global`;
+  $('#checklist').innerHTML = `
+    <header class="cl-head">
+      <div class="cl-brand"><img src="assets/img/brand/logo-mark.png" alt="" width="71" height="40"><div><b>EduRise Global</b><span>Guiding Your Global Future</span></div></div>
+      <div class="cl-actions no-print">
+        <button type="button" class="btn btn--brand btn--sm" id="clPrint">${icon('download')}Print or save as PDF</button>
+        <a class="btn btn--ghost btn--sm" href="destination.html#${d.id}">Back to ${esc(d.name)}</a>
+      </div>
+    </header>
+    <h1>Document checklist: ${esc(d.name)}</h1>
+    <p class="cl-meta">Study levels: ${d.levels.map(esc).join(', ')} · Prepared ${formatDate(todayISO())}</p>
+    <table class="cl-table">
+      <thead><tr><th scope="col" class="cl-num">#</th><th scope="col">Document</th><th scope="col" class="cl-box">Ready</th></tr></thead>
+      <tbody>${docs.map((x, i) => `<tr><td class="cl-num tnum">${i + 1}</td><td>${esc(x)}</td><td class="cl-box"><span class="cl-tick" aria-hidden="true"></span></td></tr>`).join('')}</tbody>
+    </table>
+    <h2>Before you apply</h2>
+    <ul class="cl-notes">
+      ${d.requirements.map(r => `<li><b>${esc(r[0])}:</b> ${esc(r[1])}</li>`).join('')}
+      <li>Requirements differ by university and program. A counsellor confirms the exact list for your shortlist.</li>
+      <li>Work rights, family accompaniment and visa rules are set by the government and change often.</li>
+    </ul>
+    <footer class="cl-foot">
+      <span><b>EduRise Global</b> · ${esc(SITE.address)}</span>
+      <span class="tnum">${esc(SITE.phone)} · WhatsApp · ${esc(SITE.email)}</span>
+    </footer>`;
+  $('#clPrint').addEventListener('click', () => window.print());
 }

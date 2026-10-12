@@ -6,6 +6,16 @@
 <title>Contact Us | EduRise Global</title>
 <meta name="description" content="Book a free study abroad consultation with EduRise Global in Dhaka. Call, WhatsApp or send a message.">
 <meta name="theme-color" content="#0E1F3C">
+<link rel="canonical" href="https://eduriseglobal.com/contact.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EduRise Global">
+<meta property="og:title" content="Contact Us | EduRise Global">
+<meta property="og:description" content="Book a free study abroad consultation with EduRise Global in Dhaka. Call, WhatsApp or send a message.">
+<meta property="og:url" content="https://eduriseglobal.com/contact.html">
+<meta property="og:image" content="https://eduriseglobal.com/assets/img/brand/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="assets/img/brand/logo-mark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,7 +45,7 @@
       <div class="card contact__form">
         <form id="contactForm">
           <h2>Send us a message</h2>
-          <p class="lead">Fields marked * are required. Email is optional, because most families prefer WhatsApp.</p>
+          <p style="margin-top:12px;color:var(--ink-2)">Fields marked * are required. Email is optional, because most families prefer WhatsApp.</p>
           <div class="form-grid">
             <div class="field"><label class="field__label" for="c-name">Full name <span class="req">*</span></label><input class="field__control" id="c-name" name="name" autocomplete="name"><span class="field__error">Enter your full name.</span></div>
             <div class="field"><label class="field__label" for="c-phone">Phone / WhatsApp <span class="req">*</span></label><input class="field__control tnum" id="c-phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="01XXX-XXXXXX"><span class="field__error">Enter a Bangladeshi mobile number, for example 01712-345678.</span></div>
@@ -51,7 +61,7 @@
         </form>
         <div class="success" id="contactSuccess" hidden tabindex="-1" role="status"></div>
       </div>
-      <aside class="contact__aside">
+      <div class="contact__aside">
         <div class="card">
           <h2 class="h3">Reach us directly</h2>
           <div class="contact-line"><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg><div><small>Phone</small><b class="tnum" data-site="phone"></b></div></div>
@@ -60,7 +70,7 @@
           <div class="contact-line"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><div><small>Office hours</small><b id="contactHours"></b><span class="tbc">TBC</span></div></div>
         </div>
         <div class="offices" id="contactOffices" style="grid-template-columns:1fr"></div>
-      </aside>
+      </div>
     </div>
   </section>
 </main>
@@ -76,6 +86,7 @@
 <script src="js/listings.js"></script>
 <script src="js/stories.js"></script>
 <script src="js/premium.js"></script>
+<script src="js/i18n.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
