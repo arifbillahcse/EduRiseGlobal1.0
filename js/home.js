@@ -121,7 +121,7 @@ function renderTeam() {
   $('#teamGrid').innerHTML = Store.list('team').map(p => `<article class="mentor">
       <div class="mentor__cover" aria-hidden="true"></div>
       <div class="mentor__top">
-        <div class="mentor__photo"><img src="${p.photo}" alt="Portrait of ${esc(p.name)}" width="112" height="112" loading="lazy"></div>
+        <div class="mentor__photo"><img src="${p.photo}" alt="Portrait of ${esc(p.name)}" width="80" height="80" loading="lazy"></div>
         <span class="mentor__loc">${icon('pin', 'icon--sm')}${esc(p.location)}</span>
       </div>
       <div class="mentor__body">
