@@ -225,6 +225,10 @@ const BN = {
   'Include one-time fees (application, entrance, visa)': 'এককালীন ফি যোগ করুন (আবেদন, ভর্তি, ভিসা)', 'Estimated total': 'আনুমানিক মোট', 'One-time fees': 'এককালীন ফি',
   'This is an estimate, not a quote.': 'এটি আনুমানিক হিসাব, কোটেশন নয়।', 'Discuss this estimate': 'এই হিসাব নিয়ে কথা বলুন',
   'It does not include flights, visa medicals, insurance or our service charge.': 'এতে বিমান ভাড়া, ভিসা মেডিকেল, বীমা বা আমাদের সার্ভিস চার্জ ধরা নেই।',
+  /* ---------- homepage hero boarding pass ---------- */
+  'Boarding pass': 'বোর্ডিং পাস', 'From': 'যাত্রা', 'To': 'গন্তব্য', 'Dhaka': 'ঢাকা', 'Why go': 'কেন যাবেন',
+  'Seoul': 'সিউল', 'Tokyo': 'টোকিও', 'London': 'লন্ডন', 'Valletta': 'ভ্যালেটা', 'Rome': 'রোম',
+  'On WhatsApp or in Dhaka': 'হোয়াটসঅ্যাপে বা ঢাকায়', 'Visa support': 'ভিসা সহায়তা', 'Documents to departure': 'কাগজপত্র থেকে যাত্রা পর্যন্ত',
   /* ---------- 404 and accessibility labels (Phase 8) ---------- */
   'Contact and language': 'যোগাযোগ ও ভাষা', 'Latest news': 'সাম্প্রতিক খবর',
   'Error 404': 'ত্রুটি ৪০৪', 'We could not find that page': 'পেজটি খুঁজে পাওয়া যায়নি',
@@ -236,6 +240,7 @@ const BN = {
    numbers are shown in Bangla digits; captured names are translated if BN has them */
 const BN_PATTERNS = [
   [/^Open · (\d+) days left$/, 'খোলা · $1 দিন বাকি'],
+  [/^(\d+) application windows? open now$/, 'এখন $1টি আবেদন চলছে'],
   [/^Opens in (\d+) days$/, '$1 দিন পর শুরু'],
   [/^(\d+) results?$/, '$1টি ফলাফল'],
   [/^(\d+) programs?$/, '$1টি প্রোগ্রাম'],

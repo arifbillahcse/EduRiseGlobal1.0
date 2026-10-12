@@ -34,10 +34,14 @@
 <main id="main">
   <!-- ---------- HERO ---------- -->
   <section class="hero" id="home" aria-labelledby="heroTitle">
-    <svg class="hero__route" viewBox="0 0 680 380" fill="none" aria-hidden="true"><path d="M10 360 C 190 70, 480 10, 670 130" stroke="currentColor" stroke-width="2" stroke-dasharray="2 11" stroke-linecap="round"/><circle cx="10" cy="360" r="5" fill="currentColor"/><circle cx="670" cy="130" r="5" fill="currentColor"/></svg>
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__grid"></div>
+      <div class="hero__orb hero__orb--a"></div><div class="hero__orb hero__orb--b"></div><div class="hero__orb hero__orb--c"></div>
+      <svg class="hero__arcs" viewBox="0 0 1440 720" preserveAspectRatio="xMidYMid slice"><path d="M-40 640 C 300 300, 760 120, 1480 170"/><path d="M180 760 C 520 420, 980 300, 1480 420"/><path d="M-60 300 C 360 60, 900 -20, 1500 60"/><circle cx="1180" cy="168" r="4"/><circle cx="1290" cy="355" r="3"/></svg>
+    </div>
     <div class="container hero__inner">
-      <div>
-        <span class="eyebrow eyebrow--sun">International Education &amp; Career Consultancy</span>
+      <div class="hero__copy">
+        <a class="hero__pill" href="#intakes" id="heroLive"><span class="hero__pulse" aria-hidden="true"></span><span id="heroLiveText">International Education &amp; Career Consultancy</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
         <h1 class="hero__title" id="heroTitle">Study abroad with advice from people who have <em>done it themselves.</em></h1>
         <p class="hero__lead">EduRise Global helps Bangladeshi students choose the right country, university and program for their results, goals and budget, from the first counselling session to pre-departure.</p>
         <div class="hero__ctas">
@@ -48,6 +52,9 @@
       </div>
 
       <div class="destcards" id="destCards" aria-label="Study destinations">
+        <svg class="destcards__globe" viewBox="0 0 200 200" fill="none" stroke="currentColor" aria-hidden="true"><g><circle cx="100" cy="100" r="96" stroke-dasharray="1 4"/><circle cx="100" cy="100" r="78"/><ellipse cx="100" cy="100" rx="78" ry="30"/><ellipse cx="100" cy="100" rx="30" ry="78"/><ellipse cx="100" cy="100" rx="58" ry="78"/><path d="M22 100h156M100 22v156"/></g></svg>
+        <div class="hero__float hero__float--a" aria-hidden="true"><i><svg class="icon"><use href="#i-whatsapp"></use></svg></i><span><b>Free consultation</b><small>On WhatsApp or in Dhaka</small></span></div>
+        <div class="hero__float hero__float--b" aria-hidden="true"><i><svg class="icon"><use href="#i-passport"></use></svg></i><span><b>Visa support</b><small>Documents to departure</small></span></div>
         <div class="destcards__stack" id="destStack"></div>
         <div class="destcards__tabs" id="destTabs" role="tablist" aria-label="Choose a destination"></div>
         <p class="destcards__more" id="destMore"></p>

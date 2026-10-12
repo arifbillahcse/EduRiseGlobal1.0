@@ -2,14 +2,26 @@
    home.js — homepage sections (Phase 3). Content comes from data.js.
    ===================================================================== */
 
-/* ---------- hero: trust points ---------- */
+/* ---------- hero: trust points (the middle tile shows the leaders' photos) ---------- */
 function renderTrust() {
+  const visual = [
+    `<span class="trust__icon">${icon('globe')}</span>`,
+    `<span class="trust__faces">${TEAM.map(t => `<img src="${t.photo}" alt="" width="34" height="34" loading="lazy">`).join('')}</span>`,
+    `<span class="trust__icon">${icon('plane')}</span>`
+  ];
   $('#heroTrust').innerHTML = TRUST_POINTS
-    .map(t => `<li><b>${esc(t.title)}</b>${esc(t.text)}</li>`).join('');
+    .map((t, i) => `<li>${visual[i] || ''}<span><b>${esc(t.title)}</b>${esc(t.text)}</span></li>`).join('');
 }
 
-/* ---------- hero: stacked destination cards ----------
-   Tabs bring a card to the front. Cards rotate every 6 s unless the
+/* ---------- hero: live pill — how many application windows are open today ---------- */
+function renderHeroLive() {
+  const el = $('#heroLiveText'); if (!el) return;
+  const open = Store.list('intakes').filter(i => ['open', 'closing'].includes(windowStatus(i).state)).length;
+  if (open) el.textContent = `${open} application ${open === 1 ? 'window' : 'windows'} open now`;
+}
+
+/* ---------- hero: stacked boarding passes ----------
+   Tabs bring a pass to the front. Passes rotate every 6 s unless the
    visitor hovers, focuses or prefers reduced motion. */
 const DestCards = (() => {
   let current = 0, timer = null;
@@ -18,17 +30,24 @@ const DestCards = (() => {
 
   function cardHTML(d, i) {
     return `<article class="postcard" data-index="${i}" aria-hidden="true">
-      <div class="postcard__band"><span>${icon('plane')}Study destination</span><span>${i + 1} / ${total}</span></div>
+      <div class="postcard__band"><span>${icon('plane')}EduRise Global</span><span>Boarding pass</span></div>
       <div class="postcard__body">
-        <div class="postcard__route"><span>DAC</span><i></i>${icon('plane', 'icon--sm')}<i></i><span>${d.code}</span></div>
-        <div class="postcard__code" aria-hidden="true">${d.code}</div>
-        <h2 class="postcard__country">${esc(d.country)}</h2>
-        <p class="postcard__programs">${esc(d.programs)}</p>
-        <p class="postcard__note">${esc(d.note)}</p>
-        <div class="postcard__foot">
-          <a class="link-arrow" href="destination.html#${d.id}" tabindex="-1">Explore ${esc(d.country)}${icon('arrow')}</a>
-          <span class="postcard__count">${esc(d.city)}</span>
+        <div class="postcard__route">
+          <div class="postcard__end"><small>From</small><b>DAC</b><span>Dhaka</span></div>
+          <div class="postcard__path" aria-hidden="true"><span class="postcard__plane">${icon('plane')}</span></div>
+          <div class="postcard__end postcard__end--to"><small>To</small><b>${d.code}</b><span>${esc(d.city)}</span></div>
         </div>
+        <h2 class="postcard__country">${esc(d.country)}</h2>
+        <dl class="postcard__fields">
+          <div><dt>Study level</dt><dd>${esc(d.programs)}</dd></div>
+          <div><dt>Why go</dt><dd>${esc(d.note)}</dd></div>
+        </dl>
+      </div>
+      <div class="postcard__tear" aria-hidden="true"></div>
+      <div class="postcard__stub">
+        <span class="postcard__barcode" aria-hidden="true"></span>
+        <a class="link-arrow" href="destination.html#${d.id}" tabindex="-1">Explore ${esc(d.country)}${icon('arrow')}</a>
+        <span class="postcard__count tnum">${i + 1} / ${total}</span>
       </div>
     </article>`;
   }
@@ -120,6 +139,7 @@ function renderCommitment() {
 
 function initHome() {
   renderTrust();
+  renderHeroLive();
   DestCards.init();
   renderServices();
   renderProcess();
