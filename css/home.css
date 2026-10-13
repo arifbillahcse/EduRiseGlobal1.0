@@ -206,7 +206,7 @@ html[lang="bn"] .mentor__loc{letter-spacing:0;font-family:var(--font-body)}
 .dpanel__face:focus-visible{outline:3px solid var(--sun);outline-offset:-5px;border-radius:22px}
 .dpanel__flag{display:block;width:40px;height:27px;overflow:hidden;border-radius:6px;box-shadow:0 0 0 2px rgba(255,255,255,.85),0 6px 14px -4px rgba(0,0,0,.5)}
 .dpanel__flagsvg{display:block;width:100%;height:100%}
-.dpanel__vname{writing-mode:vertical-rl;transform:rotate(180deg);font:700 21px/1 var(--font-display);letter-spacing:.02em;white-space:nowrap}
+.dpanel__vname{writing-mode:vertical-rl;transform:rotate(180deg);font:700 21px/1 var(--font-display);letter-spacing:.02em;white-space:nowrap;text-shadow:0 2px 14px rgba(0,0,0,.5)}
 .dpanel__code{font:700 13px/1 var(--font-mono);letter-spacing:.1em;color:rgba(255,255,255,.75)}
 .dpanel__live{position:absolute;top:58px;left:50%;transform:translateX(-50%);display:grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#4BE08F;color:#06301A;font:700 11px/1 var(--font-body)}
 .dpanel__face > *{transition:opacity .25s}
@@ -240,6 +240,20 @@ html[lang="bn"] .mentor__loc{letter-spacing:0;font-family:var(--font-body)}
 .dpanel__ask:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
 .dpanel__ask .icon{width:16px;height:16px}
 
+/* real photos (DEST_PHOTOS): full-height, flag-colour tint when closed, fading into the text when open */
+.dpanel__photo{position:absolute;inset:0;z-index:-1;width:100%;height:100%;object-fit:cover;transform:scale(1.06);transition:transform 1.2s var(--ease)}
+.dpanel.is-open .dpanel__photo{transform:scale(1)}
+.dpanel__tint{position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 55%,transparent) 0%,color-mix(in srgb,var(--bg) 80%,transparent) 60%,var(--bg) 100%);transition:background .5s}
+.dpanel:not(.has-photo) .dpanel__tint{display:none}
+.dpanel.has-photo::after{display:none}
+.dpanel.has-photo .dpanel__scene{display:none}
+.dpanel.has-photo.is-open .dpanel__tint{background:linear-gradient(180deg,transparent 0%,color-mix(in srgb,var(--bg) 10%,transparent) 22%,color-mix(in srgb,var(--bg) 88%,transparent) 46%,var(--bg) 62%)}
+.dpanel.has-photo .dpanel__code-bg{display:none}
+.dpanel__credit{font-size:11px;color:rgba(255,255,255,.72)}
+.dpanel__credit a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.dpanel__credit a:hover{color:#fff}
+
 /* tablets and phones: vertical accordion */
 @media (max-width:1024px){
   .dpanels{flex-direction:column;height:auto;gap:8px}
@@ -255,6 +269,7 @@ html[lang="bn"] .mentor__loc{letter-spacing:0;font-family:var(--font-body)}
   .dpanel__body{top:232px;min-width:0;padding:16px 20px 20px}
   .dpanel__name{font-size:26px}
 }
+@media (max-width:1024px){.dpanel.has-photo:not(.is-open) .dpanel__tint{background:linear-gradient(90deg,var(--bg) 0%,var(--bg) 45%,color-mix(in srgb,var(--bg) 35%,transparent) 100%)}.dpanel.has-photo.is-open .dpanel__tint{background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 30%,transparent) 0%,transparent 12%,color-mix(in srgb,var(--bg) 88%,transparent) 42%,var(--bg) 52%)}}
 @media (max-width:560px){.dpanel.is-open{height:600px}.dpanel__scene{height:210px}.dpanel__body{top:192px}.dpanel__stats{gap:20px}.dpanel__code-bg{font-size:90px}}
 @media (prefers-reduced-motion:reduce){.dpanel,.dpanel__body,.dpanel__scene,.dpanel__face > *{transition:none}}
 

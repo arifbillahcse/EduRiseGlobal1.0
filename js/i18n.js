@@ -226,6 +226,7 @@ const BN = {
   'This is an estimate, not a quote.': 'এটি আনুমানিক হিসাব, কোটেশন নয়।', 'Discuss this estimate': 'এই হিসাব নিয়ে কথা বলুন',
   'It does not include flights, visa medicals, insurance or our service charge.': 'এতে বিমান ভাড়া, ভিসা মেডিকেল, বীমা বা আমাদের সার্ভিস চার্জ ধরা নেই।',
   /* ---------- destinations route map ---------- */
+  'Photo:': 'ছবি:', ', Wikimedia Commons': ', উইকিমিডিয়া কমন্স',
   'Routes from Dhaka': 'ঢাকা থেকে রুট', 'Open intakes': 'চলমান ইনটেক', 'Scholarship offers': 'স্কলারশিপ অফার', 'Ask us': 'জিজ্ঞাসা করুন',
   'Fully funded scholarship places for Master’s programs at Russian universities, with English-taught options.': 'রাশিয়ার বিশ্ববিদ্যালয়ে স্নাতকোত্তর প্রোগ্রামে সম্পূর্ণ ফান্ডেড স্কলারশিপ আসন, ইংরেজি মাধ্যমের সুযোগসহ।',
   'English-taught Bachelor’s and Master’s programs in one of Europe’s strongest education systems.': 'ইউরোপের অন্যতম শক্তিশালী শিক্ষাব্যবস্থায় ইংরেজি মাধ্যমে স্নাতক ও স্নাতকোত্তর প্রোগ্রাম।',

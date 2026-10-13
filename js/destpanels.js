@@ -48,8 +48,11 @@ const DestPanels = (() => {
   function panelHTML(d, i) {
     const [bg, accent] = TONE[d.id] || ['#14254A', '#2F5CCB'];
     const open = openIntakes(d.id), offers = offersFor(d.id);
-    return `<li class="dpanel" style="--bg:${bg};--accent:${accent}" data-i="${i}">
-      <span class="dpanel__scene" aria-hidden="true" style="--sky-a:${Landmarks.sky(d.id)[0]};--sky-b:${Landmarks.sky(d.id)[1]}">${d.photo ? `<img src="${d.photo}" alt="" loading="lazy">` : Landmarks.sceneSVG(d.id)}</span>
+    const ph = (typeof DEST_PHOTOS !== 'undefined' && DEST_PHOTOS[d.id]) || null;
+    return `<li class="dpanel${ph ? ' has-photo' : ''}" style="--bg:${bg};--accent:${accent}" data-i="${i}">
+      ${ph ? `<img class="dpanel__photo" src="${ph.src}" alt="${esc(ph.alt)}" width="1280" height="853" loading="${i < 3 ? 'eager' : 'lazy'}" decoding="async" referrerpolicy="no-referrer" style="object-position:${ph.pos}">` : ''}
+      <span class="dpanel__tint" aria-hidden="true"></span>
+      <span class="dpanel__scene" aria-hidden="true" style="--sky-a:${Landmarks.sky(d.id)[0]};--sky-b:${Landmarks.sky(d.id)[1]}">${Landmarks.sceneSVG(d.id)}</span>
       <span class="dpanel__code-bg" aria-hidden="true">${d.code}</span>
       <button type="button" class="dpanel__face" id="dp-btn-${d.id}" aria-expanded="false" aria-controls="dp-body-${d.id}">
         <span class="dpanel__flag">${flagSVG(d.id)}</span>
@@ -66,6 +69,7 @@ const DestPanels = (() => {
           <div><dt>Open intakes</dt><dd class="tnum">${open}</dd></div>
           <div><dt>Scholarship offers</dt><dd class="tnum">${offers}</dd></div>
         </dl>
+        ${ph ? `<small class="dpanel__credit">Photo: <a href="${ph.page}" target="_blank" rel="noopener">${esc(ph.by)}</a>, <a href="${ph.licenseUrl}" target="_blank" rel="noopener license">${esc(ph.license)}</a>, Wikimedia Commons</small>` : ''}
         <div class="dpanel__actions">
           <a class="btn btn--sun btn--sm" href="destination.html#${d.id}">Explore ${esc(d.name)}${icon('arrow')}</a>
           <button type="button" class="dpanel__ask" data-enquire="${esc('Studying in ' + d.name)}">${icon('whatsapp')}Ask us</button>
@@ -91,6 +95,11 @@ const DestPanels = (() => {
     const box = $('#destPanels'); if (!box) return;
     panels = Store.list('destinations');
     box.innerHTML = panels.map(panelHTML).join('');
+    // a photo that fails to load is removed, and the panel shows its drawn landmark instead
+    $$('.dpanel__photo', box).forEach(img => {
+      const fail = () => { const li = img.closest('.dpanel'); li.classList.remove('has-photo'); li.querySelector('.dpanel__credit')?.remove(); img.remove(); };
+      if (img.complete && img.naturalWidth === 0 && img.src) fail(); else img.addEventListener('error', fail, { once: true });
+    });
     const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     $$('.dpanel').forEach((li, i) => {
       const face = $('.dpanel__face', li);

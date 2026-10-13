@@ -173,6 +173,29 @@ const TEAM = [
     tags: ['ACCA qualified', 'Business owner in the UK'] }
 ];
 
+/* destination photos (homepage panels): Wikimedia Commons, free licences, credited on the card.
+   Direct thumbnail links (upload.wikimedia.org). Malta has no verified photo yet and uses its drawing.
+   Note: Commons marks Italian monuments (the Colosseum) as needing ministry permission for commercial
+   use under Italy's Cultural Heritage Code; confirm or replace before using the photo in advertising. */
+const DEST_PHOTOS = {
+  korea: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Gyeonghoeru_%28Royal_Banquet_Hall%29_at_Gyeongbokgung_Palace%2C_Seoul.jpg/1280px-Gyeonghoeru_%28Royal_Banquet_Hall%29_at_Gyeongbokgung_Palace%2C_Seoul.jpg',
+    alt: "Gyeonghoeru Pavilion at Gyeongbokgung Palace in Seoul, beside its lotus pond", by: 'Frank Schulenburg', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/', page: 'https://commons.wikimedia.org/wiki/File:Gyeonghoeru_%28Royal_Banquet_Hall%29_at_Gyeongbokgung_Palace%2C_Seoul.jpg', pos: '50% 50%' },
+  japan: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Arakurayama_Sengen_Park_-_Japan.jpg/1280px-Arakurayama_Sengen_Park_-_Japan.jpg',
+    alt: "Mount Fuji seen from Arakurayama Sengen Park in Fujiyoshida, Japan", by: 'Otto Domes', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/', page: 'https://commons.wikimedia.org/wiki/File:Arakurayama_Sengen_Park_-_Japan.jpg', pos: '50% 40%' },
+  uk: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Palace_of_Westminster%2C_London_-_Feb_2007.jpg/1280px-Palace_of_Westminster%2C_London_-_Feb_2007.jpg',
+    alt: "The Palace of Westminster and Big Ben beside the River Thames at night, London", by: 'Diliff', license: 'CC BY-SA 2.5', licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.5/', page: 'https://commons.wikimedia.org/wiki/File:Palace_of_Westminster%2C_London_-_Feb_2007.jpg', pos: '82% 50%' },
+  italy: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Colosseum-exterior-2007.JPG/1280px-Colosseum-exterior-2007.JPG',
+    alt: "The Colosseum in Rome, Italy", by: 'Paul Zangaro', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/', page: 'https://commons.wikimedia.org/wiki/File:Colosseum-exterior-2007.JPG', pos: '50% 50%' },
+  russia: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Basil-cathedral-morning.jpg/960px-Basil-cathedral-morning.jpg',
+    alt: "Saint Basil's Cathedral on Red Square, Moscow, in the early morning", by: 'A.Savin', license: 'Free Art License', licenseUrl: 'https://artlibre.org/licence/lal/en/', page: 'https://commons.wikimedia.org/wiki/File:Basil-cathedral-morning.jpg', pos: '50% 35%' },
+  finland: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Helsinki_July_2013-27a.jpg/1280px-Helsinki_July_2013-27a.jpg',
+    alt: "Helsinki Cathedral above Senate Square, Helsinki, Finland", by: 'Alvesgaspar', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/', page: 'https://commons.wikimedia.org/wiki/File:Helsinki_July_2013-27a.jpg', pos: '50% 45%' },
+  malaysia: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Petronas_Panorama_II.jpg/960px-Petronas_Panorama_II.jpg',
+    alt: "The Petronas Twin Towers lit up at night, Kuala Lumpur", by: 'Someformofhuman', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/', page: 'https://commons.wikimedia.org/wiki/File:Petronas_Panorama_II.jpg', pos: '50% 30%' },
+  china: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/20090529_Great_Wall_8185.jpg/1280px-20090529_Great_Wall_8185.jpg',
+    alt: "The Great Wall of China near Jinshanling", by: 'Jakub Hałun', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/', page: 'https://commons.wikimedia.org/wiki/File:20090529_Great_Wall_8185.jpg', pos: '50% 50%' }
+};
+
 /* homepage "Why choose us" (DOCX §4.1) — every point comes from the PDF company profile */
 const WHY_CHOOSE = [
   { icon: 'check',    title: 'Honest, realistic advice',        text: 'We tell you what is possible for your profile, including when a plan is not a good fit.' },

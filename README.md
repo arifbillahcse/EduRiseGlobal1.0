@@ -59,6 +59,24 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 - **Checklist downloads:** each country guide links to `checklist.html#id`, a clean A4 page built from `BASE_DOCUMENTS` plus the country's `extraDocs` (`documentsFor()` merges them). "Print or save as PDF" uses the browser's print dialog, so no PDF files need to be kept up to date.
 - Styles: `tokens.css` (design tokens), `base.css`, `components.css` (shared pieces), `layout.css` (header/footer), `home.css`, `pages.css`, `listings.css`, `stories.css`, `premium.css`, `admin.css`, `checklist.css` (print).
 
+## Photo credits (homepage destination panels)
+
+Hotlinked from Wikimedia Commons (`DEST_PHOTOS` in `js/data.js`). Each card shows its credit, as the licences require. If a photo fails to load, the panel shows its drawn landmark instead.
+
+| Country | Landmark | Photographer | Licence | Commons file |
+|---|---|---|---|---|
+| South Korea | Gyeonghoeru, Gyeongbokgung Palace | Frank Schulenburg | CC BY-SA 4.0 | [Gyeonghoeru (Royal Banquet Hall) at Gyeongbokgung Palace, Seoul.jpg](https://commons.wikimedia.org/wiki/File:Gyeonghoeru_%28Royal_Banquet_Hall%29_at_Gyeongbokgung_Palace%2C_Seoul.jpg) |
+| Japan | Mount Fuji from Arakurayama Sengen Park | Otto Domes | CC BY-SA 4.0 | [Arakurayama Sengen Park - Japan.jpg](https://commons.wikimedia.org/wiki/File:Arakurayama_Sengen_Park_-_Japan.jpg) |
+| United Kingdom | Palace of Westminster | Diliff | CC BY-SA 2.5 | [Palace of Westminster, London - Feb 2007.jpg](https://commons.wikimedia.org/wiki/File:Palace_of_Westminster%2C_London_-_Feb_2007.jpg) |
+| Italy | Colosseum | Paul Zangaro | CC BY-SA 3.0 (see note) | [Colosseum-exterior-2007.JPG](https://commons.wikimedia.org/wiki/File:Colosseum-exterior-2007.JPG) |
+| Russia | Saint Basil's Cathedral | A.Savin | Free Art License | [Basil-cathedral-morning.jpg](https://commons.wikimedia.org/wiki/File:Basil-cathedral-morning.jpg) |
+| Finland | Helsinki Cathedral | Alvesgaspar | CC BY-SA 3.0 | [Helsinki July 2013-27a.jpg](https://commons.wikimedia.org/wiki/File:Helsinki_July_2013-27a.jpg) |
+| Malaysia | Petronas Twin Towers | Someformofhuman | CC BY-SA 4.0 | [Petronas Panorama II.jpg](https://commons.wikimedia.org/wiki/File:Petronas_Panorama_II.jpg) |
+| China | Great Wall at Jinshanling | Jakub Hałun | CC BY-SA 3.0 | [20090529 Great Wall 8185.jpg](https://commons.wikimedia.org/wiki/File:20090529_Great_Wall_8185.jpg) |
+| Malta | (drawing) | – | – | No photo with a confirmed licence yet: add one to `DEST_PHOTOS.malta` |
+
+Notes: Commons marks photos of Italian monuments (the Colosseum) as needing permission from Italy's Ministry of Culture for commercial use. Confirm, or swap in another Italy photo, before using it in advertising. For the live site, consider downloading these files into `assets/img/destinations/` (same credits) instead of hotlinking.
+
 ## Phase 1 files
 
 ```
