@@ -118,12 +118,12 @@ const BASE_DOCUMENTS = ['Valid passport', 'SSC and HSC certificates and transcri
 /* =====================================================================
    HOMEPAGE (Phase 3)
    ===================================================================== */
-const HERO_DESTINATIONS = ['korea', 'japan', 'uk', 'malta', 'italy'].map(id => {
-  const notes = { korea: 'Our largest route, with English-score scholarships', japan: 'Selected programs without IELTS', uk: 'Partnerships managed by our UK team', malta: 'English-speaking EU country', italy: 'Public universities with low tuition' };
+const HERO_DESTINATIONS = ['korea', 'japan', 'uk', 'finland', 'italy'].map(id => {
+  const notes = { korea: 'Our largest route, with English-score scholarships', japan: 'Selected programs without IELTS', uk: 'Partnerships managed by our UK team', finland: 'English-taught programs in the EU', italy: 'Public universities with low tuition' };
   const d = DESTINATIONS.find(x => x.id === id);
   return { id, code: d.code, country: d.name, city: d.city, programs: d.levels.join(' · '), note: notes[id] };
 });
-const HERO_MORE_DESTINATIONS = 'Russia, Finland, Malaysia, China and more';
+const HERO_MORE_DESTINATIONS = 'Malta, Russia, Malaysia, China and more';
 
 const TRUST_POINTS = [
   { title: '3 countries',      text: 'Teams in Bangladesh, Spain and the United Kingdom' },
@@ -176,7 +176,7 @@ const TEAM = [
 
 /* destination photos (hero, homepage panels, destination cards): Wikimedia Commons, free licences,
    credited on policies.html#photo-credits (linked from the footer).
-   Direct thumbnail links (upload.wikimedia.org). Malta has no verified photo yet and uses its drawing.
+   Direct thumbnail links (upload.wikimedia.org).
    Note: Commons marks Italian monuments (the Colosseum) as needing ministry permission for commercial
    use under Italy's Cultural Heritage Code; confirm or replace before using the photo in advertising. */
 const DEST_PHOTOS = {
@@ -194,6 +194,8 @@ const DEST_PHOTOS = {
     alt: "Helsinki Cathedral above Senate Square, Helsinki, Finland", by: 'Alvesgaspar', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/', page: 'https://commons.wikimedia.org/wiki/File:Helsinki_July_2013-27a.jpg', pos: '50% 45%' },
   malaysia: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Petronas_Panorama_II.jpg/960px-Petronas_Panorama_II.jpg',
     alt: "The Petronas Twin Towers lit up at night, Kuala Lumpur", by: 'Someformofhuman', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/', page: 'https://commons.wikimedia.org/wiki/File:Petronas_Panorama_II.jpg', pos: '50% 30%' },
+  malta: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Our_Lady_of_Mount_Carmel_and_St_Pauls_Pro-Cathedral.jpg/1280px-Our_Lady_of_Mount_Carmel_and_St_Pauls_Pro-Cathedral.jpg',
+    alt: "Valletta skyline with the Carmelite Basilica dome and St Paul's Pro-Cathedral spire, Malta", by: 'Tony Zelenoff', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/', page: 'https://commons.wikimedia.org/wiki/File:Our_Lady_of_Mount_Carmel_and_St_Pauls_Pro-Cathedral.jpg', pos: '50% 50%' },
   china: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/20090529_Great_Wall_8185.jpg/1280px-20090529_Great_Wall_8185.jpg',
     alt: "The Great Wall of China near Jinshanling", by: 'Jakub Hałun', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/', page: 'https://commons.wikimedia.org/wiki/File:20090529_Great_Wall_8185.jpg', pos: '50% 50%' }
 };

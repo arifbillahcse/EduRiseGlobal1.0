@@ -73,7 +73,7 @@ Hotlinked from Wikimedia Commons (`DEST_PHOTOS` in `js/data.js`). The licences r
 | Finland | Helsinki Cathedral | Alvesgaspar | CC BY-SA 3.0 | [Helsinki July 2013-27a.jpg](https://commons.wikimedia.org/wiki/File:Helsinki_July_2013-27a.jpg) |
 | Malaysia | Petronas Twin Towers | Someformofhuman | CC BY-SA 4.0 | [Petronas Panorama II.jpg](https://commons.wikimedia.org/wiki/File:Petronas_Panorama_II.jpg) |
 | China | Great Wall at Jinshanling | Jakub Hałun | CC BY-SA 3.0 | [20090529 Great Wall 8185.jpg](https://commons.wikimedia.org/wiki/File:20090529_Great_Wall_8185.jpg) |
-| Malta | (drawing) | – | – | No photo with a confirmed licence yet: add one to `DEST_PHOTOS.malta` |
+| Malta | Valletta skyline (Carmelite Basilica, St Paul's Pro-Cathedral) | Tony Zelenoff | CC BY-SA 4.0 | [Our Lady of Mount Carmel and St Pauls Pro-Cathedral.jpg](https://commons.wikimedia.org/wiki/File:Our_Lady_of_Mount_Carmel_and_St_Pauls_Pro-Cathedral.jpg) |
 
 Notes: Commons marks photos of Italian monuments (the Colosseum) as needing permission from Italy's Ministry of Culture for commercial use. Confirm, or swap in another Italy photo, before using it in advertising. For the live site, consider downloading these files into `assets/img/destinations/` (same credits) instead of hotlinking.
 
