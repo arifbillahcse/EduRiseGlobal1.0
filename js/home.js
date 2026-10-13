@@ -2,6 +2,15 @@
    home.js — homepage sections (Phase 3). Content comes from data.js.
    ===================================================================== */
 
+/* ---------- hero: icon strip along the bottom ---------- */
+function renderHeroStats() {
+  const box = $('#heroStats'); if (!box) return;
+  box.innerHTML = HERO_STATS.map(x => `<li>
+      <span class="hero__stat-icon">${icon(x.icon)}</span>
+      <span><b>${esc(x.title)}${x.tbc ? ' <span class="tbc">TBC</span>' : ''}</b><small>${esc(x.text)}</small></span>
+    </li>`).join('');
+}
+
 /* ---------- hero: live pill — how many application windows are open today ---------- */
 function renderHeroLive() {
   const el = $('#heroLiveText'); if (!el) return;
@@ -229,6 +238,7 @@ function initHomeContact() {
 
 function initHome() {
   renderHeroLive();
+  renderHeroStats();
   DestCards.init();
   renderServices();
   renderProcess();

@@ -272,6 +272,7 @@ const BN = {
   'Dhaka, Bijoy Nagar': 'ঢাকা, বিজয়নগর', 'Dhaka, Purana Paltan': 'ঢাকা, পুরানা পল্টন', 'Madrid': 'মাদ্রিদ', 'Suffolk': 'সাফোক',
   /* ---------- homepage hero boarding pass ---------- */
   'Read full story': 'পুরো গল্প পড়ুন',
+  'Successful students': 'সফল শিক্ষার্থী', 'Partnered with': 'অংশীদারিত্ব', 'Top universities': 'শীর্ষ বিশ্ববিদ্যালয়ের সাথে', 'Visa guidance': 'ভিসা নির্দেশনা', '& support': 'ও সহায়তা', 'Expert counsellors': 'অভিজ্ঞ কাউন্সেলর', 'You can trust': 'যাঁদের ওপর ভরসা করা যায়', 'Why students choose EduRise': 'শিক্ষার্থীরা কেন EduRise বেছে নেয়',
   'Boarding pass': 'বোর্ডিং পাস', 'From': 'যাত্রা', 'To': 'গন্তব্য', 'Dhaka': 'ঢাকা', 'Why go': 'কেন যাবেন',
   'Seoul': 'সিউল', 'Tokyo': 'টোকিও', 'London': 'লন্ডন', 'Valletta': 'ভ্যালেটা', 'Rome': 'রোম',
   'On WhatsApp or in Dhaka': 'হোয়াটসঅ্যাপে বা ঢাকায়', 'Visa support': 'ভিসা সহায়তা', 'Documents to departure': 'কাগজপত্র থেকে যাত্রা পর্যন্ত',

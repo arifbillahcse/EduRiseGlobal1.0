@@ -21,7 +21,7 @@
 @keyframes dash{to{stroke-dashoffset:-600}}
 .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,200,61,.45),transparent)}
 
-.hero__inner{position:relative;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:64px;align-items:center;padding-block:76px 92px}
+.hero__inner{position:relative;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:64px;align-items:center;padding-block:64px 44px}
 .hero__pill{display:inline-flex;align-items:center;gap:10px;margin-bottom:22px;padding:7px 14px 7px 10px;border:1px solid rgba(255,200,61,.35);border-radius:var(--r-pill);
   background:rgba(255,200,61,.08);color:var(--sun);font:600 13px/1.2 var(--font-body);text-decoration:none;backdrop-filter:blur(6px);transition:background-color .15s,border-color .15s}
 .hero__pill:hover{background:rgba(255,200,61,.16);border-color:var(--sun)}
@@ -54,6 +54,20 @@
 .postcard__barcode{width:64px !important}
 .postcard__stub .link-arrow{white-space:nowrap;font-size:14px;min-width:0;overflow:hidden;text-overflow:ellipsis}
 .postcard__count{white-space:nowrap}
+
+/* icon strip along the bottom of the hero */
+.hero__stats-wrap{position:relative;padding-bottom:28px}
+.hero__stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0;padding:18px 8px;list-style:none;border:1px solid rgba(255,255,255,.12);border-radius:18px;
+  background:rgba(9,20,42,.45);backdrop-filter:blur(10px)}
+.hero__stats li{display:flex;align-items:center;gap:14px;min-width:0;padding:4px 20px}
+.hero__stats li + li{border-left:1px solid rgba(255,255,255,.16)}
+.hero__stat-icon{display:grid;place-items:center;flex-shrink:0;width:44px;height:44px;color:#fff}
+.hero__stat-icon .icon{width:32px;height:32px}
+.hero__stats b{display:flex;align-items:center;gap:6px;font:700 17px/1.2 var(--font-display);color:#fff}
+.hero__stats b .tbc{margin:0;color:var(--sun);border-color:var(--sun);background:transparent;font-size:9px}
+.hero__stats small{display:block;margin-top:2px;font-size:13px;color:var(--night-dim)}
+@media (max-width:1024px){.hero__stats{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:14px}.hero__stats li:nth-child(3){border-left:0}}
+@media (max-width:560px){.hero__stats{grid-template-columns:1fr;padding:10px 4px}.hero__stats li{padding:8px 14px}.hero__stats li + li{border-left:0;border-top:1px solid rgba(255,255,255,.12)}}
 
 /* full-bleed destination photo behind the hero (follows the front boarding pass) */
 .hero__photos{position:absolute;inset:0;overflow:hidden}

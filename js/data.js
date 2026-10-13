@@ -123,6 +123,13 @@ const HERO_DESTINATIONS = ['korea', 'japan', 'uk', 'finland', 'italy'].map(id =>
   const d = DESTINATIONS.find(x => x.id === id);
   return { id, code: d.code, country: d.name, city: d.city, programs: d.levels.join(' · '), note: notes[id] };
 });
+/* strip under the hero (client request). tbc: figure/claim still to be evidenced (DOCX §11) */
+const HERO_STATS = [
+  { icon: 'cap',    title: '1000+',              text: 'Successful students', tbc: true },
+  { icon: 'bank',   title: 'Partnered with',     text: 'Top universities',    tbc: true },
+  { icon: 'shield', title: 'Visa guidance',      text: '& support' },
+  { icon: 'users',  title: 'Expert counsellors', text: 'You can trust' }
+];
 const HERO_MORE_DESTINATIONS = 'Malta, Russia, Malaysia, China and more';
 
 const TRUST_POINTS = [
