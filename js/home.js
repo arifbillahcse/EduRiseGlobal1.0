@@ -66,12 +66,32 @@ const DestCards = (() => {
       tab.setAttribute('aria-selected', String(i === current));
       tab.tabIndex = i === current ? 0 : -1;
     });
+    showPhoto(HERO_DESTINATIONS[current].id);
+  }
+
+  /* full-bleed background photo that follows the front card (DEST_PHOTOS, Wikimedia Commons) */
+  function buildPhotos() {
+    const box = $('#heroPhotos'); if (!box || typeof DEST_PHOTOS === 'undefined') return;
+    box.innerHTML = HERO_DESTINATIONS.filter(d => DEST_PHOTOS[d.id]).map((d, i) => {
+      const ph = DEST_PHOTOS[d.id];
+      return `<img class="hero__photo" data-id="${d.id}" src="${ph.src}" alt="" width="1280" height="853" decoding="async"${i === 0 ? ' fetchpriority="high"' : ''} referrerpolicy="no-referrer" style="object-position:${ph.pos}">`;
+    }).join('');
+    $$('.hero__photo', box).forEach(img => img.addEventListener('error', () => { img.remove(); showPhoto(HERO_DESTINATIONS[current].id); }, { once: true }));
+  }
+  function showPhoto(id) {
+    const img = $(`.hero__photo[data-id="${id}"]`), credit = $('#heroCredit'), hero = $('.hero');
+    $$('.hero__photo').forEach(x => x.classList.toggle('is-on', x === img));
+    if (hero) hero.classList.toggle('has-photo', !!img);
+    if (!credit) return;
+    const ph = img && DEST_PHOTOS[id];
+    credit.innerHTML = ph ? `Photo: <a href="${ph.page}" target="_blank" rel="noopener">${esc(ph.by)}</a>, <a href="${ph.licenseUrl}" target="_blank" rel="noopener license">${esc(ph.license)}</a>, Wikimedia Commons` : '';
   }
 
   function start() { if (!reduced) { stop(); timer = setInterval(() => show(current + 1), 6000); } }
   function stop() { clearInterval(timer); timer = null; }
 
   function init() {
+    buildPhotos();
     $('#destStack').innerHTML = HERO_DESTINATIONS.map(cardHTML).join('');
     $('#destTabs').innerHTML = HERO_DESTINATIONS.map((d, i) =>
       `<button type="button" class="destcards__tab" role="tab" aria-label="${esc(d.country)}">${d.code}</button>`).join('');
