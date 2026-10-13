@@ -64,15 +64,17 @@ const DestPanels = (() => {
         <span class="dpanel__city">${icon('pin', 'icon--sm')}<span>${esc(d.city)}</span> · ${d.code}</span>
         <h3 class="dpanel__name">${esc(d.name)}</h3>
         <p class="dpanel__note">${esc(noteFor(d))}</p>
-        <div class="dpanel__levels">${d.levels.map(l => `<span>${esc(l)}</span>`).join('')}</div>
-        <dl class="dpanel__stats">
-          <div><dt>Open intakes</dt><dd class="tnum">${open}</dd></div>
-          <div><dt>Scholarship offers</dt><dd class="tnum">${offers}</dd></div>
-        </dl>
-        ${ph ? `<small class="dpanel__credit">Photo: <a href="${ph.page}" target="_blank" rel="noopener">${esc(ph.by)}</a>, <a href="${ph.licenseUrl}" target="_blank" rel="noopener license">${esc(ph.license)}</a>, Wikimedia Commons</small>` : ''}
+        <div class="dpanel__meta">
+          <div class="dpanel__levels">${d.levels.map(l => `<span>${esc(l)}</span>`).join('')}</div>
+          <dl class="dpanel__stats">
+            <div><dt>Open intakes</dt><dd class="tnum">${open}</dd></div>
+            <div><dt>Scholarship offers</dt><dd class="tnum">${offers}</dd></div>
+          </dl>
+        </div>
         <div class="dpanel__actions">
           <a class="btn btn--sun btn--sm" href="destination.html#${d.id}">Explore ${esc(d.name)}${icon('arrow')}</a>
           <button type="button" class="dpanel__ask" data-enquire="${esc('Studying in ' + d.name)}">${icon('whatsapp')}Ask us</button>
+          ${ph ? `<small class="dpanel__credit">Photo: <a href="${ph.page}" target="_blank" rel="noopener">${esc(ph.by)}</a>, <a href="${ph.licenseUrl}" target="_blank" rel="noopener license">${esc(ph.license)}</a>, Wikimedia Commons</small>` : ''}
         </div>
       </div>
     </li>`;
