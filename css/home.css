@@ -384,17 +384,17 @@ html[lang="bn"] .leader-r__num{letter-spacing:.04em;font-family:var(--font-body)
 @media (max-width:560px){.schl__feature{padding:22px}.schl__facts{grid-template-columns:1fr 1fr}.schl__list li{grid-template-columns:auto minmax(0,1fr) auto;gap:10px}.schl__list li .chip{grid-column:2;justify-self:start}.schl__ask{grid-row:1;grid-column:3}}
 
 /* ---------- contact summary ---------- */
-.contact-sum{position:relative;overflow:hidden;background:var(--night);color:var(--night-fg)}
-.contact-sum::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(600px 300px at 0% 100%,rgba(255,200,61,.10),transparent 60%),radial-gradient(700px 360px at 100% 0%,rgba(47,92,203,.45),transparent 60%)}
+.contact-sum{position:relative;overflow:hidden;background:linear-gradient(135deg,#1D3A72 0%,#24468A 100%);color:var(--night-fg)}   /* a softer blue than the footer's navy so the two don't merge */
+.contact-sum::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(600px 300px at 0% 100%,rgba(255,200,61,.10),transparent 60%),radial-gradient(700px 360px at 100% 0%,rgba(120,160,240,.28),transparent 60%),radial-gradient(circle at 1px 1px,rgba(255,255,255,.07) 1px,transparent 1.5px) 0 0/22px 22px}
 .contact-sum__inner{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
 .contact-sum h2{color:var(--night-fg)}
-.contact-sum__intro > p{margin-top:12px;color:var(--night-dim)}
+.contact-sum__intro > p{margin-top:12px;color:#C9D6EE}
 .contact-sum__list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:28px 0 0;padding:0;list-style:none}
 .contact-sum__list li{display:flex;align-items:center;gap:12px;min-width:0}
-.contact-sum__list li > span{display:grid;place-items:center;flex-shrink:0;width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.08);color:var(--sun)}
+.contact-sum__list li > span{display:grid;place-items:center;flex-shrink:0;width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.14);color:var(--sun)}
 .contact-sum__list .icon{width:20px;height:20px}
 .contact-sum__list div{display:grid;gap:2px;min-width:0}
-.contact-sum__list small{font:600 10.5px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--night-dim)}
+.contact-sum__list small{font:600 10.5px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:#C9D6EE}
 .contact-sum__list a,.contact-sum__list b{font-size:14.5px;font-weight:600;color:var(--night-fg);text-decoration:none;overflow-wrap:break-word}
 .contact-sum__list li:nth-child(n+3){grid-column:1/-1}
 .contact-sum__list a:hover{color:var(--sun)}
