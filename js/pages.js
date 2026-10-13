@@ -26,7 +26,16 @@ function renderProcessInto(id) {
 
 /* shared: destination card */
 function destCardHTML(d) {
+  const ph = (typeof DEST_PHOTOS !== 'undefined' && DEST_PHOTOS[d.id]) || null;
+  const art = typeof Landmarks !== 'undefined';
+  const sky = art ? Landmarks.sky(d.id) : ['#DDE6F5', '#AFC0E6'];
   return `<a class="dest-card" href="destination.html#${d.id}">
+    <span class="dest-card__media" style="--sky-a:${sky[0]};--sky-b:${sky[1]}">
+      ${art ? Landmarks.sceneSVG(d.id) : ''}
+      ${ph ? `<img class="dest-card__img" src="${ph.src}" alt="${esc(ph.alt)}" width="1280" height="853" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="object-position:${ph.pos}" onerror="this.nextElementSibling&&this.nextElementSibling.remove();this.remove()">
+        <small class="dest-card__credit">Photo: ${esc(ph.by)}, ${esc(ph.license)}</small>` : ''}
+      ${art ? `<span class="dest-card__flag">${Landmarks.flagSVG(d.id)}</span>` : ''}
+    </span>
     <span class="dest-card__route">DAC → ${d.code} · ${esc(d.city)}</span>
     <span class="dest-card__code">${d.code}</span>
     <h3 class="dest-card__name">${esc(d.name)}</h3>

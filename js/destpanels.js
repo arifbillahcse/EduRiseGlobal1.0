@@ -11,30 +11,7 @@ const DestPanels = (() => {
     italy: ['#0B4A2E', '#CE2B37'], russia: ['#0E2A66', '#D52B1E'], finland: ['#0A2E66', '#5B8FD9'], malaysia: ['#0A1A5C', '#FFCC00'],
     china: ['#7A0E12', '#FFDE00']
   };
-  const star = (cx, cy, r, n = 5, inner = .382, rot = -90) => {
-    const pts = [];
-    for (let i = 0; i < n * 2; i++) {
-      const a = (rot + i * 180 / n) * Math.PI / 180, rr = i % 2 ? r * inner : r;
-      pts.push((cx + rr * Math.cos(a)).toFixed(2) + ',' + (cy + rr * Math.sin(a)).toFixed(2));
-    }
-    return pts.join(' ');
-  };
-  /* 30 x 20 flags */
-  const FLAGS = {
-    italy: '<rect width="10" height="20" fill="#009246"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#CE2B37"/>',
-    russia: '<rect width="30" height="6.67" fill="#fff"/><rect y="6.67" width="30" height="6.67" fill="#0039A6"/><rect y="13.33" width="30" height="6.67" fill="#D52B1E"/>',
-    japan: '<rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#BC002D"/>',
-    finland: '<rect width="30" height="20" fill="#fff"/><rect x="8" width="5" height="20" fill="#003580"/><rect y="7.5" width="30" height="5" fill="#003580"/>',
-    malta: '<rect width="15" height="20" fill="#fff"/><rect x="15" width="15" height="20" fill="#CF142B"/><rect x="2" y="2" width="4" height="4" fill="#B8B8B8" stroke="#CF142B" stroke-width=".5"/>',
-    china: `<rect width="30" height="20" fill="#DE2910"/><polygon points="${star(5, 5, 3)}" fill="#FFDE00"/>` +
-      [[10, 2], [12, 4], [12, 7], [10, 9]].map(([x, y]) => `<polygon points="${star(x, y, 1, 5, .382, -90 + Math.atan2(5 - y, 5 - x) * 180 / Math.PI)}" fill="#FFDE00"/>`).join(''),
-    korea: '<rect width="30" height="20" fill="#fff"/><g transform="translate(15 10) rotate(33.7)"><path d="M-5 0a5 5 0 0 1 10 0z" fill="#C60C30"/><path d="M-5 0a5 5 0 0 0 10 0z" fill="#003478"/><circle cx="-2.5" r="2.5" fill="#C60C30"/><circle cx="2.5" r="2.5" fill="#003478"/></g>' +
-      [[-1, -1], [1, 1], [1, -1], [-1, 1]].map(([sx, sy]) => `<g transform="translate(${15 + sx * 9.5} ${10 + sy * 6}) rotate(${sx * sy > 0 ? 56.3 : -56.3})"><rect x="-2" y="-1.6" width="4" height=".7" fill="#000"/><rect x="-2" y="-.35" width="4" height=".7" fill="#000"/><rect x="-2" y=".9" width="4" height=".7" fill="#000"/></g>`).join(''),
-    uk: '<clipPath id="fUk1"><path d="M0 0h30v20H0z"/></clipPath><clipPath id="fUk2"><path d="M15 10h15v10zv10H0zH0V0zV0h15z"/></clipPath><g clip-path="url(#fUk1)"><path d="M0 0h30v20H0z" fill="#012169"/><path d="M0 0l30 20M30 0L0 20" stroke="#fff" stroke-width="4"/><path d="M0 0l30 20M30 0L0 20" clip-path="url(#fUk2)" stroke="#C8102E" stroke-width="2.4"/><path d="M15 0v20M0 10h30" stroke="#fff" stroke-width="6.5"/><path d="M15 0v20M0 10h30" stroke="#C8102E" stroke-width="4"/></g>',
-    malaysia: Array.from({ length: 14 }, (_, i) => `<rect y="${(i * 20 / 14).toFixed(3)}" width="30" height="${(20 / 14 + .02).toFixed(3)}" fill="${i % 2 ? '#fff' : '#CC0001'}"/>`).join('') +
-      `<rect width="15" height="11.43" fill="#010066"/><circle cx="5.6" cy="5.7" r="3.8" fill="#FC0"/><circle cx="6.6" cy="5.7" r="3.2" fill="#010066"/><polygon points="${star(10.6, 5.7, 2.8, 14, .45)}" fill="#FC0"/>`
-  };
-  const flagSVG = id => `<svg class="dpanel__flagsvg" viewBox="0 0 30 20" aria-hidden="true" focusable="false">${FLAGS[id] || '<rect width="30" height="20" fill="#9DB8F5"/>'}</svg>`;
+  const flagSVG = id => Landmarks.flagSVG(id, 'dpanel__flagsvg');
 
   const noteFor = d => {
     const h = HERO_DESTINATIONS.find(x => x.id === d.id);
