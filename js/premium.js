@@ -192,72 +192,86 @@ function startCountdown() {
 }
 
 /* ---------- live application board (homepage) ---------- */
-/* split-flap helpers: every character is a tile; on reveal the tiles cycle and settle like an airport board */
-const FLAP_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-const flapTiles = (text, cls = '') => `<span class="flap ${cls}" aria-hidden="true">${[...String(text).toUpperCase()].map(ch =>
-  ch === ' ' ? '<span class="flap__gap"></span>' : `<span class="flap__t" data-ch="${esc(ch)}">${esc(ch)}</span>`).join('')}</span>`;
-/* text field: tiles for the eye (English), real text for screen readers and the Bangla version */
-/* shorter wording on the tiles only (the full text stays for screen readers and Bangla) */
-const FLAP_SHORT = { 'Dates to be announced': 'Dates TBA' };
-const flapField = (text, cls = '') => `<span class="flap-field ${cls}">${flapTiles(FLAP_SHORT[text] || text)}<span class="flap-field__text">${esc(text)}</span></span>`;
-
-function flipIn(root, startDelay = 0) {
-  const tiles = $$('.flap__t', root);
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced) return;
-  tiles.forEach((t, k) => {
-    const final = t.dataset.ch;
-    if (!/[A-Z0-9]/.test(final)) return;
-    let n = 5 + Math.floor(Math.random() * 6);
-    t.textContent = FLAP_CHARS[Math.floor(Math.random() * FLAP_CHARS.length)];
-    setTimeout(function tick() {
-      t.classList.remove('is-flip'); void t.offsetWidth; t.classList.add('is-flip');
-      if (--n <= 0) { t.textContent = final; return; }
-      t.textContent = FLAP_CHARS[Math.floor(Math.random() * FLAP_CHARS.length)];
-      setTimeout(tick, 55);
-    }, startDelay + k * 18);
-  });
+/* ---------- intake calendar (homepage): application windows on a month timeline ----------
+   Bar = application window (coloured by status), gold line = today (Dhaka),
+   plane = month the studies start. Rows without dates show "Dates to be announced". */
+const MONTH_FULL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+function intakeMonth(label) {                         // "March 2027" -> { y, m } (null for "2027", "Next intake", "Fall 2026")
+  const m = /^([A-Za-z]+) (\d{4})$/.exec(label || '');
+  if (!m) return null;
+  const mi = MONTH_FULL.indexOf(m[1]);
+  return mi < 0 ? null : { y: +m[2], m: mi };
 }
+const isoOf = (y, m, d = 1) => `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
 
 function renderBoard() {
-  const el = $('#boardList');
-  if (!el) return;
-  const rows = liveIntakes().slice(0, 6).map(it => {
+  const grid = $('#calGrid');
+  if (!grid) return;
+  const items = liveIntakes().slice(0, 8);
+  const today = todayISO(), [ty, tm] = today.split('-').map(Number);
+  // range: from the start of this month, at least 6 months, far enough for every dated window and study start (max 8)
+  let months = 6;
+  items.forEach(it => {
+    const ends = [it.e, (() => { const im = intakeMonth(it.intake); return im ? isoOf(im.y, im.m) : null; })()].filter(Boolean);
+    ends.forEach(iso => {
+      const [y, m] = iso.split('-').map(Number), need = (y - ty) * 12 + (m - tm) + 1;
+      if (need <= 8) months = Math.max(months, need);   // further-off dates are shown as a tag at the end of the row
+    });
+  });
+  const monthList = Array.from({ length: months }, (_, k) => { const t = tm - 1 + k; return { y: ty + Math.floor(t / 12), m: t % 12 }; });
+  const start = dayNumber(isoOf(ty, tm - 1));
+  const endM = monthList[months - 1], end = dayNumber(isoOf(endM.y + (endM.m === 11 ? 1 : 0), (endM.m + 1) % 12));
+  const pos = iso => Math.max(0, Math.min(100, (dayNumber(iso) - start) / (end - start) * 100));
+  const todayPos = pos(today);
+  const seps = monthList.slice(1).map(mo => `<i class="ical__sep" style="left:${pos(isoOf(mo.y, mo.m)).toFixed(2)}%"></i>`).join('');
+
+  const head = `<div class="ical__head" aria-hidden="true">
+      <span class="ical__head-label">Destination · program</span>
+      <span class="ical__months">${monthList.map(mo => {
+        const l = pos(isoOf(mo.y, mo.m)), r = mo === endM ? 100 : pos(isoOf(mo.y + (mo.m === 11 ? 1 : 0), (mo.m + 1) % 12));
+        return `<span class="ical__month" style="left:${l.toFixed(2)}%;width:${(r - l).toFixed(2)}%">${MONTHS[mo.m]}${mo.m === 0 || mo === monthList[0] ? ` <small>${mo.y}</small>` : ''}</span>`;
+      }).join('')}<span class="ical__today-chip" style="left:${todayPos.toFixed(2)}%">Today</span></span>
+    </div>`;
+
+  const rows = items.map((it, i) => {
     const d = destOf(it.dest), st = windowStatus(it);
     const prog = PROGRAMS.find(p => p.intakes.includes(it.id));
     const href = prog ? `program.html#${prog.id}` : 'universities.html#intakes';
     const [uni, course] = it.title.split(' · ');
-    return `<li><a class="board__row" href="${href}">
-      <span class="board__code">${flapTiles(d.code, 'flap--lg')}<small>${esc(d.name)}</small></span>
-      <span class="board__prog"><b>${esc(uni)}</b><small>${esc(course || it.round)}</small></span>
-      <span class="board__meta">
-        ${flapField(it.intake, 'board__intake')}
-        <span class="board__status board__status--${st.state}"><i class="board__led" aria-hidden="true"></i>${flapField(st.label)}</span>
-      </span>
-      <span class="board__go" aria-hidden="true">${icon('arrow')}</span>
-    </a></li>`;
-  });
-  el.innerHTML = rows.join('');
+    const im = intakeMonth(it.intake);
+    const imIso = im ? isoOf(im.y, im.m) : null;
+    const imInRange = imIso && dayNumber(imIso) < end;
+    let lane = seps + `<i class="ical__now" style="left:${todayPos.toFixed(2)}%"></i>`;
+    let sr;
+    if (it.tba || !it.s) {
+      lane += `<span class="ical__tba" style="left:${(todayPos + 1.2).toFixed(2)}%">${esc(st.label)}</span>`;
+      sr = `${st.label}.`;
+    } else {
+      const l = pos(it.s), r = Math.min(100, (dayNumber(it.e) + 1 - start) / (end - start) * 100);   // window includes its last day
+      const w = Math.max(1.6, r - l);
+      const labelRight = l + w > 62;
+      lane += `<span class="ical__bar ical__bar--${st.state}" style="left:${l.toFixed(2)}%;width:${w.toFixed(2)}%;--i:${i}"><span class="ical__tip">${esc(formatDate(it.s))} – ${esc(formatDate(it.e))}</span></span>
+        <span class="ical__status ical__status--${st.state}" style="${labelRight ? `right:${(100 - l + 1).toFixed(2)}%;text-align:right` : `left:${(l + w + 1).toFixed(2)}%`}">${esc(st.label)}</span>`;
+      sr = `Applications ${formatDate(it.s)} to ${formatDate(it.e)}. ${st.label}.`;
+    }
+    if (imInRange) lane += `<span class="ical__start" style="left:${pos(imIso).toFixed(2)}%" title="Studies start ${esc(it.intake)}">${icon('plane')}</span>`;
+    else if (imIso) lane += `<span class="ical__start ical__start--later">${esc(it.intake)} ${icon('arrow')}</span>`;
+    sr += ` Intake ${it.intake}.`;
+    return `<a class="ical__row" href="${href}" style="--i:${i}">
+      <span class="ical__label"><span class="ical__code">${d.code}</span><span class="ical__name"><b>${esc(uni)}</b><small>${esc(course || '')}${course && it.round ? ' · ' : ''}${esc(it.round || '')}</small></span></span>
+      <span class="ical__lane" aria-hidden="true">${lane}</span>
+      <span class="sr-only">${esc(sr)}</span>
+    </a>`;
+  }).join('');
+  grid.innerHTML = head + `<div class="ical__rows">${rows}</div>`;
 
-  /* Dhaka clock as flap tiles; the minutes flip when they change */
-  const clockEl = $('#boardClock');
-  let last = '';
-  const clock = () => {
-    if (!clockEl) return;
-    const t = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit' }).format(new Date());
-    if (t === last) return;
-    const first = !last; last = t;
-    clockEl.innerHTML = `<span class="board__clock-label">DAC</span>${flapTiles(t, 'flap--clock')}<span class="sr-only">Dhaka time ${t}</span>`;
-    if (!first) flipIn(clockEl);
-  };
-  clock(); setInterval(clock, 15000);
+  const clock = $('#boardClock');
+  if (clock) clock.textContent = 'Today · ' + formatDate(today);
 
-  /* flip the board in, row by row, when it scrolls into view */
-  const board = el.closest('.board');
-  const reveal = () => $$('.board__row', el).forEach((row, i) => { row.classList.add('is-in'); flipIn(row, 220 + i * 260); });
-  if (!('IntersectionObserver' in window)) { reveal(); return; }
-  board.classList.add('js-flap');
-  new IntersectionObserver((entries, obs) => entries.forEach(e => { if (e.isIntersecting) { reveal(); flipIn(clockEl, 0); obs.disconnect(); } }), { threshold: .3 }).observe(board);
+  const cal = grid.closest('.ical');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) { cal.classList.add('is-in'); return; }
+  cal.classList.add('js-reveal');
+  new IntersectionObserver((es, obs) => es.forEach(e => { if (e.isIntersecting) { cal.classList.add('is-in'); obs.disconnect(); } }), { threshold: .25 }).observe(cal);
 }
 
 /* ---------- eligibility check ---------- */
