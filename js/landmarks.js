@@ -1,0 +1,88 @@
+/* =====================================================================
+   landmarks.js — hand-drawn landmark scenes (inline SVG, 240 x 180) with
+   a sky colour per country. Used by destpanels.js on the homepage.
+   A destination with a `photo` in data.js shows the photo instead.
+   ===================================================================== */
+const Landmarks = (() => {
+  /* ---- small drawing helpers (viewBox 0 0 240 180) ---- */
+  const sun = (cx, cy, r, c, o = 1) => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c}" opacity="${o}"/>`;
+  const rect = (x, y, w, h, c, rx = 0) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${c}"/>`;
+  const path = (d, c, extra = '') => `<path d="${d}" fill="${c}" ${extra}/>`;
+  const skyline = (c, base, list) => list.map(([x, w, h]) => rect(x, base - h, w, h, c)).join('');
+  const clouds = (c, o) => `<g fill="${c}" opacity="${o}"><ellipse cx="46" cy="40" rx="22" ry="7"/><ellipse cx="60" cy="35" rx="14" ry="8"/><ellipse cx="196" cy="70" rx="18" ry="5"/></g>`;
+  const onion = (cx, by, w, h, c) =>
+    path(`M${cx - w / 2} ${by} C${cx - w / 2} ${by - h * .42} ${cx - w * .95} ${by - h * .55} ${cx} ${by - h} C${cx + w * .95} ${by - h * .55} ${cx + w / 2} ${by - h * .42} ${cx + w / 2} ${by}Z`, c) +
+    rect(cx - .8, by - h - 9, 1.6, 9, '#E8B63C') + rect(cx - 3, by - h - 6, 6, 1.4, '#E8B63C');
+
+  const SCENES = {
+    korea: () => sun(182, 50, 20, '#FFE3B3', .95) + clouds('#fff', .35) +
+      skyline('#B9A6D6', 150, [[0, 14, 22], [16, 10, 34], [28, 16, 26], [178, 12, 30], [192, 18, 22], [212, 12, 36], [226, 14, 26]]) +
+      path('M0 150 C50 118 90 106 120 108 C160 110 200 126 240 146 V180 H0Z', '#3A3F75') +
+      `<g fill="#20255A">${path('M109 112 L114 82 H126 L131 112Z', '#20255A')}${rect(116, 40, 8, 44, '#20255A')}${rect(103, 57, 34, 9, '#20255A', 4)}${rect(106, 48, 28, 10, '#20255A', 4)}${rect(111, 42, 18, 7, '#20255A', 2)}${rect(119, 8, 2, 36, '#20255A')}${rect(117, 22, 6, 3, '#20255A')}</g>` +
+      rect(106, 60, 28, 2, '#FFD27A') + rect(109, 52, 22, 1.6, '#FFD27A') +
+      `<g fill="#171B44">${[8, 30, 52, 190, 212, 234].map(x => `<circle cx="${x}" cy="164" r="16"/>`).join('')}</g>` + rect(0, 168, 240, 12, '#171B44'),
+    japan: () => sun(176, 54, 20, '#E8473C') +
+      path('M8 152 L90 72 Q100 64 110 66 Q120 63 130 72 L232 152Z', '#7C8DB5') +
+      path('M90 72 Q100 64 110 66 Q120 63 130 72 L141 83 L129 80 L121 89 L112 80 L102 89 L94 80 L79 83Z', '#FFFFFF') +
+      rect(0, 150, 240, 30, '#3C4C7A') + rect(0, 150, 240, 3, '#5D6FA0') +
+      `<g>${path('M10 95 Q56 86 102 95 L102 101 Q56 93 10 101Z', '#C8322F')}${path('M8 93 Q56 83 104 93 L104 96 Q56 87 8 96Z', '#2A2F3F')}${rect(22, 110, 68, 5, '#C8322F')}${rect(31, 99, 8, 70, '#C8322F')}${rect(73, 99, 8, 70, '#C8322F')}${rect(52, 99, 8, 11, '#C8322F')}</g>`,
+    uk: () => clouds('#fff', .55) +
+      `<g fill="none" stroke="#8FA0C4" stroke-width="1.6"><circle cx="58" cy="104" r="40"/><circle cx="58" cy="104" r="4"/>${Array.from({ length: 8 }, (_, i) => { const a = i * Math.PI / 8; return `<line x1="${58 + 40 * Math.cos(a)}" y1="${104 + 40 * Math.sin(a)}" x2="${58 - 40 * Math.cos(a)}" y2="${104 - 40 * Math.sin(a)}"/>`; }).join('')}</g>` +
+      path('M50 152 L58 104 L66 152Z', '#8FA0C4') +
+      `<g fill="#2B3352">${path('M86 154 V122 H96 V116 H102 V122 H112 V116 H118 V122 H140 V154Z', '#2B3352')}${rect(140, 62, 26, 94, '#2B3352')}${rect(137, 50, 32, 28, '#2B3352')}${rect(141, 36, 24, 14, '#2B3352')}${path('M139 37 L153 6 L167 37Z', '#2B3352')}${path('M136 50 L139 42 L142 50Z', '#2B3352')}${path('M164 50 L167 42 L170 50Z', '#2B3352')}</g>` +
+      `<circle cx="153" cy="64" r="9" fill="#F4E3B0"/><path d="M153 64 V58 M153 64 L157 66" stroke="#2B3352" stroke-width="1.4" stroke-linecap="round"/>` +
+      rect(0, 154, 240, 26, '#55698F') + rect(0, 154, 240, 2, '#7D90B5'),
+    italy: () => sun(64, 52, 24, '#FFD08A') +
+      `<g fill="#2F4A3A">${[[16, 112, 7, 40], [30, 118, 6, 34], [222, 110, 7, 42]].map(([x, y, rx, ry]) => `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}"/>`).join('')}</g>` +
+      path('M36 158 V96 Q120 74 206 96 L206 106 L194 101 L188 114 L206 118 V158Z', '#8A4A2E') +
+      Array.from({ length: 3 }, (_, r) => Array.from({ length: 8 }, (_, i) => (r === 0 && i > 6) ? '' : rect(46 + i * 19, 104 + r * 17, 10, 12, '#F6B98A', 5)).join('')).join('') +
+      rect(36, 98, 158, 3, '#A35C3A') + rect(0, 158, 240, 22, '#C98A55'),
+    malta: () => sun(186, 46, 18, '#FFF1B8') + clouds('#fff', .5) +
+      `<g fill="#B98E55">${rect(66, 94, 34, 32, '#B98E55')}${path('M62 96 Q83 52 104 96Z', '#7C8F9E')}${rect(80, 58, 6, 10, '#B98E55')}${rect(82.2, 48, 1.6, 10, '#B98E55')}${rect(79, 51, 8, 1.6, '#B98E55')}${rect(136, 78, 20, 48, '#A9824F')}${path('M136 79 L146 36 L156 79Z', '#A9824F')}</g>` +
+      path('M0 150 V126 H40 V118 H96 V126 H128 V120 H170 V128 H240 V150Z', '#D4B07A') + rect(0, 132, 240, 2, '#BF9A62') +
+      path('M0 150 Q30 145 60 150 T120 150 T180 150 T240 150 V180 H0Z', '#2A7BA0') +
+      path('M0 162 Q30 158 60 162 T120 162 T180 162 T240 162 V180 H0Z', '#21688A') +
+      path('M40 156 Q52 162 64 156 L60 152 H44Z', '#E2B33C') + path('M150 158 Q162 164 174 158 L170 154 H154Z', '#C0392B'),
+    russia: () => clouds('#fff', .45) +
+      rect(52, 118, 136, 40, '#9B3A32') + rect(52, 118, 136, 4, '#7E2D26') +
+      `${rect(112, 74, 16, 46, '#B8453A')}${path('M110 76 L120 30 L130 76Z', '#3E6B4F')}${onion(120, 32, 10, 12, '#E2B33C')}` +
+      `${rect(71, 100, 14, 20, '#B8453A')}${onion(78, 102, 22, 30, '#2E7D5B')}${rect(93, 92, 14, 28, '#B8453A')}${onion(100, 94, 20, 28, '#E2B33C')}` +
+      `${rect(133, 92, 14, 28, '#B8453A')}${onion(140, 94, 20, 28, '#C0392B')}${rect(155, 100, 14, 20, '#B8453A')}${onion(162, 102, 22, 30, '#2F6DB0')}` +
+      Array.from({ length: 6 }, (_, i) => rect(60 + i * 22, 130, 8, 14, '#F2C6B8', 4)).join('') +
+      rect(0, 156, 240, 24, '#E9EEF8') + rect(0, 156, 240, 3, '#FFFFFF'),
+    finland: () => sun(48, 50, 16, '#FFFFFF', .9) +
+      path('M40 160 H200 V152 H48Z', '#B8C4D8') + path('M48 152 H192 V146 H56Z', '#CED7E6') +
+      rect(60, 104, 120, 42, '#FFFFFF') + rect(60, 104, 120, 3, '#DCE3EE') +
+      Array.from({ length: 6 }, (_, i) => rect(92 + i * 11, 108, 4, 38, '#DCE3EE')).join('') +
+      path('M86 105 L120 86 L154 105Z', '#FFFFFF', 'stroke="#DCE3EE" stroke-width="1.5"') +
+      rect(104, 70, 32, 18, '#FFFFFF') + Array.from({ length: 4 }, (_, i) => rect(108 + i * 7, 74, 3, 12, '#DCE3EE')).join('') +
+      path('M100 72 Q120 32 140 72Z', '#3E8E6E') + rect(117, 40, 6, 9, '#3E8E6E') + rect(119.2, 30, 1.6, 11, '#E8B63C') + rect(116.5, 33, 7, 1.6, '#E8B63C') +
+      path('M62 106 Q72 86 82 106Z', '#3E8E6E') + path('M158 106 Q168 86 178 106Z', '#3E8E6E') +
+      rect(0, 160, 240, 20, '#8FA3C2'),
+    malaysia: () => sun(60, 62, 22, '#FFC07A', .95) +
+      skyline('#9C6C9E', 152, [[0, 16, 30], [18, 12, 44], [200, 14, 40], [216, 10, 28], [228, 12, 46]]) +
+      [96, 144].map(cx => `<g fill="#2D3163">${rect(cx - 13, 110, 26, 48, '#2D3163')}${rect(cx - 11, 80, 22, 32, '#2D3163')}${rect(cx - 9, 60, 18, 22, '#2D3163')}${rect(cx - 7, 46, 14, 16, '#2D3163')}${rect(cx - 5, 36, 10, 12, '#2D3163')}${rect(cx - 1, 6, 2, 32, '#2D3163')}${rect(cx - 3, 64, 2, 92, '#4B5196')}${rect(cx + 2, 64, 2, 92, '#4B5196')}</g>`).join('') +
+      rect(96, 88, 48, 3, '#2D3163') + path('M104 91 L120 104 L136 91', 'none', 'stroke="#2D3163" stroke-width="2"') +
+      `<g fill="#1E2A3D">${rect(206, 112, 4, 48, '#1E2A3D')}${path('M208 112 Q188 104 180 118 Q194 108 208 114Z', '#1E2A3D')}${path('M208 112 Q228 102 238 116 Q222 108 208 114Z', '#1E2A3D')}${path('M208 112 Q200 94 188 92 Q204 100 208 113Z', '#1E2A3D')}</g>` +
+      rect(0, 158, 240, 22, '#3B2E55'),
+    china: () => sun(186, 48, 18, '#FFE2A0') + clouds('#fff', .4) +
+      rect(40, 148, 160, 12, '#EEF0F4') + rect(54, 138, 132, 10, '#E2E6EE') + rect(68, 130, 104, 8, '#EEF0F4') +
+      rect(96, 108, 48, 22, '#B8322B') + Array.from({ length: 5 }, (_, i) => rect(100 + i * 9, 110, 2, 20, '#E8B63C')).join('') +
+      path('M78 110 L92 98 H148 L162 110Z', '#1F4E8C') + rect(102, 86, 36, 12, '#B8322B') +
+      path('M86 88 L98 76 H142 L154 88Z', '#1F4E8C') + rect(108, 66, 24, 10, '#B8322B') +
+      path('M94 68 L106 56 H134 L146 68Z', '#1F4E8C') + path('M106 57 Q120 38 134 57Z', '#1F4E8C') +
+      `<circle cx="120" cy="38" r="3.4" fill="#E8B63C"/>` + rect(118.8, 40, 2.4, 6, '#E8B63C') +
+      rect(0, 160, 240, 20, '#7FA68E')
+  };
+
+  /* sky gradient per country: top, bottom */
+  const SKY = {
+    korea: ['#F7C6D9', '#9E8FD3'], japan: ['#FFE7CC', '#F6C9A8'], uk: ['#C9D6EA', '#9FB2D3'], italy: ['#FFD7A6', '#F2A774'],
+    malta: ['#BFE6F2', '#7CC4DD'], russia: ['#D7D3F0', '#AFC0E6'], finland: ['#DDF0FB', '#A9D3EE'], malaysia: ['#F8B98B', '#B06AA0'],
+    china: ['#CDEBE0', '#F4D79A']
+  };
+
+  const sceneSVG = id => `<svg class="dpanel__art" viewBox="0 0 240 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">${SCENES[id] ? SCENES[id]() : ''}</svg>`;
+  const sky = id => SKY[id] || ['#DDE6F5', '#AFC0E6'];
+  return { sceneSVG, sky, has: id => !!SCENES[id] };
+})();

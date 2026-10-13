@@ -134,7 +134,7 @@ function renderTeam() {
     </article>`).join('');
 }
 
-/* ---------- destinations (DOCX §4.1): interactive route map, see routemap.js ---------- */
+/* ---------- destinations (DOCX §4.1): expanding flag panels, see destpanels.js ---------- */
 
 /* ---------- programs (DOCX §4.1) ---------- */
 function renderHomePrograms() {
@@ -228,7 +228,7 @@ function initHome() {
   renderServices();
   renderProcess();
   renderTeam();
-  RouteMap.init();
+  DestPanels.init();
   renderHomePrograms();
   renderWhy();
   renderHomeScholarships();
