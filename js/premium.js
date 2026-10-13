@@ -192,6 +192,33 @@ function startCountdown() {
 }
 
 /* ---------- live application board (homepage) ---------- */
+/* split-flap helpers: every character is a tile; on reveal the tiles cycle and settle like an airport board */
+const FLAP_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const flapTiles = (text, cls = '') => `<span class="flap ${cls}" aria-hidden="true">${[...String(text).toUpperCase()].map(ch =>
+  ch === ' ' ? '<span class="flap__gap"></span>' : `<span class="flap__t" data-ch="${esc(ch)}">${esc(ch)}</span>`).join('')}</span>`;
+/* text field: tiles for the eye (English), real text for screen readers and the Bangla version */
+/* shorter wording on the tiles only (the full text stays for screen readers and Bangla) */
+const FLAP_SHORT = { 'Dates to be announced': 'Dates TBA' };
+const flapField = (text, cls = '') => `<span class="flap-field ${cls}">${flapTiles(FLAP_SHORT[text] || text)}<span class="flap-field__text">${esc(text)}</span></span>`;
+
+function flipIn(root, startDelay = 0) {
+  const tiles = $$('.flap__t', root);
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
+  tiles.forEach((t, k) => {
+    const final = t.dataset.ch;
+    if (!/[A-Z0-9]/.test(final)) return;
+    let n = 5 + Math.floor(Math.random() * 6);
+    t.textContent = FLAP_CHARS[Math.floor(Math.random() * FLAP_CHARS.length)];
+    setTimeout(function tick() {
+      t.classList.remove('is-flip'); void t.offsetWidth; t.classList.add('is-flip');
+      if (--n <= 0) { t.textContent = final; return; }
+      t.textContent = FLAP_CHARS[Math.floor(Math.random() * FLAP_CHARS.length)];
+      setTimeout(tick, 55);
+    }, startDelay + k * 18);
+  });
+}
+
 function renderBoard() {
   const el = $('#boardList');
   if (!el) return;
@@ -201,14 +228,36 @@ function renderBoard() {
     const href = prog ? `program.html#${prog.id}` : 'universities.html#intakes';
     const [uni, course] = it.title.split(' · ');
     return `<li><a class="board__row" href="${href}">
-      <span class="board__code">${d.code}<small>${esc(d.name)}</small></span>
+      <span class="board__code">${flapTiles(d.code, 'flap--lg')}<small>${esc(d.name)}</small></span>
       <span class="board__prog"><b>${esc(uni)}</b><small>${esc(course || it.round)}</small></span>
-      <span class="board__meta"><span class="board__intake">${esc(it.intake)}</span><span class="board__status board__status--${st.state}">${esc(st.label)}</span></span>
+      <span class="board__meta">
+        ${flapField(it.intake, 'board__intake')}
+        <span class="board__status board__status--${st.state}"><i class="board__led" aria-hidden="true"></i>${flapField(st.label)}</span>
+      </span>
+      <span class="board__go" aria-hidden="true">${icon('arrow')}</span>
     </a></li>`;
   });
   el.innerHTML = rows.join('');
-  const clock = () => { const c = $('#boardClock'); if (c) c.textContent = 'DAC ' + new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit' }).format(new Date()); };
-  clock(); setInterval(clock, 30000);
+
+  /* Dhaka clock as flap tiles; the minutes flip when they change */
+  const clockEl = $('#boardClock');
+  let last = '';
+  const clock = () => {
+    if (!clockEl) return;
+    const t = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit' }).format(new Date());
+    if (t === last) return;
+    const first = !last; last = t;
+    clockEl.innerHTML = `<span class="board__clock-label">DAC</span>${flapTiles(t, 'flap--clock')}<span class="sr-only">Dhaka time ${t}</span>`;
+    if (!first) flipIn(clockEl);
+  };
+  clock(); setInterval(clock, 15000);
+
+  /* flip the board in, row by row, when it scrolls into view */
+  const board = el.closest('.board');
+  const reveal = () => $$('.board__row', el).forEach((row, i) => { row.classList.add('is-in'); flipIn(row, 220 + i * 260); });
+  if (!('IntersectionObserver' in window)) { reveal(); return; }
+  board.classList.add('js-flap');
+  new IntersectionObserver((entries, obs) => entries.forEach(e => { if (e.isIntersecting) { reveal(); flipIn(clockEl, 0); obs.disconnect(); } }), { threshold: .3 }).observe(board);
 }
 
 /* ---------- eligibility check ---------- */
