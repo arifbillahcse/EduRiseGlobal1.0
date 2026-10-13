@@ -32,8 +32,7 @@ function destCardHTML(d) {
   return `<a class="dest-card" href="destination.html#${d.id}">
     <span class="dest-card__media" style="--sky-a:${sky[0]};--sky-b:${sky[1]}">
       ${art ? Landmarks.sceneSVG(d.id) : ''}
-      ${ph ? `<img class="dest-card__img" src="${ph.src}" alt="${esc(ph.alt)}" width="1280" height="853" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="object-position:${ph.pos}" onerror="this.nextElementSibling&&this.nextElementSibling.remove();this.remove()">
-        <small class="dest-card__credit">Photo: ${esc(ph.by)}, ${esc(ph.license)}</small>` : ''}
+      ${ph ? `<img class="dest-card__img" src="${ph.src}" alt="${esc(ph.alt)}" width="1280" height="853" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="object-position:${ph.pos}" onerror="this.remove()">` : ''}
       ${art ? `<span class="dest-card__flag">${Landmarks.flagSVG(d.id)}</span>` : ''}
     </span>
     <span class="dest-card__route">DAC → ${d.code} · ${esc(d.city)}</span>
@@ -235,6 +234,18 @@ function renderPoliciesPage() {
   $('#policyBody').innerHTML = POLICIES.map(p => `<section class="policy" id="${p.id}">
     <h2>${esc(p.title)}</h2>${p.paragraphs.map(t => `<p>${esc(t)}</p>`).join('')}
   </section>`).join('');
+  // photo credits: the destination photos are under licences that require the photographer to be credited
+  if (typeof DEST_PHOTOS !== 'undefined') {
+    $('#policyNav').insertAdjacentHTML('beforeend', '<a href="#photo-credits">Photo credits</a>');
+    $('#policyBody').insertAdjacentHTML('beforeend', `<section class="policy" id="photo-credits">
+      <h2>Photo credits</h2>
+      <p>Destination photos are from Wikimedia Commons and are used under the licences below.</p>
+      <ul class="credits">${Object.entries(DEST_PHOTOS).map(([id, ph]) => {
+        const d = DESTINATIONS.find(x => x.id === id);
+        return `<li><b>${esc(d ? d.name : id)}</b>: ${esc(ph.alt)}. Photo by <a href="${ph.page}" target="_blank" rel="noopener">${esc(ph.by)}</a>, <a href="${ph.licenseUrl}" target="_blank" rel="noopener license">${esc(ph.license)}</a>.</li>`;
+      }).join('')}</ul>
+    </section>`);
+  }
 }
 
 /* small helper: buttons with data-toast show a message */

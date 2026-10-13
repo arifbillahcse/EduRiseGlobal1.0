@@ -68,12 +68,9 @@ const DestCards = (() => {
     $$('.hero__photo', box).forEach(img => img.addEventListener('error', () => { img.remove(); showPhoto(HERO_DESTINATIONS[current].id); }, { once: true }));
   }
   function showPhoto(id) {
-    const img = $(`.hero__photo[data-id="${id}"]`), credit = $('#heroCredit'), hero = $('.hero');
+    const img = $(`.hero__photo[data-id="${id}"]`), hero = $('.hero');
     $$('.hero__photo').forEach(x => x.classList.toggle('is-on', x === img));
     if (hero) hero.classList.toggle('has-photo', !!img);
-    if (!credit) return;
-    const ph = img && DEST_PHOTOS[id];
-    credit.innerHTML = ph ? `Photo: <a href="${ph.page}" target="_blank" rel="noopener">${esc(ph.by)}</a>, <a href="${ph.licenseUrl}" target="_blank" rel="noopener license">${esc(ph.license)}</a>, Wikimedia Commons` : '';
   }
 
   function start() { if (!reduced) { stop(); timer = setInterval(() => show(current + 1), 6000); } }

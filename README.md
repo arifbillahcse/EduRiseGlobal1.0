@@ -61,7 +61,7 @@ Plain HTML, CSS and JavaScript. No build tools or frameworks.
 
 ## Photo credits (homepage destination panels)
 
-Hotlinked from Wikimedia Commons (`DEST_PHOTOS` in `js/data.js`). Each card shows its credit, as the licences require. If a photo fails to load, the panel shows its drawn landmark instead.
+Hotlinked from Wikimedia Commons (`DEST_PHOTOS` in `js/data.js`). The licences require credit, so every photo is credited on `policies.html#photo-credits` (linked from the footer as "Photo credits"); the photos themselves carry no caption. If a photo fails to load, the panel shows its drawn landmark instead.
 
 | Country | Landmark | Photographer | Licence | Commons file |
 |---|---|---|---|---|

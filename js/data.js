@@ -47,7 +47,8 @@ const FOOTER_EXTRA = [
 const LEGAL = [
   { label: 'Privacy policy', href: 'policies.html#privacy',    phase: 4 },
   { label: 'Terms of use',   href: 'policies.html#terms',      phase: 4 },
-  { label: 'Disclaimer',     href: 'policies.html#disclaimer', phase: 4 }
+  { label: 'Disclaimer',     href: 'policies.html#disclaimer', phase: 4 },
+  { label: 'Photo credits',  href: 'policies.html#photo-credits', phase: 4 }
 ];
 
 /* =====================================================================
@@ -173,7 +174,8 @@ const TEAM = [
     tags: ['ACCA qualified', 'Business owner in the UK'] }
 ];
 
-/* destination photos (homepage panels): Wikimedia Commons, free licences, credited on the card.
+/* destination photos (hero, homepage panels, destination cards): Wikimedia Commons, free licences,
+   credited on policies.html#photo-credits (linked from the footer).
    Direct thumbnail links (upload.wikimedia.org). Malta has no verified photo yet and uses its drawing.
    Note: Commons marks Italian monuments (the Colosseum) as needing ministry permission for commercial
    use under Italy's Cultural Heritage Code; confirm or replace before using the photo in advertising. */

@@ -170,6 +170,8 @@
 .dest-card__media::after{content:"";position:absolute;inset:auto 0 0;height:45%;background:linear-gradient(180deg,transparent,rgba(8,16,34,.55));pointer-events:none}
 .dest-card__flag{position:absolute;left:12px;bottom:12px;z-index:1;display:block;width:34px;height:23px;overflow:hidden;border-radius:5px;box-shadow:0 0 0 2px #fff,0 6px 14px -4px rgba(0,0,0,.5)}
 .dest-card__flag svg{display:block;width:100%;height:100%}
-.dest-card__credit{position:absolute;right:10px;bottom:9px;z-index:1;max-width:60%;overflow:hidden;font-size:10px;line-height:1.2;white-space:nowrap;text-overflow:ellipsis;color:rgba(255,255,255,.85);text-shadow:0 1px 4px rgba(0,0,0,.6)}
 @media (max-width:560px){.dest-card__media{height:150px}}
 @media (prefers-reduced-motion:reduce){.dest-card__img{transition:none}.dest-card:hover .dest-card__img{transform:none}}
+
+.credits{display:grid;gap:8px;padding-left:18px}
+.credits a{color:var(--brand-text)}

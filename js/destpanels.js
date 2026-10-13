@@ -51,7 +51,6 @@ const DestPanels = (() => {
         <div class="dpanel__actions">
           <a class="btn btn--sun btn--sm" href="destination.html#${d.id}">Explore ${esc(d.name)}${icon('arrow')}</a>
           <button type="button" class="dpanel__ask" data-enquire="${esc('Studying in ' + d.name)}">${icon('whatsapp')}Ask us</button>
-          ${ph ? `<small class="dpanel__credit">Photo: <a href="${ph.page}" target="_blank" rel="noopener">${esc(ph.by)}</a>, <a href="${ph.licenseUrl}" target="_blank" rel="noopener license">${esc(ph.license)}</a>, Wikimedia Commons</small>` : ''}
         </div>
       </div>
     </li>`;
@@ -76,7 +75,7 @@ const DestPanels = (() => {
     box.innerHTML = panels.map(panelHTML).join('');
     // a photo that fails to load is removed, and the panel shows its drawn landmark instead
     $$('.dpanel__photo', box).forEach(img => {
-      const fail = () => { const li = img.closest('.dpanel'); li.classList.remove('has-photo'); li.querySelector('.dpanel__credit')?.remove(); img.remove(); };
+      const fail = () => { const li = img.closest('.dpanel'); li.classList.remove('has-photo'); img.remove(); };
       if (img.complete && img.naturalWidth === 0 && img.src) fail(); else img.addEventListener('error', fail, { once: true });
     });
     const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
