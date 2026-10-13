@@ -157,12 +157,12 @@ const SERVICES = [
 ];
 
 const PROCESS = [
-  { title: 'Free consultation',       text: 'Share your results, goals and budget with a counsellor.' },
-  { title: 'University selection',    text: 'We shortlist the countries and universities that fit.' },
-  { title: 'Document preparation',    text: 'We guide you through every certificate, letter and form.' },
-  { title: 'Application submission',  text: 'We submit your application and follow up with the university.' },
-  { title: 'Admission & visa',        text: 'Offer letter first, then a carefully prepared visa file.' },
-  { title: 'Fly to your destination', text: 'A pre-departure briefing so you arrive ready.' }
+  { icon: 'whatsapp', title: 'Free consultation',       text: 'Share your results, goals and budget with a counsellor.' },
+  { icon: 'bank',     title: 'University selection',    text: 'We shortlist the countries and universities that fit.' },
+  { icon: 'doc',      title: 'Document preparation',    text: 'We guide you through every certificate, letter and form.' },
+  { icon: 'check',    title: 'Application submission',  text: 'We submit your application and follow up with the university.' },
+  { icon: 'passport', title: 'Admission & visa',        text: 'Offer letter first, then a carefully prepared visa file.' },
+  { icon: 'plane',    title: 'Fly to your destination', text: 'A pre-departure briefing so you arrive ready.' }
 ];
 
 /* leadership (PDF "Leadership Team"): bio for the homepage, story for the About page */

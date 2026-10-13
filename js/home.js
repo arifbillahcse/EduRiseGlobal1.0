@@ -127,8 +127,39 @@ function renderServices() {
 
 /* ---------- process ---------- */
 function renderProcess() {
-  $('#processList').innerHTML = PROCESS
-    .map(p => `<li><h3>${esc(p.title)}</h3><p>${esc(p.text)}</p></li>`).join('');
+  const list = $('#processList'); if (!list) return;
+  const n = PROCESS.length;
+  list.innerHTML = `<li class="journey__track" aria-hidden="true"><span class="journey__fill"></span><span class="journey__plane">${icon('plane')}</span></li>` +
+    PROCESS.map((p, i) => `<li class="journey__step${i === n - 1 ? ' is-final' : ''}" style="--i:${i}">
+      <span class="journey__node" aria-hidden="true"><span class="journey__icon">${icon(p.icon || 'check')}</span><span class="journey__num tnum">${String(i + 1).padStart(2, '0')}</span></span>
+      <span class="journey__stem" aria-hidden="true"></span>
+      <div class="journey__card">
+        <span class="journey__label">Step ${String(i + 1).padStart(2, '0')}</span>
+        <h3>${esc(p.title)}</h3>
+        <p>${esc(p.text)}</p>
+      </div>
+    </li>`).join('');
+
+  /* scroll reveal: steps appear in turn, the route fills; content stays visible without JS or with reduced motion */
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) { list.classList.add('is-in'); return; }
+  list.classList.add('js-reveal');
+  new IntersectionObserver((entries, obs) => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('is-in'); obs.unobserve(e.target); }
+  }), { threshold: .25, rootMargin: '0px 0px -8% 0px' }).observe(list);
+  $$('.journey__step', list).forEach(li => new IntersectionObserver((entries, obs) => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('is-in'); obs.unobserve(e.target); }
+  }), { threshold: .4 }).observe(li));
+  /* vertical layout (tablets, phones): the route fills as you scroll */
+  const track = $('.journey__track', list);
+  let raf = 0;
+  const update = () => {
+    raf = 0;
+    const r = list.getBoundingClientRect(), mid = window.innerHeight * .6;
+    list.style.setProperty('--p', Math.max(0, Math.min(1, (mid - r.top) / r.height)).toFixed(3));
+  };
+  window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
 }
 
 /* ---------- leadership ---------- */

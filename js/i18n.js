@@ -289,6 +289,7 @@ const BN_PATTERNS = [
   [/^Open · (\d+) days left$/, 'খোলা · $1 দিন বাকি'],
   [/^(\d+) application windows? open now$/, 'এখন $1টি আবেদন চলছে'],
   [/^See all (\d+) open and upcoming offers$/, 'খোলা ও আসন্ন $1টি অফার দেখুন'],
+  [/^Step (\d+)$/, 'ধাপ $1'],
   [/^(\d+) open$/, '$1টি চলমান'],
   [/^Map: (.+) office$/, 'ম্যাপ: $1 অফিস'],
   [/^Opens in (\d+) days$/, '$1 দিন পর শুরু'],

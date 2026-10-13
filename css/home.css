@@ -403,3 +403,94 @@ html[lang="bn"] .mentor__loc{letter-spacing:0;font-family:var(--font-body)}
 
 /* separates the closing section when the section above has the same background */
 .section--divided{border-top:1px solid var(--line)}
+
+/* =====================================================================
+   "How it works" — journey timeline (homepage only; services.html keeps .process)
+   Desktop: horizontal route, steps alternate above / below, route fills and a
+   plane travels along it when the section scrolls in. Tablet/phone: vertical
+   route that fills as you scroll.
+   ===================================================================== */
+.journey-sec{position:relative;overflow:hidden;background:radial-gradient(900px 380px at 50% 0%,var(--brand-soft),transparent 70%),var(--paper)}
+.journey{--gap:14px;position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:var(--gap);margin:8px 0 0;padding:0;list-style:none}
+.journey__step{position:relative;display:grid;grid-template-rows:162px 76px 162px;justify-items:center;min-width:0}
+
+/* route */
+.journey__track{position:absolute;left:calc(100% / 12);right:calc(100% / 12);top:calc(162px + 38px);height:4px;margin-top:-2px;border-radius:2px;background:color-mix(in srgb,var(--brand) 14%,transparent);pointer-events:none}
+.journey__fill{position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,var(--brand) 0%,#2F5CCB 55%,var(--sun) 100%);transform-origin:left;transform:scaleX(1)}
+.journey__plane{position:absolute;top:50%;left:100%;display:grid;place-items:center;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:var(--sun);color:var(--sun-ink);box-shadow:0 6px 16px -4px rgba(255,200,61,.8)}
+.journey__plane .icon{width:16px;height:16px}
+
+/* node */
+.journey__node{grid-row:2;align-self:center;position:relative;z-index:1;display:grid;place-items:center;width:64px;height:64px;padding:3px;border-radius:50%;
+  background:conic-gradient(from 210deg,var(--brand),#2F5CCB,var(--sun),var(--brand));box-shadow:0 10px 24px -12px rgba(28,63,148,.6);transition:transform .3s var(--ease),box-shadow .3s}
+.journey__icon{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--surface);color:var(--brand-text);transition:background-color .3s,color .3s}
+.journey__icon .icon{width:24px;height:24px}
+.journey__num{position:absolute;right:-6px;bottom:-4px;display:grid;place-items:center;min-width:26px;height:22px;padding:0 6px;border:2px solid var(--paper);border-radius:11px;background:var(--night);color:#fff;font:700 10.5px/1 var(--font-mono)}
+
+/* stem + card: odd steps above the route, even steps below */
+.journey__stem{position:absolute;left:50%;width:0;border-left:2px dashed color-mix(in srgb,var(--brand) 30%,transparent)}
+.journey__step:nth-child(even) .journey__stem{top:134px;height:28px}
+.journey__step:nth-child(odd) .journey__stem{top:238px;height:28px}
+.journey__card{position:relative;width:calc(165% + var(--gap));padding:18px 18px 16px;border:1px solid var(--line);border-radius:18px;background:var(--surface);
+  box-shadow:0 1px 2px rgba(14,31,60,.04);transition:transform .3s var(--ease),box-shadow .3s,border-color .3s}
+.journey__step:nth-child(even) .journey__card{grid-row:1;align-self:end;margin-bottom:28px}
+.journey__step:nth-child(odd) .journey__card{grid-row:3;align-self:start;margin-top:28px}
+.journey__step:nth-child(2) .journey__card{justify-self:start;width:calc(150% + var(--gap))}
+.journey__step:last-child .journey__card{justify-self:end;width:calc(150% + var(--gap))}
+.journey__label{display:inline-block;margin-bottom:6px;font:700 10.5px/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--sun-text)}
+.journey__card h3{font-size:17px;line-height:1.25}
+.journey__card p{margin-top:6px;font-size:14px;line-height:1.55;color:var(--ink-2)}
+
+/* hover */
+.journey__step:hover .journey__card{transform:translateY(-4px);border-color:color-mix(in srgb,var(--brand) 45%,transparent);box-shadow:0 22px 40px -26px rgba(14,31,60,.55)}
+.journey__step:hover .journey__node{transform:scale(1.08);box-shadow:0 0 0 8px color-mix(in srgb,var(--brand) 12%,transparent),0 14px 28px -12px rgba(28,63,148,.7)}
+.journey__step:hover .journey__icon{background:var(--brand);color:#fff}
+
+/* final step: the destination */
+.journey__step.is-final .journey__icon{background:var(--night);color:var(--sun)}
+.journey__step.is-final .journey__node::after{content:"";position:absolute;inset:-6px;border:2px solid var(--sun);border-radius:50%;opacity:0;animation:journeyPing 2.4s ease-out infinite}
+@keyframes journeyPing{0%{transform:scale(.85);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+.journey__step.is-final .journey__card{border-color:transparent;background:radial-gradient(260px 140px at 100% 0%,rgba(47,92,203,.55),transparent 70%),var(--night)}
+.journey__step.is-final .journey__card h3{color:#fff}
+.journey__step.is-final .journey__card p{color:var(--night-dim)}
+.journey__step.is-final .journey__label{color:var(--sun)}
+.journey__step.is-final .journey__num{background:var(--sun);color:var(--sun-ink)}
+
+/* scroll reveal (only when JS has set it up) */
+.journey.js-reveal .journey__fill{transform:scaleX(0);transition:transform 2.4s cubic-bezier(.65,0,.35,1) .25s}
+.journey.js-reveal .journey__plane{left:0;opacity:0;transition:left 2.4s cubic-bezier(.65,0,.35,1) .25s,opacity .3s .25s}
+.journey.js-reveal.is-in .journey__fill{transform:scaleX(1)}
+.journey.js-reveal.is-in .journey__plane{left:100%;opacity:1}
+.journey.js-reveal .journey__node,.journey.js-reveal .journey__card,.journey.js-reveal .journey__stem{transition-property:opacity,transform,box-shadow,border-color,background-color;transition-duration:.6s;transition-timing-function:var(--ease);transition-delay:calc(var(--i) * .38s + .3s)}
+.journey.js-reveal .journey__step:not(.is-in) .journey__node{opacity:0;transform:scale(.6)}
+.journey.js-reveal .journey__step:not(.is-in) .journey__stem{opacity:0}
+.journey.js-reveal .journey__step:nth-child(even):not(.is-in) .journey__card{opacity:0;transform:translateY(18px)}
+.journey.js-reveal .journey__step:nth-child(odd):not(.is-in) .journey__card{opacity:0;transform:translateY(-18px)}
+.journey.js-reveal .journey__step.is-in:hover .journey__card,.journey.js-reveal .journey__step.is-in:hover .journey__node{transition-delay:0s}
+
+/* tablets and phones: vertical route */
+@media (max-width:1180px){
+  .journey{display:block;max-width:720px;margin-inline:auto}
+  .journey__track{left:30px;right:auto;top:32px;bottom:32px;width:4px;height:auto;margin:0}
+  .journey__fill{transform-origin:top;transform:scaleY(var(--p,1)) !important;transition:none !important;background:linear-gradient(180deg,var(--brand) 0%,#2F5CCB 55%,var(--sun) 100%)}
+  .journey__plane{display:none}
+  .journey__step{display:grid;grid-template-columns:64px minmax(0,1fr);grid-template-rows:auto;column-gap:20px;justify-items:stretch;align-items:start;padding-bottom:18px}
+  .journey__node{grid-row:1;grid-column:1;align-self:start}
+  .journey__stem{display:none}
+  .journey__step:nth-child(n) .journey__card{grid-row:1;grid-column:2;width:auto;margin:0;justify-self:stretch;align-self:start}
+  .journey.js-reveal .journey__node,.journey.js-reveal .journey__card{transition-delay:.05s}
+  .journey.js-reveal .journey__step:nth-child(n):not(.is-in) .journey__card{opacity:0;transform:translateX(18px)}
+}
+@media (max-width:560px){
+  .journey__track{left:25px}
+  .journey__step{grid-template-columns:54px minmax(0,1fr);column-gap:14px}
+  .journey__node{width:54px;height:54px}
+  .journey__icon .icon{width:21px;height:21px}
+  .journey__card{padding:15px 16px 14px}
+}
+@media (prefers-reduced-motion:reduce){
+  .journey__node,.journey__card,.journey__icon{transition:none}
+  .journey__step.is-final .journey__node::after{animation:none}
+  .journey__step:hover .journey__card,.journey__step:hover .journey__node{transform:none}
+}
+html[lang="bn"] .journey__label{letter-spacing:.04em;font-family:var(--font-body)}
