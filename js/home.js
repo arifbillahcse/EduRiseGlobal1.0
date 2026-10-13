@@ -164,20 +164,23 @@ function renderProcess() {
 
 /* ---------- leadership ---------- */
 function renderTeam() {
-  $('#teamGrid').innerHTML = Store.list('team').map(p => `<article class="mentor">
-      <div class="mentor__cover" aria-hidden="true"></div>
-      <div class="mentor__top">
-        <div class="mentor__photo"><img src="${p.photo}" alt="Portrait of ${esc(p.name)}" width="80" height="80" loading="lazy"></div>
-        <span class="mentor__loc">${icon('pin', 'icon--sm')}${esc(p.location)}</span>
-      </div>
-      <div class="mentor__body">
-        <h3 class="mentor__name">${esc(p.name)}</h3>
-        <span class="mentor__role">${esc(p.role)}</span>
-        <p class="mentor__bio">${esc(p.bio)}</p>
-        <div class="mentor__tags">${p.tags.map(t => `<span class="mentor__tag">${icon('cap', 'icon--sm')}${esc(t)}</span>`).join('')}</div>
-      </div>
-      <a class="mentor__more" href="about.html#leader-${p.id}">Read full story${icon('arrow')}</a>
-    </article>`).join('');
+  /* minimal portrait row: arched portraits; hover/focus brings the bio up over the photo */
+  const POS = { faysal: '38% 18%' };            // keeps the poster lantern out of the frame
+  $('#teamGrid').innerHTML = Store.list('team').map(p => {
+    const city = p.location.split(',')[0];
+    return `<a class="leader-p" href="about.html#leader-${p.id}">
+      <span class="leader-p__arch">
+        <img src="${p.photo}" alt="Portrait of ${esc(p.name)}" width="320" height="320" loading="lazy" style="object-position:${POS[p.id] || '50% 18%'}">
+        <span class="leader-p__over"><span class="leader-p__bio">${esc(p.bio)}</span><span class="leader-p__more">Read full story${icon('arrow')}</span></span>
+      </span>
+      <span class="leader-p__meta">
+        <b class="leader-p__name">${esc(p.name)}</b>
+        <span class="leader-p__role">${esc(p.role)}</span>
+        <span class="leader-p__tags">${[city].concat(p.tags).map(t => `<span>${esc(t)}</span>`).join('')}</span>
+        <span class="leader-p__cta" aria-hidden="true">Read full story${icon('arrow')}</span>
+      </span>
+    </a>`;
+  }).join('');
 }
 
 /* ---------- destinations (DOCX §4.1): expanding flag panels, see destpanels.js ---------- */
