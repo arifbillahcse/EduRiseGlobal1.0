@@ -164,21 +164,21 @@ function renderProcess() {
 
 /* ---------- leadership ---------- */
 function renderTeam() {
-  /* minimal portrait row: arched portraits; hover/focus brings the bio up over the photo */
+  /* profile rows: photo · name/role/location · bio + tags · arrow; the whole row links to the leader on About */
   const POS = { faysal: '38% 18%' };            // keeps the poster lantern out of the frame
-  $('#teamGrid').innerHTML = Store.list('team').map(p => {
-    const city = p.location.split(',')[0];
-    return `<a class="leader-p" href="about.html#leader-${p.id}">
-      <span class="leader-p__arch">
-        <img src="${p.photo}" alt="Portrait of ${esc(p.name)}" width="320" height="320" loading="lazy" style="object-position:${POS[p.id] || '50% 18%'}">
-        <span class="leader-p__over"><span class="leader-p__bio">${esc(p.bio)}</span><span class="leader-p__more">Read full story${icon('arrow')}</span></span>
+  $('#teamGrid').innerHTML = Store.list('team').map((p, i) => {
+    const parts = p.location.split(',').map(s => s.trim());
+    const country = parts[parts.length - 1];
+    return `<a class="leader-r" href="about.html#leader-${p.id}">
+      <span class="leader-r__pic"><img class="leader-r__photo" src="${p.photo}" alt="" width="150" height="150" loading="lazy" style="object-position:${POS[p.id] || '50% 18%'}"></span>
+      <span>
+        <span class="leader-r__num"><b>${String(i + 1).padStart(2, '0')}</b><span aria-hidden="true">·</span><span>${esc(country)}</span></span>
+        <span class="leader-r__name">${esc(p.name)}</span>
+        <span class="leader-r__role">${esc(p.role)}</span>
+        ${parts.length > 1 ? `<span class="leader-r__loc">${icon('pin')}${esc(p.location)}</span>` : ''}
       </span>
-      <span class="leader-p__meta">
-        <b class="leader-p__name">${esc(p.name)}</b>
-        <span class="leader-p__role">${esc(p.role)}</span>
-        <span class="leader-p__tags">${[city].concat(p.tags).map(t => `<span>${esc(t)}</span>`).join('')}</span>
-        <span class="leader-p__cta" aria-hidden="true">Read full story${icon('arrow')}</span>
-      </span>
+      <span class="leader-r__bio">${esc(p.bio)}<span class="leader-r__chips">${p.tags.map(t => `<span>${esc(t)}</span>`).join('')}</span></span>
+      <span class="leader-r__go" aria-hidden="true">${icon('arrow')}</span>
     </a>`;
   }).join('');
 }

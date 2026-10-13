@@ -36,7 +36,10 @@ const BN = {
   /* ---------- countries ---------- */
   'South Korea': 'দক্ষিণ কোরিয়া', 'Japan': 'জাপান', 'United Kingdom': 'যুক্তরাজ্য', 'Malta': 'মাল্টা', 'Italy': 'ইতালি',
   'Russia': 'রাশিয়া', 'Finland': 'ফিনল্যান্ড', 'Malaysia': 'মালয়েশিয়া', 'China': 'চীন', 'Bangladesh': 'বাংলাদেশ',
-  'Dhaka, Bangladesh': 'ঢাকা, বাংলাদেশ', 'Madrid, Spain': 'মাদ্রিদ, স্পেন',
+  'Dhaka, Bangladesh': 'ঢাকা, বাংলাদেশ', 'Madrid, Spain': 'মাদ্রিদ, স্পেন', 'Spain': 'স্পেন',
+  'Leads EduRise in Bangladesh: student counselling, admissions and service standards. His own studies in Malaysia inspired him to start EduRise.': 'বাংলাদেশে EduRise-এর নেতৃত্ব দেন: শিক্ষার্থী কাউন্সেলিং, ভর্তি ও সেবার মান। মালয়েশিয়ায় নিজের পড়াশোনার অভিজ্ঞতা থেকেই তিনি EduRise শুরু করেন।',
+  'Oversees European operations and supervises admissions for Malta, South Korea, Japan and other European destinations.': 'ইউরোপীয় কার্যক্রম দেখাশোনা করেন এবং মাল্টা, দক্ষিণ কোরিয়া, জাপান ও অন্যান্য ইউরোপীয় দেশে ভর্তির কাজ তত্ত্বাবধান করেন।',
+  'Builds relationships with universities and explores new study destinations. ACCA qualified and runs his own business in the UK.': 'বিশ্ববিদ্যালয়গুলোর সাথে সম্পর্ক গড়ে তোলেন এবং নতুন পড়াশোনার গন্তব্য খোঁজেন। ACCA সম্পন্ন করেছেন এবং যুক্তরাজ্যে নিজের ব্যবসা পরিচালনা করেন।',
 
   /* ---------- levels and shared words ---------- */
   'Bachelor’s': 'স্নাতক', 'Master’s': 'স্নাতকোত্তর', 'Foundation': 'ফাউন্ডেশন', 'Diploma': 'ডিপ্লোমা', 'Language': 'ভাষা প্রোগ্রাম',
