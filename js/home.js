@@ -2,17 +2,6 @@
    home.js — homepage sections (Phase 3). Content comes from data.js.
    ===================================================================== */
 
-/* ---------- hero: trust points (the middle tile shows the leaders' photos) ---------- */
-function renderTrust() {
-  const visual = [
-    `<span class="trust__icon">${icon('globe')}</span>`,
-    `<span class="trust__faces">${TEAM.map(t => `<img src="${t.photo}" alt="" width="34" height="34" loading="lazy">`).join('')}</span>`,
-    `<span class="trust__icon">${icon('plane')}</span>`
-  ];
-  $('#heroTrust').innerHTML = TRUST_POINTS
-    .map((t, i) => `<li>${visual[i] || ''}<span><b>${esc(t.title)}</b>${esc(t.text)}</span></li>`).join('');
-}
-
 /* ---------- hero: live pill — how many application windows are open today ---------- */
 function renderHeroLive() {
   const el = $('#heroLiveText'); if (!el) return;
@@ -242,7 +231,6 @@ function initHomeContact() {
 }
 
 function initHome() {
-  renderTrust();
   renderHeroLive();
   DestCards.init();
   renderServices();
