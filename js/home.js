@@ -187,18 +187,52 @@ function renderTeam() {
 
 /* ---------- programs (DOCX §4.1) ---------- */
 function renderHomePrograms() {
+  /* program finder: pick your latest qualification, see the program types you can apply to */
   const box = $('#homePrograms'); if (!box) return;
-  const tiles = PROGRAM_TYPES.map(p => ({ href: `programs.html#${p.id}`, icon: p.icon, title: p.title, text: p.who }))
-    .concat([
-      { href: 'scholarships.html', icon: 'award', title: 'Scholarships', text: 'University and government offers' },
-      { href: 'cost-estimator.html', icon: 'calendar', title: 'Cost estimator', text: 'Tuition and living costs in taka' }
-    ]);
-  box.innerHTML = tiles.map(t => `<a class="ptile" href="${t.href}">
-      <span class="ptile__icon">${icon(t.icon)}</span>
-      <span class="ptile__title">${esc(t.title)}</span>
-      <span class="ptile__text">${esc(t.text)}</span>
-      <span class="ptile__go" aria-hidden="true">${icon('arrow')}</span>
-    </a>`).join('');
+  const ALL = ['bachelors', 'masters', 'language', 'diploma'];
+  const OPTS = [
+    { id: 'ssc',      label: 'SSC / O-levels',    hint: 'Foundation and diploma',       programs: ['diploma'] },
+    { id: 'hsc',      label: 'HSC / A-levels',    hint: 'Bachelor’s, diploma, language', programs: ['bachelors', 'diploma', 'language'] },
+    { id: 'diploma',  label: 'Diploma',           hint: 'Bachelor’s with credit transfer', programs: ['bachelors'] },
+    { id: 'bachelor', label: 'Bachelor’s degree', hint: 'Master’s and language',        programs: ['masters', 'language'] },
+    { id: 'unsure',   label: 'Not sure yet',      hint: 'See every program',            programs: ALL }
+  ];
+  const progs = Object.fromEntries(PROGRAM_TYPES.map(p => [p.id, p]));
+  const destName = id => (DESTINATIONS.find(d => d.id === id) || {}).name || id;
+  const flags = ids => `<span class="pf-flags" aria-hidden="true">${ids.map(id => `<span>${Landmarks.flagSVG(id)}</span>`).join('')}</span>`;
+  let current = 'hsc';
+
+  box.innerHTML = `<div class="pf__ask">
+      <span class="pf__eyebrow">Program finder</span>
+      <h3 class="pf__q" id="pfQ">What have you completed?</h3>
+      <div class="pf__opts" role="group" aria-labelledby="pfQ">${OPTS.map(o => `<button type="button" class="pf-opt" data-opt="${o.id}" aria-pressed="false" aria-controls="pfResults">
+          <span><b>${esc(o.label)}</b><small>${esc(o.hint)}</small></span>${icon('arrow')}</button>`).join('')}</div>
+      <p class="pf__note">Pick your latest qualification to see the programs you can apply to.</p>
+    </div>
+    <div class="pf__res">
+      <div id="pfResults" aria-live="polite"></div>
+      <div class="pf__tools">
+        <a href="scholarships.html">${icon('award')}<span>Scholarships</span></a>
+        <a href="cost-estimator.html">${icon('calendar')}<span>Cost estimator</span></a>
+        <a href="eligibility.html">${icon('check')}<span>Full eligibility check</span></a>
+      </div>
+    </div>`;
+
+  const show = id => {
+    current = id;
+    const o = OPTS.find(x => x.id === id);
+    $$('.pf-opt', box).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.opt === id)));
+    $('#pfResults').innerHTML = `<p class="pf__count">${id === 'unsure' ? '<span>All programs</span>' : `<span>Programs that fit</span><b>${esc(o.label)}</b>`}</p>
+      <div class="pf__grid">${o.programs.map(pid => { const p = progs[pid]; return `<a class="pf-card" href="programs.html#${p.id}">
+        <span class="pf-card__top"><span class="pf-card__icon">${icon(p.icon)}</span>${id === 'unsure' ? '' : '<span class="pf-card__fit">Fits your profile</span>'}</span>
+        <span class="pf-card__title">${esc(p.title)}</span>
+        <span class="pf-card__reqs">${p.requirements.slice(0, 2).map(r => `<span>${icon('check')}${esc(r)}</span>`).join('')}</span>
+        ${flags(p.destinations)}<span class="sr-only">Available in ${p.destinations.map(destName).join(', ')}.</span>
+        <span class="pf-card__go">See program${icon('arrow')}</span>
+      </a>`; }).join('')}</div>`;
+  };
+  box.addEventListener('click', e => { const b = e.target.closest('.pf-opt'); if (b) show(b.dataset.opt); });
+  show(current);
 }
 
 /* ---------- why choose us + commitment quote (DOCX §4.1, PDF) ---------- */
