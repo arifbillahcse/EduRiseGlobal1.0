@@ -167,17 +167,17 @@ function renderTeam() {
   /* profile rows: photo · name/role/location · bio + tags · arrow; the whole row links to the leader on About */
   const POS = { faysal: '38% 18%' };            // keeps the poster lantern out of the frame
   $('#teamGrid').innerHTML = Store.list('team').map((p, i) => {
-    const parts = p.location.split(',').map(s => s.trim());
+    const parts = (p.location || '').split(',').map(s => s.trim()).filter(Boolean);
     const country = parts[parts.length - 1];
     return `<a class="leader-r" href="leadership.html#leader-${p.id}">
       <span class="leader-r__pic"><img class="leader-r__photo" src="${p.photo}" alt="" width="150" height="150" loading="lazy" style="object-position:${POS[p.id] || '50% 18%'}"></span>
       <span>
-        <span class="leader-r__num"><b>${String(i + 1).padStart(2, '0')}</b><span aria-hidden="true">·</span><span>${esc(country)}</span></span>
+        <span class="leader-r__num"><b>${String(i + 1).padStart(2, '0')}</b>${country ? `<span aria-hidden="true">·</span><span>${esc(country)}</span>` : ''}</span>
         <span class="leader-r__name">${esc(p.name)}</span>
         <span class="leader-r__role">${esc(p.role)}</span>
         ${parts.length > 1 ? `<span class="leader-r__loc">${icon('pin')}${esc(p.location)}</span>` : ''}
       </span>
-      <span class="leader-r__bio">${esc(p.bio)}<span class="leader-r__chips">${p.tags.map(t => `<span>${esc(t)}</span>`).join('')}</span></span>
+      <span class="leader-r__bio">${esc(p.bio)}<span class="leader-r__chips">${((p.tags && p.tags.length) ? p.tags : (p.portfolio || []).slice(0, 2)).map(t => `<span>${esc(t)}</span>`).join('')}</span></span>
       <span class="leader-r__go" aria-hidden="true">${icon('arrow')}</span>
     </a>`;
   }).join('');

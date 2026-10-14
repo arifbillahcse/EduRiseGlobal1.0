@@ -112,6 +112,7 @@
 .leader__portfolio{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
 .leader__portfolio b{display:block;margin-bottom:8px;font:700 11px/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
 .tag--brand{background:var(--brand-soft);color:var(--brand-text);border-color:transparent}
+.leader__body p.leader__motto{margin-top:12px;padding-left:12px;border-left:3px solid var(--sun);font:600 15px/1.4 var(--font-display);color:var(--ink)}
 .leader__body{display:grid;gap:6px}
 .leader__body p{color:var(--ink-2)}
 .offices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}

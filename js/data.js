@@ -190,7 +190,19 @@ const TEAM = [
       'Under his operational leadership, incoming international students receive structured orientation, seamless academic integration, and round-the-clock welfare advocacy throughout their tertiary education in Borneo.'
     ],
     portfolio: ['Institutional MoUs', 'Regional Strategic Operations', 'Student Welfare & Compliance'],
-    tags: ['Malaysian university alumnus', 'Software engineering background'] }
+    tags: ['Malaysian university alumnus', 'Software engineering background'] },
+  /* added 14 Oct 2026 from the client's profile text (first person in the source, written here in the third person like the other leaders). Location not given. */
+  { id: 'emon', name: 'Sobzol Hosen Emon', role: 'Executive Partner', location: '', photo: 'assets/img/team/emon.jpg',
+    bio: 'Drives business development and strategic partnerships, helping EduRise Global grow in the international education sector.',
+    story: [
+      'At EduRise Global, Sobzol Hosen Emon is committed to driving business development, fostering strategic partnerships and contributing to the organisation’s long-term growth in the international education sector.',
+      'He believes that strong partnerships, strategic thinking and a student-centred approach are essential to creating meaningful global education opportunities.',
+      'Through collaborative leadership and a commitment to professional excellence, his goal is to help EduRise Global strengthen its position in the international education landscape while supporting students in pursuing their academic ambitions abroad.'
+    ],
+    portfolioLabel: 'Core focus',
+    portfolio: ['Strategic Business Development', 'Partnership & Relationship Building', 'Organizational Growth', 'International Education Opportunities'],
+    motto: 'Building Trust. Expanding Horizons. Empowering Futures.',
+    tags: [] }                                     // the homepage shows the first two focus areas instead
 ];
 
 /* destination photos (hero, homepage panels, destination cards): Wikimedia Commons, free licences,
