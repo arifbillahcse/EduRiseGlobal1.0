@@ -166,7 +166,7 @@ function renderProcess() {
 function renderTeam() {
   /* profile rows: photo · name/role/location · bio + tags · arrow; the whole row links to the leader on About */
   const POS = { faysal: '38% 18%' };            // keeps the poster lantern out of the frame
-  $('#teamGrid').innerHTML = Store.list('team').map((p, i) => {
+  $('#teamGrid').innerHTML = Store.list('team').filter(p => p.onHome !== false).map((p, i) => {   // onHome:false leaders appear only on leadership.html
     const parts = (p.location || '').split(',').map(s => s.trim()).filter(Boolean);
     const country = parts[parts.length - 1];
     return `<a class="leader-r" href="leadership.html#leader-${p.id}">

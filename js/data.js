@@ -180,7 +180,7 @@ const TEAM = [
     story: 'Raihan Gazi is based in the United Kingdom and leads EduRise Global’s global partnerships and international collaborations. He has completed ACCA and runs his own professional business in the UK. His role is to build relationships with institutions, explore new study destinations and keep EduRise Global well connected across the global education industry.',
     tags: ['ACCA qualified', 'Business owner in the UK'] },
   /* added 14 Oct 2026 from the client's leadership profile; "EduRaise" in the source corrected to EduRise */
-  { id: 'shahriar', name: 'Md Shahriar Karim', role: 'International Relations & Partnerships Lead', location: 'Kota Samarahan, Sarawak, Malaysia', photo: 'assets/img/team/shahriar.jpg',
+  { onHome: false, id: 'shahriar', name: 'Md Shahriar Karim', role: 'International Relations & Partnerships Lead', location: 'Kota Samarahan, Sarawak, Malaysia', photo: 'assets/img/team/shahriar.jpg',
     alsoRole: 'General Manager, Sarawak Synergy Consultancy (SSC)',
     bio: 'Leads our bilateral operations from Sarawak, linking students from South Asia with universities in East Malaysia. Also General Manager of Sarawak Synergy Consultancy (SSC).',
     story: [
@@ -192,7 +192,7 @@ const TEAM = [
     portfolio: ['Institutional MoUs', 'Regional Strategic Operations', 'Student Welfare & Compliance'],
     tags: ['Malaysian university alumnus', 'Software engineering background'] },
   /* added 14 Oct 2026 from the client's profile text (first person in the source, written here in the third person like the other leaders). Location not given. */
-  { id: 'emon', name: 'Sobzol Hosen Emon', role: 'Executive Partner', location: '', photo: 'assets/img/team/emon.jpg',
+  { onHome: false, id: 'emon', name: 'Sobzol Hosen Emon', role: 'Executive Partner', location: '', photo: 'assets/img/team/emon.jpg',
     bio: 'Drives business development and strategic partnerships, helping EduRise Global grow in the international education sector.',
     story: [
       'At EduRise Global, Sobzol Hosen Emon is committed to driving business development, fostering strategic partnerships and contributing to the organisation’s long-term growth in the international education sector.',

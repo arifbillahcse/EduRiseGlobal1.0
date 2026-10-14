@@ -176,7 +176,9 @@ function leaderCardHTML(p) {
 
 /* ================= leadership.html: only the leader profiles ================= */
 function renderLeadershipPage() {
-  $('#leadersList').innerHTML = Store.list('team').map(leaderCardHTML).join('');
+  // leaders not shown on the homepage come first, so "More Leadership" opens on them
+  const team = Store.list('team');
+  $('#leadersList').innerHTML = team.filter(p => p.onHome === false).concat(team.filter(p => p.onHome !== false)).map(leaderCardHTML).join('');
   mountCTA('leadersCta');
   const target = location.hash && document.getElementById(location.hash.slice(1));   // e.g. leadership.html#leader-ceo from the homepage
   if (target) requestAnimationFrame(() => target.scrollIntoView());
