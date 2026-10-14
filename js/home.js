@@ -181,6 +181,10 @@ function renderTeam() {
       <span class="leader-r__go" aria-hidden="true">${icon('arrow')}</span>
     </a>`;
   }).join('');
+  // "More Leadership" jumps straight to the first leader who is not shown on the homepage
+  const more = Store.list('team').find(p => p.onHome === false);
+  const link = $('#team .link-arrow');
+  if (link && more) link.href = `leadership.html#leader-${more.id}`;
 }
 
 /* ---------- destinations (DOCX §4.1): expanding flag panels, see destpanels.js ---------- */
