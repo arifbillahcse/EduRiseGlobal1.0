@@ -178,8 +178,22 @@ function leaderCardHTML(p) {
 function renderLeadershipPage() {
   $('#leadersList').innerHTML = Store.list('team').map(leaderCardHTML).join('');
   mountCTA('leadersCta');
-  const target = location.hash && document.getElementById(location.hash.slice(1));   // e.g. leadership.html#leader-ceo from the homepage
-  if (target) requestAnimationFrame(() => target.scrollIntoView());
+  jumpToHash();
+}
+
+/* open a page on #leader-… even though the cards are drawn by JavaScript: jump now, and again once
+   fonts and images have loaded (they change the height of the cards above), unless the visitor has scrolled */
+function jumpToHash() {
+  const target = location.hash && document.getElementById(location.hash.slice(1));
+  if (!target) return;
+  let userMoved = false;
+  const stop = () => { userMoved = true; };
+  ['wheel', 'touchstart', 'keydown'].forEach(ev => window.addEventListener(ev, stop, { once: true, passive: true }));
+  const go = () => { if (!userMoved) target.scrollIntoView({ behavior: 'instant', block: 'start' }); };
+  requestAnimationFrame(go);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(go);
+  window.addEventListener('load', go, { once: true });
+  setTimeout(go, 1200);
 }
 
 /* ================= about.html ================= */
@@ -191,8 +205,7 @@ function renderAboutPage() {
   $('#aboutOffices').innerHTML = OFFICES.map(officeHTML).join('');
   $('#aboutCommit').innerHTML = COMMITMENT.points.map(p => `<li>${icon('check')}<span>${esc(p)}</span></li>`).join('');
   mountCTA('aboutCta');
-  const target = location.hash && document.getElementById(location.hash.slice(1));   // e.g. about.html#leader-ceo from the homepage
-  if (target) requestAnimationFrame(() => target.scrollIntoView());
+  jumpToHash();                                    // e.g. about.html#leader-ceo
 }
 
 /* ================= contact.html (Package 1: form goes to EduRise's email) ================= */
