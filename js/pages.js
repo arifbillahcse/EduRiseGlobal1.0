@@ -156,21 +156,37 @@ function renderServicesPage() {
   mountCTA('serviceCta');
 }
 
-/* ================= about.html ================= */
-function renderAboutPage() {
-  $('#aboutIntro').innerHTML = ABOUT.intro.map(p => `<p>${esc(p)}</p>`).join('');
-  $('#aboutVision').textContent = ABOUT.vision;
-  $('#aboutMission').innerHTML = ABOUT.mission.map(m => `<li>${icon('check')}<span>${esc(m)}</span></li>`).join('');
-  $('#aboutTeam').innerHTML = Store.list('team').map(p => `<article class="leader card" id="leader-${p.id}">
+/* ================= leader profile card (about.html, leadership.html) ================= */
+function leaderCardHTML(p) {
+  const story = [].concat(p.story || p.bio);                 // story can be one paragraph or several
+  return `<article class="leader card" id="leader-${p.id}">
     <img class="leader__photo" src="${p.photo}" alt="Portrait of ${esc(p.name)}" width="320" height="320" loading="lazy">
     <div class="leader__body">
       <span class="person__loc">${icon('pin', 'icon--sm')}${esc(p.location)}</span>
       <h3 class="person__name">${esc(p.name)}</h3>
       <span class="person__role">${esc(p.role)}</span>
-      <p>${esc(p.story)}</p>
+      ${p.alsoRole ? `<span class="person__also">${esc(p.alsoRole)}</span>` : ''}
+      ${story.map(t => `<p>${esc(t)}</p>`).join('')}
+      ${p.portfolio ? `<div class="leader__portfolio"><b>Direct portfolio</b><div class="tag-row">${p.portfolio.map(t => `<span class="tag tag--brand">${esc(t)}</span>`).join('')}</div></div>` : ''}
       <div class="tag-row">${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>
     </div>
-  </article>`).join('');
+  </article>`;
+}
+
+/* ================= leadership.html: only the leader profiles ================= */
+function renderLeadershipPage() {
+  $('#leadersList').innerHTML = Store.list('team').map(leaderCardHTML).join('');
+  mountCTA('leadersCta');
+  const target = location.hash && document.getElementById(location.hash.slice(1));   // e.g. leadership.html#leader-ceo from the homepage
+  if (target) requestAnimationFrame(() => target.scrollIntoView());
+}
+
+/* ================= about.html ================= */
+function renderAboutPage() {
+  $('#aboutIntro').innerHTML = ABOUT.intro.map(p => `<p>${esc(p)}</p>`).join('');
+  $('#aboutVision').textContent = ABOUT.vision;
+  $('#aboutMission').innerHTML = ABOUT.mission.map(m => `<li>${icon('check')}<span>${esc(m)}</span></li>`).join('');
+  $('#aboutTeam').innerHTML = Store.list('team').map(leaderCardHTML).join('');
   $('#aboutOffices').innerHTML = OFFICES.map(officeHTML).join('');
   $('#aboutCommit').innerHTML = COMMITMENT.points.map(p => `<li>${icon('check')}<span>${esc(p)}</span></li>`).join('');
   mountCTA('aboutCta');

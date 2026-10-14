@@ -169,7 +169,7 @@ function renderTeam() {
   $('#teamGrid').innerHTML = Store.list('team').map((p, i) => {
     const parts = p.location.split(',').map(s => s.trim());
     const country = parts[parts.length - 1];
-    return `<a class="leader-r" href="about.html#leader-${p.id}">
+    return `<a class="leader-r" href="leadership.html#leader-${p.id}">
       <span class="leader-r__pic"><img class="leader-r__photo" src="${p.photo}" alt="" width="150" height="150" loading="lazy" style="object-position:${POS[p.id] || '50% 18%'}"></span>
       <span>
         <span class="leader-r__num"><b>${String(i + 1).padStart(2, '0')}</b><span aria-hidden="true">·</span><span>${esc(country)}</span></span>

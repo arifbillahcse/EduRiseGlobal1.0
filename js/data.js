@@ -178,7 +178,19 @@ const TEAM = [
   { id: 'raihan', name: 'Raihan Gazi', role: 'Managing Director, Global Partnerships', location: 'United Kingdom', photo: 'assets/img/team/raihan.jpg',
     bio: 'Builds relationships with universities and explores new study destinations. ACCA qualified and runs his own business in the UK.',
     story: 'Raihan Gazi is based in the United Kingdom and leads EduRise Global’s global partnerships and international collaborations. He has completed ACCA and runs his own professional business in the UK. His role is to build relationships with institutions, explore new study destinations and keep EduRise Global well connected across the global education industry.',
-    tags: ['ACCA qualified', 'Business owner in the UK'] }
+    tags: ['ACCA qualified', 'Business owner in the UK'] },
+  /* added 14 Oct 2026 from the client's leadership profile; "EduRaise" in the source corrected to EduRise */
+  { id: 'shahriar', name: 'Md Shahriar Karim', role: 'International Relations & Partnerships Lead', location: 'Kota Samarahan, Sarawak, Malaysia', photo: 'assets/img/team/shahriar.jpg',
+    alsoRole: 'General Manager, Sarawak Synergy Consultancy (SSC)',
+    bio: 'Leads our bilateral operations from Sarawak, linking students from South Asia with universities in East Malaysia. Also General Manager of Sarawak Synergy Consultancy (SSC).',
+    story: [
+      'Md Shahriar Karim leads the bilateral operations of EduRise Global, serving as the strategic bridge between international student talent pools in South Asia and higher learning institutions in East Malaysia.',
+      'Operating permanently from Sarawak, Shahriar acts as the Regional Partner for EduRise Global while concurrently heading local ground operations as the General Manager for Sarawak Synergy Consultancy (SSC). Through this dual capacity, he ensures that the international recruitment and marketing strategies developed abroad are flawlessly executed and supported on the ground in Malaysia.',
+      'As an alumnus of the Malaysian higher education system with a background in software engineering, Shahriar possesses a firsthand understanding of the international student journey. He leverages this experience alongside his extensive background in Sarawak-based operations management to champion a high-touch stewardship model. His work focuses on establishing robust institutional partnerships, overseeing pre-arrival student screening protocols, and ensuring rigorous compliance with local immigration (JIMS) and educational standards.',
+      'Under his operational leadership, incoming international students receive structured orientation, seamless academic integration, and round-the-clock welfare advocacy throughout their tertiary education in Borneo.'
+    ],
+    portfolio: ['Institutional MoUs', 'Regional Strategic Operations', 'Student Welfare & Compliance'],
+    tags: ['Malaysian university alumnus', 'Software engineering background'] }
 ];
 
 /* destination photos (hero, homepage panels, destination cards): Wikimedia Commons, free licences,

@@ -16,13 +16,14 @@ const PAGE_RENDERERS = {
   scholarships: () => renderScholarshipsPage(),
   services:     () => renderServicesPage(),
   about:        () => renderAboutPage(),
+  leadership:   () => renderLeadershipPage(),
   contact:      () => renderContactPage(),
   policies:     () => renderPoliciesPage(),
   news:         () => renderNewsPage()
 };
 
 /* which menu item is highlighted for each page */
-const ACTIVE_NAV = { destination: 'destinations', policies: '', news: '', program: 'programs', eligibility: '', estimator: '' };
+const ACTIVE_NAV = { leadership: 'about', destination: 'destinations', policies: '', news: '', program: 'programs', eligibility: '', estimator: '' };
 
 document.addEventListener('DOMContentLoaded', () => {
   injectIcons();
