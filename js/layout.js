@@ -14,11 +14,38 @@ function brandHTML(label = 'EduRise Global, home') {
     <span><span class="brand__name">EduRise</span><span class="brand__sub">GLOBAL</span></span></a>`;
 }
 
+/* announcement bar above the header: short promotional lines, one at a time (facts from data.js) */
+const RIBBON_MSGS = [
+  'Free study abroad counselling: share your results and get an honest plan',
+  'South Korea: tuition scholarships of 30% to 50% at many universities, based on your English score',
+  'Japan: selected Master’s programs without IELTS',
+  'Malaysia: foundation, diploma, Bachelor’s and Master’s pathways'
+];
+function initRibbon() {
+  const msgs = $$('.ribbon__msg');
+  if (msgs.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const bar = $('.ribbon'); let i = 0, paused = false;
+  bar.addEventListener('mouseenter', () => { paused = true; });
+  bar.addEventListener('mouseleave', () => { paused = false; });
+  bar.addEventListener('focusin', () => { paused = true; });
+  bar.addEventListener('focusout', () => { paused = false; });
+  setInterval(() => {
+    if (paused || document.hidden) return;
+    msgs[i].classList.remove('is-on'); msgs[i].setAttribute('aria-hidden', 'true');
+    i = (i + 1) % msgs.length;
+    msgs[i].classList.add('is-on'); msgs[i].removeAttribute('aria-hidden');
+  }, 4500);
+}
+
 function topHTML() {
   return `
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="site-top" role="region" aria-label="Contact and language">
-  <div class="ribbon" role="note"><div class="container"><span>Website demo for client review.</span><span class="tbc">TBC</span><span>= information still to be confirmed by EduRise</span></div></div>
+  <div class="ribbon" role="region" aria-label="Announcements"><div class="container">
+    <span class="ribbon__tag">${ico('award')}Now enrolling</span>
+    <span class="ribbon__msgs">${RIBBON_MSGS.map((m, i) => `<span class="ribbon__msg${i ? '' : ' is-on'}"${i ? ' aria-hidden="true"' : ''}>${m}</span>`).join('')}</span>
+    <a class="ribbon__cta" href="contact.html">Book a free consultation${ico('arrow')}</a>
+  </div></div>
   <div class="topbar"><div class="container">
     <div class="topbar__contacts">
       <a class="topbar__item tnum" data-site-href="phone">${ico('phone')}<span data-site="phone"></span></a>
@@ -216,6 +243,7 @@ const Drawer = (() => {
 /* ---------- start the shell (called by main.js after page content is rendered) ---------- */
 function initLayout(activeId) {
   renderShell();
+  initRibbon();
   renderNav(activeId);
   bindSite();
   initHeader();

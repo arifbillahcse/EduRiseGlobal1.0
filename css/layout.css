@@ -5,10 +5,21 @@
    Uses only tokens from tokens.css and classes from components.css.
    ===================================================================== */
 
-/* ---------- demo ribbon (delete the element in index.html at launch) ---------- */
-.ribbon{background:var(--sun);color:var(--sun-ink);font-size:13px;font-weight:600}
-.ribbon .container{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:center;padding-block:6px;text-align:center}
-.ribbon .tbc{margin:0;color:var(--sun-ink);border-color:var(--sun-ink);background:transparent}
+/* ---------- announcement bar (promotional lines, rotated by initRibbon in layout.js) ---------- */
+.ribbon{background:var(--sun);color:var(--sun-ink);font-size:13.5px;font-weight:600}
+.ribbon .container{display:flex;align-items:center;justify-content:center;gap:14px;min-height:36px;padding-block:6px}
+.ribbon__tag{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;padding:3px 10px;border-radius:999px;background:var(--night);color:var(--sun);font:700 10.5px/1.2 var(--font-mono);letter-spacing:.12em;text-transform:uppercase}
+.ribbon__tag .icon{width:13px;height:13px}
+.ribbon__msgs{position:relative;display:grid;min-width:0}
+.ribbon__msg{grid-area:1/1;opacity:0;transform:translateY(6px);transition:opacity .45s,transform .45s var(--ease);text-align:center}
+.ribbon__msg.is-on{opacity:1;transform:none}
+.ribbon__cta{display:inline-flex;align-items:center;gap:5px;flex-shrink:0;color:var(--sun-ink);font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.ribbon__cta .icon{width:14px;height:14px;transition:transform .2s}
+.ribbon__cta:hover .icon{transform:translateX(3px)}
+.ribbon__cta:focus-visible{outline:2px solid var(--sun-ink);outline-offset:2px;border-radius:3px}
+@media (max-width:900px){.ribbon__tag{display:none}}
+@media (max-width:640px){.ribbon .container{flex-direction:column;gap:2px;font-size:12.5px}.ribbon__cta{font-size:12.5px}}
+@media (prefers-reduced-motion:reduce){.ribbon__msg{transition:none}}
 
 /* ---------- top bar ---------- */
 .topbar{background:var(--night);color:var(--night-dim);font-size:13px}
