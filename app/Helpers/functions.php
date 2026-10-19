@@ -1,0 +1,37 @@
+<?php
+/**
+ * Small global helpers used by views and controllers.
+ */
+
+declare(strict_types=1);
+
+/** Escape text for HTML output (body text and attribute values). */
+function e(?string $value): string
+{
+    return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+/**
+ * JSON that is safe inside an inline <script>: <, >, &, ' and " are written
+ * as \u escapes, so a value can never close the script tag.
+ */
+function json_for_script(mixed $value): string
+{
+    return json_encode(
+        $value,
+        JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR
+    );
+}
+
+/** Site URL path prefix from base_url, e.g. '' for a domain root, '/edurise' for a sub-folder. */
+function base_path(): string
+{
+    $path = (string) parse_url((string) App\Core\Config::get('base_url', ''), PHP_URL_PATH);
+    return rtrim($path, '/');
+}
+
+/** Absolute URL for a site path, e.g. url('about.html'). */
+function url(string $path = ''): string
+{
+    return rtrim((string) App\Core\Config::get('base_url', ''), '/') . '/' . ltrim($path, '/');
+}

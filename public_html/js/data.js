@@ -5,8 +5,13 @@
    Fields are added phase by phase, never renamed.
    ===================================================================== */
 
+/* On the PHP site, the server puts the database content in window.EDURISE_DB
+   before this file runs. Each list below uses it when present, and otherwise
+   falls back to the content written here (static preview, or database down). */
+const FROM_DB = (typeof window !== 'undefined' && window.EDURISE_DB) || {};
+
 /* ---------- site settings ---------- */
-const SITE = {
+const SITE = FROM_DB.site || {
   name: 'EduRise Global',
   tagline: 'Guiding Your Global Future',
   phone: '+880 1321-216402',
@@ -55,7 +60,7 @@ const LEGAL = [
    DESTINATIONS (Phase 4) — one entry per country page: destination.html#<id>
    code = airport/city code shown on cards
    ===================================================================== */
-const DESTINATIONS = [
+const DESTINATIONS = FROM_DB.destinations || [
   { id: 'korea', code: 'ICN', city: 'Seoul', name: 'South Korea', levels: ['Bachelor’s', 'Master’s', 'Language (KLP / EAP)'],
     intro: 'Our largest route. We handle Bachelor’s and Master’s admissions at Korean universities, scholarships linked to English scores, and Korean (KLP) and English (EAP) language pathways.',
     highlights: ['English-taught Master’s tracks at several universities', 'Tuition scholarships of 30% to 50% at many universities, based on your English score', 'E-visa routes offered by selected universities', 'Language programs for students who need to build skills first'],
@@ -120,7 +125,7 @@ const DESTINATIONS = [
 ];
 /* country order set by the client (19 Oct 2026; USA added in place of "Other countries"); countries not in the list keep their place after it */
 const DEST_ORDER = ['korea', 'cyprus', 'china', 'malaysia', 'japan', 'finland', 'uk', 'malta', 'sweden', 'usa'];
-DESTINATIONS.sort((a, b) => (DEST_ORDER.indexOf(a.id) + 1 || 99) - (DEST_ORDER.indexOf(b.id) + 1 || 99));
+if (!FROM_DB.destinations) DESTINATIONS.sort((a, b) => (DEST_ORDER.indexOf(a.id) + 1 || 99) - (DEST_ORDER.indexOf(b.id) + 1 || 99));
 const OTHER_REGIONS = [
   { region: 'Europe',        countries: ['Estonia', 'Hungary', 'Other EU countries'] },
   { region: 'North America', countries: ['Canada'] },
@@ -140,8 +145,8 @@ const BASE_DOCUMENTS = ['Valid passport', 'SSC and HSC certificates and transcri
 const HERO_DESTINATIONS = ['korea', 'japan', 'uk', 'finland', 'italy'].map(id => {
   const notes = { korea: 'Our largest route, with English-score scholarships', japan: 'Selected programs without IELTS', uk: 'Partnerships managed by our UK team', finland: 'English-taught programs in the EU', italy: 'Public universities with low tuition' };
   const d = DESTINATIONS.find(x => x.id === id);
-  return { id, code: d.code, country: d.name, city: d.city, programs: d.levels.join(' · '), note: notes[id] };
-});
+  return d && { id, code: d.code, country: d.name, city: d.city, programs: d.levels.join(' · '), note: notes[id] };
+}).filter(Boolean);                                 // a hidden country drops out
 /* strip under the hero (client request). tbc: figure/claim still to be evidenced (DOCX §11) */
 const HERO_STATS = [
   { icon: 'cap',    title: '1000+',              text: 'Successful students', tbc: true },
@@ -185,7 +190,7 @@ const PROCESS = [
 ];
 
 /* leadership (PDF "Leadership Team"): bio for the homepage, story for the About page */
-const TEAM = [
+const TEAM = FROM_DB.team || [
   { id: 'ceo', name: 'MD Ibna Faysal', role: 'Chief Executive Officer & Country Director', location: 'Dhaka, Bangladesh', photo: 'assets/img/team/ceo.jpg',
     bio: 'Leads EduRise in Bangladesh: student counselling, admissions and service standards. His own studies in Malaysia inspired him to start EduRise.',
     story: 'MD Ibna Faysal leads the overall operations of EduRise Global in Bangladesh and is responsible for student counselling, admission management and the consultancy’s service standards. He studied in Malaysia, where his journey in international education began, and that experience inspired him to establish EduRise Global. Because he faced the same challenges himself, he focuses on honest, practical and student-focused guidance, so that every student gets accurate information and realistic expectations before a life-changing decision.',
@@ -229,7 +234,7 @@ const TEAM = [
    Direct thumbnail links (upload.wikimedia.org).
    Note: Commons marks Italian monuments (the Colosseum) as needing ministry permission for commercial
    use under Italy's Cultural Heritage Code; confirm or replace before using the photo in advertising. */
-const DEST_PHOTOS = {
+const DEST_PHOTOS = FROM_DB.destPhotos || {
   korea: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Gyeonghoeru_%28Royal_Banquet_Hall%29_at_Gyeongbokgung_Palace%2C_Seoul.jpg/1280px-Gyeonghoeru_%28Royal_Banquet_Hall%29_at_Gyeongbokgung_Palace%2C_Seoul.jpg',
     alt: "Gyeonghoeru Pavilion at Gyeongbokgung Palace in Seoul, beside its lotus pond", by: 'Frank Schulenburg', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/', page: 'https://commons.wikimedia.org/wiki/File:Gyeonghoeru_%28Royal_Banquet_Hall%29_at_Gyeongbokgung_Palace%2C_Seoul.jpg', pos: '50% 50%' },
   japan: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Arakurayama_Sengen_Park_-_Japan.jpg/1280px-Arakurayama_Sengen_Park_-_Japan.jpg',
@@ -284,7 +289,7 @@ const ABOUT = {
   mission: ['Provide honest and transparent guidance to students', 'Help students choose the best academic pathway for their profile', 'Connect students with globally recognised universities', 'Support students through every step of the study abroad journey']
 };
 
-const OFFICES = [
+const OFFICES = FROM_DB.offices || [
   { tag: 'Head office', country: 'Bangladesh', name: 'Dhaka, Bijoy Nagar', address: '177 Mahtab Center, 6th Floor, Room 01, Bijoy Nagar, Dhaka-1000', map: 'Mahtab Center Bijoy Nagar Dhaka', tbc: false },
   { tag: 'Branch',      country: 'Bangladesh', name: 'Dhaka, Purana Paltan', address: '37/2 Zaman Tower, Culvert Road, Purana Paltan, Dhaka-1000', map: 'Zaman Tower Purana Paltan Dhaka', tbc: true },
   { tag: 'European Affairs', country: 'Spain', name: 'Madrid', address: 'Sta Valle de Oro, 8-02 IZ, 28019 Madrid', map: 'Valle de Oro 28019 Madrid', tbc: false },
@@ -317,7 +322,7 @@ const PROGRAM_TYPES = [
    SCHOLARSHIPS (Phase 4, Package 1: list written at development time)
    University offers are SAMPLE data from EduRise Facebook posts (TBC).
    ===================================================================== */
-const SCHOLARSHIP_OFFERS = [
+const SCHOLARSHIP_OFFERS = FROM_DB.scholarships || [
   { id: 'sch-gachon', university: 'Gachon University', dest: 'korea', levels: ['Master’s'], level: 'Master’s (MBA)', award: '50% tuition waiver', condition: 'First semester, all admitted students', intakeId: 'gachon-r1' },
   { id: 'sch-kyungsung', university: 'Kyungsung University', dest: 'korea', levels: ['Bachelor’s'], level: 'Bachelor’s', award: '30% to 50%', condition: 'First semester, by IELTS score (5.5 / 7.0 / 7.5+)', intakeId: 'kyungsung-r2' },
   { id: 'sch-pyeongtaek', university: 'Pyeongtaek University', dest: 'korea', levels: ['Master’s'], level: 'Master’s', award: '30% to 50%', condition: 'By IELTS or TOEFL score', intakeId: 'pyeongtaek' },
@@ -325,7 +330,7 @@ const SCHOLARSHIP_OFFERS = [
   { id: 'sch-china', university: 'Chinese universities', dest: 'china', levels: ['Bachelor’s', 'Master’s'], level: 'Bachelor’s · Master’s', award: 'Up to 100% tuition', condition: 'CSC and university scholarships', intakeId: 'china' },
   { id: 'sch-jeonbuk', university: 'Jeonbuk National University', dest: 'korea', levels: ['Master’s'], level: 'Master’s', award: 'Up to 80%', condition: 'Selected applicants', intakeId: 'jeonbuk' }
 ];
-const GOV_SCHOLARSHIPS = [
+const GOV_SCHOLARSHIPS = FROM_DB.govScholarships || [
   { code: 'US', name: 'Fulbright Foreign Student Program', country: 'USA', coverage: 'Fully funded', levels: 'Master’s · PhD', url: 'https://foreign.fulbrightonline.org' },
   { code: 'UK', name: 'Chevening Scholarships', country: 'United Kingdom', coverage: 'Fully funded', levels: 'One-year Master’s', url: 'https://www.chevening.org' },
   { code: 'EU', name: 'Erasmus Mundus Joint Master’s', country: 'Europe', coverage: 'Fully funded', levels: 'Joint Master’s', url: 'https://erasmus-plus.ec.europa.eu' },
@@ -341,7 +346,7 @@ const GOV_SCHOLARSHIPS = [
 /* =====================================================================
    POLICIES (Phase 4) — draft wording, final text to be agreed (TBC)
    ===================================================================== */
-const POLICIES = [
+const POLICIES = FROM_DB.policies || [
   { id: 'privacy', title: 'Privacy policy', paragraphs: [
     'We collect the details you send through our forms or WhatsApp, such as your name, phone number, email, qualification and preferred country, only to answer your enquiry and support your application.',
     'We share your documents with universities, scholarship bodies or visa authorities only when you ask us to apply on your behalf. We do not sell your data.',
@@ -363,7 +368,7 @@ const POLICIES = [
 const LEVELS = ['Foundation', 'Diploma', 'Bachelor’s', 'Master’s', 'Language'];
 
 /* universities: summary cards with an enquiry button (no detail pages in Package 2) */
-const UNIVERSITIES = [
+const UNIVERSITIES = FROM_DB.universities || [
   { id: 'gachon', name: 'Gachon University', dest: 'korea', city: 'Seongnam, 20 to 30 minutes from Seoul', levels: ['Master’s'],
     summary: 'Private university near Seoul with an English-taught MBA and an E-visa route.',
     facts: [['English', 'IELTS 5.5'], ['Scholarship', '50% first-semester tuition'], ['Next intake', 'March 2027']] },
@@ -381,7 +386,7 @@ const UNIVERSITIES = [
 /* intakes: application windows with automatic status
    s / e = first and last day to apply (Dhaka time); tba = dates not announced yet.
    Closed windows disappear from the site on their own. */
-const INTAKES = [
+const INTAKES = FROM_DB.intakes || [
   { id: 'gachon-r1',    dest: 'korea',    title: 'Gachon University · MBA',                        levels: ['Master’s'],   intake: 'March 2027',  round: 'Round 1', s: '2026-10-07', e: '2026-10-14' },
   { id: 'gachon-r2',    dest: 'korea',    title: 'Gachon University · MBA',                        levels: ['Master’s'],   intake: 'March 2027',  round: 'Round 2', s: '2026-11-11', e: '2026-11-18' },
   { id: 'kyungsung-r2', dest: 'korea',    title: 'Kyungsung University · Bachelor’s',              levels: ['Bachelor’s'], intake: 'March 2027',  round: 'Round 2 (incl. transfer)', s: '2026-09-28', e: '2026-10-12' },
@@ -403,10 +408,10 @@ const INTAKES = [
    at least one story with consent: true exists. Format:
    { id: 't-1', name: 'Student name', destination: 'South Korea', university: 'University name',
      program: 'Master’s in …', quote: 'In the student’s own words', consent: true } */
-const TESTIMONIALS = [];
+const TESTIMONIALS = FROM_DB.testimonials || [];
 
 /* News posts. SAMPLE posts written from EduRise's Facebook announcements (TBC). */
-const NEWS = [
+const NEWS = FROM_DB.news || [
   { id: 'n-gachon', date: '2026-10-07', tag: 'Intake', title: 'Gachon University MBA: March 2027 applications are open',
     summary: 'Round 1 for the English-taught MBA at Gachon University near Seoul runs from 7 to 14 October 2026, with a 50% first-semester tuition waiver.',
     body: 'Gachon University in Seongnam, 20 to 30 minutes from Seoul, is accepting applications for its March 2027 MBA intake. Round 1 runs from 7 to 14 October 2026 and Round 2 from 11 to 18 November 2026. Admitted students receive a 50% tuition waiver in the first semester. The minimum English requirement is IELTS 5.5. Talk to a counsellor to check your documents before the deadline.' },
@@ -425,11 +430,11 @@ const NEWS = [
    ===================================================================== */
 
 /* exchange rates: 1 unit = X taka. Staff update these; every taka figure is calculated from them. (TBC) */
-const RATES = { KRW: 0.088, USD: 122, EUR: 132, MYR: 27.5, CNY: 16.9 };
-const RATES_UPDATED = '2026-10-01';
+const RATES = FROM_DB.rates || { KRW: 0.088, USD: 122, EUR: 132, MYR: 27.5, CNY: 16.9 };
+const RATES_UPDATED = FROM_DB.ratesUpdated || '2026-10-01';
 
 /* typical monthly living cost per country, in local currency (TBC) */
-const LIVING_COSTS = {
+const LIVING_COSTS = FROM_DB.livingCosts || {
   korea:    { amount: 900000, cur: 'KRW', note: 'Shared housing, food and transport outside Seoul' },
   japan:    { amount: 900,    cur: 'USD', note: 'Shared housing, food and transport' },
   russia:   { amount: 250,    cur: 'USD', note: 'Dormitory, food and transport' },
@@ -443,7 +448,7 @@ const LIVING_COSTS = {
    scholarships: pct is a tuition discount; scope 'first' = first semester only, 'all' = whole program
    english: { ielts: 5.5 } or { none: true }; budget: low | mid | high (used by the eligibility check)
    intakes: ids from INTAKES (dates and status come from there) */
-const PROGRAMS = [
+const PROGRAMS = FROM_DB.programs || [
   { id: 'gachon-mba', university: 'Gachon University', uni: 'gachon', dest: 'korea', city: 'Seongnam, near Seoul',
     title: 'Master’s in Business Administration (MBA)', levels: ['Master’s'], language: 'English', duration: '2 years', visa: 'E-visa',
     english: { ielts: 5.5, text: 'IELTS 5.5' }, cgpa: null, budget: 'mid',

@@ -1,0 +1,1563 @@
+{
+ "SITE": {
+  "name": "EduRise Global",
+  "tagline": "Guiding Your Global Future",
+  "phone": "+880 1321-216402",
+  "whatsapp": "8801321216402",
+  "email": "info.eduriseglobal@gmail.com",
+  "address": "177 Mahtab Center, 6th Floor, Bijoy Nagar, Dhaka-1000",
+  "offices": "Dhaka (head office) · Madrid, Spain · Suffolk, UK",
+  "hours": "Saturday to Thursday, 10:00 to 19:00",
+  "social": {
+   "facebook": "https://www.facebook.com/EduRiseGlobalConsultancy",
+   "instagram": "",
+   "linkedin": ""
+  },
+  "whatsappGreeting": "Hello EduRise Global, I would like a free consultation about studying abroad.",
+  "currentPhase": 8
+ },
+ "DESTINATIONS": [
+  {
+   "id": "korea",
+   "code": "ICN",
+   "city": "Seoul",
+   "name": "South Korea",
+   "levels": [
+    "Bachelor’s",
+    "Master’s",
+    "Language (KLP / EAP)"
+   ],
+   "intro": "Our largest route. We handle Bachelor’s and Master’s admissions at Korean universities, scholarships linked to English scores, and Korean (KLP) and English (EAP) language pathways.",
+   "highlights": [
+    "English-taught Master’s tracks at several universities",
+    "Tuition scholarships of 30% to 50% at many universities, based on your English score",
+    "E-visa routes offered by selected universities",
+    "Language programs for students who need to build skills first"
+   ],
+   "requirements": [
+    [
+     "Academic",
+     "HSC for Bachelor’s; Bachelor’s degree for Master’s"
+    ],
+    [
+     "CGPA",
+     "Usually 2.70 to 2.80 or higher, depending on the university"
+    ],
+    [
+     "English",
+     "IELTS 5.5 at most universities; some programs accept students without IELTS"
+    ],
+    [
+     "Study gap",
+     "Accepted at many universities, case by case"
+    ]
+   ],
+   "extraDocs": [
+    "Apostille or attestation of academic documents",
+    "Bank solvency certificate (amount set by the university)"
+   ]
+  },
+  {
+   "id": "cyprus",
+   "code": "LCA",
+   "city": "Nicosia",
+   "name": "Cyprus",
+   "levels": [
+    "Programs TBC"
+   ],
+   "tbc": true,
+   "intro": "We guide applications to universities in Cyprus. A counsellor confirms the current programs, intakes and requirements for your profile.",
+   "highlights": [
+    "Ask a counsellor for the programs and intakes currently open"
+   ],
+   "requirements": [
+    [
+     "Programs",
+     "To be confirmed with EduRise"
+    ],
+    [
+     "English",
+     "Depends on the university and program"
+    ]
+   ],
+   "extraDocs": []
+  },
+  {
+   "id": "china",
+   "code": "BJS",
+   "city": "Beijing",
+   "name": "China",
+   "levels": [
+    "Bachelor’s",
+    "Master’s",
+    "Language"
+   ],
+   "intro": "Degree and Chinese language programs, with Chinese Government (CSC) and university scholarship options and two intakes a year.",
+   "highlights": [
+    "Chinese Government (CSC), provincial and university scholarships",
+    "Engineering, IT, business and medical programs",
+    "Airport pickup and accommodation support",
+    "September and March intakes"
+   ],
+   "requirements": [
+    [
+     "Academic",
+     "HSC for Bachelor’s; Bachelor’s degree for Master’s"
+    ],
+    [
+     "English",
+     "Some programs without IELTS"
+    ],
+    [
+     "Chinese",
+     "Not required for English-taught programs"
+    ],
+    [
+     "Intakes",
+     "September and March"
+    ]
+   ],
+   "extraDocs": [
+    "Physical examination form"
+   ]
+  },
+  {
+   "id": "malaysia",
+   "code": "KUL",
+   "city": "Kuala Lumpur",
+   "name": "Malaysia",
+   "levels": [
+    "Foundation",
+    "Diploma",
+    "Bachelor’s",
+    "Master’s"
+   ],
+   "intro": "An affordable route from Foundation to Master’s, with credit transfer options and lower English requirements at selected universities.",
+   "highlights": [
+    "Programs from Foundation to Master’s",
+    "Credit transfer to save time and money",
+    "Low IELTS or without IELTS at selected universities",
+    "Internship and industry exposure"
+   ],
+   "requirements": [
+    [
+     "Academic",
+     "SSC / HSC for Foundation and Diploma"
+    ],
+    [
+     "English",
+     "Varies; some programs without IELTS"
+    ],
+    [
+     "Budget",
+     "Lower tuition and living costs"
+    ],
+    [
+     "Intakes",
+     "Several each year"
+    ]
+   ],
+   "extraDocs": []
+  },
+  {
+   "id": "japan",
+   "code": "TYO",
+   "city": "Tokyo",
+   "name": "Japan",
+   "levels": [
+    "Master’s"
+   ],
+   "intro": "Master’s admissions at Japanese universities, including selected programs that do not require IELTS. Our European Affairs team supervises Japan admissions.",
+   "highlights": [
+    "Master’s programs at selected universities without IELTS",
+    "Research-focused universities with strong reputations",
+    "Part-time work allowed within immigration limits",
+    "Family accompaniment possible in some cases, subject to immigration rules"
+   ],
+   "requirements": [
+    [
+     "Academic",
+     "Completed Bachelor’s degree"
+    ],
+    [
+     "English",
+     "Depends on the program; some accept students without IELTS"
+    ],
+    [
+     "Research plan",
+     "Often required for Master’s"
+    ],
+    [
+     "Japanese",
+     "Not required for English-taught programs"
+    ]
+   ],
+   "extraDocs": [
+    "Research plan or statement of purpose",
+    "Financial support documents"
+   ]
+  },
+  {
+   "id": "finland",
+   "code": "HEL",
+   "city": "Helsinki",
+   "name": "Finland",
+   "levels": [
+    "Bachelor’s",
+    "Master’s"
+   ],
+   "intro": "English-taught Bachelor’s and Master’s programs in one of Europe’s strongest education systems.",
+   "highlights": [
+    "English-taught degrees with a research focus",
+    "Lower tuition than many European countries",
+    "Spouse may apply in some cases, subject to Finnish immigration rules",
+    "Part-time work allowed within residence permit limits"
+   ],
+   "requirements": [
+    [
+     "Academic",
+     "HSC for Bachelor’s; Bachelor’s degree for Master’s"
+    ],
+    [
+     "English",
+     "IELTS 6.0+ or TOEFL iBT 90+"
+    ],
+    [
+     "Study gap",
+     "Considered case by case"
+    ],
+    [
+     "Intakes",
+     "January and September"
+    ]
+   ],
+   "extraDocs": [
+    "Proof of funds for the residence permit"
+   ]
+  },
+  {
+   "id": "uk",
+   "code": "LON",
+   "city": "London",
+   "name": "United Kingdom",
+   "levels": [
+    "Bachelor’s",
+    "Master’s"
+   ],
+   "intro": "One-year Master’s and three-year Bachelor’s degrees. University relationships are managed by our Managing Director in the UK.",
+   "highlights": [
+    "One-year Master’s programs",
+    "Partnerships managed from our UK office",
+    "Chevening and university scholarships"
+   ],
+   "requirements": [
+    [
+     "Academic",
+     "Depends on the program"
+    ],
+    [
+     "English",
+     "IELTS for UKVI or a test the university accepts"
+    ],
+    [
+     "Intakes",
+     "September and January"
+    ],
+    [
+     "Funds",
+     "Maintenance funds for the visa"
+    ]
+   ],
+   "extraDocs": [
+    "Tuberculosis test certificate"
+   ]
+  },
+  {
+   "id": "malta",
+   "code": "MLA",
+   "city": "Valletta",
+   "name": "Malta",
+   "levels": [
+    "Bachelor’s",
+    "Master’s"
+   ],
+   "intro": "An English-speaking EU country. Admissions are supported by our European Affairs team in Spain.",
+   "highlights": [
+    "English is an official language",
+    "EU qualification",
+    "Supported from our Madrid office"
+   ],
+   "requirements": [
+    [
+     "Academic",
+     "Depends on the program"
+    ],
+    [
+     "English",
+     "Usually IELTS or equivalent"
+    ],
+    [
+     "Intakes",
+     "Mainly September and February"
+    ],
+    [
+     "Budget",
+     "Ask a counsellor for current costs"
+    ]
+   ],
+   "extraDocs": []
+  },
+  {
+   "id": "sweden",
+   "code": "ARN",
+   "city": "Stockholm",
+   "name": "Sweden",
+   "levels": [
+    "Programs TBC"
+   ],
+   "tbc": true,
+   "intro": "We guide applications to universities in Sweden. A counsellor confirms the current programs, intakes and requirements for your profile.",
+   "highlights": [
+    "Ask a counsellor for the programs and intakes currently open"
+   ],
+   "requirements": [
+    [
+     "Programs",
+     "To be confirmed with EduRise"
+    ],
+    [
+     "English",
+     "Depends on the university and program"
+    ]
+   ],
+   "extraDocs": []
+  },
+  {
+   "id": "usa",
+   "code": "NYC",
+   "city": "New York",
+   "name": "United States",
+   "levels": [
+    "Programs TBC"
+   ],
+   "tbc": true,
+   "intro": "We guide applications to universities in the United States. A counsellor confirms the current programs, intakes and requirements for your profile.",
+   "highlights": [
+    "Ask a counsellor for the programs and intakes currently open"
+   ],
+   "requirements": [
+    [
+     "Programs",
+     "To be confirmed with EduRise"
+    ],
+    [
+     "English",
+     "Depends on the university and program"
+    ]
+   ],
+   "extraDocs": []
+  },
+  {
+   "id": "italy",
+   "code": "ROM",
+   "city": "Rome",
+   "name": "Italy",
+   "levels": [
+    "Bachelor’s",
+    "Master’s"
+   ],
+   "intro": "Public universities with comparatively low tuition, and government scholarship options for international students.",
+   "highlights": [
+    "Public universities with low tuition",
+    "Italian Government (MAECI) and regional scholarships",
+    "English-taught programs"
+   ],
+   "requirements": [
+    [
+     "Academic",
+     "Depends on the program"
+    ],
+    [
+     "English",
+     "IELTS or equivalent"
+    ],
+    [
+     "Pre-enrolment",
+     "Through the Universitaly portal"
+    ],
+    [
+     "Intakes",
+     "Mainly September"
+    ]
+   ],
+   "extraDocs": [
+    "Declaration of value or CIMEA statement"
+   ]
+  },
+  {
+   "id": "russia",
+   "code": "MOW",
+   "city": "Moscow",
+   "name": "Russia",
+   "levels": [
+    "Master’s"
+   ],
+   "intro": "Fully funded scholarship places for Master’s programs at Russian universities, with English-taught options.",
+   "highlights": [
+    "Tuition fee waiver on scholarship places",
+    "Monthly stipend, which varies by university",
+    "University dormitory accommodation",
+    "Health insurance on scholarship places"
+   ],
+   "requirements": [
+    [
+     "Academic",
+     "Completed Bachelor’s degree"
+    ],
+    [
+     "CGPA",
+     "2.70 out of 4.00 (some accept 2.50+)"
+    ],
+    [
+     "English",
+     "IELTS, TOEFL or Duolingo; many programs without IELTS"
+    ],
+    [
+     "Age and gap",
+     "Usually under 35; study gap up to 10 years"
+    ]
+   ],
+   "extraDocs": [
+    "Medical certificate (format set by the university)"
+   ]
+  }
+ ],
+ "DEST_PHOTOS": {
+  "korea": {
+   "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Gyeonghoeru_%28Royal_Banquet_Hall%29_at_Gyeongbokgung_Palace%2C_Seoul.jpg/1280px-Gyeonghoeru_%28Royal_Banquet_Hall%29_at_Gyeongbokgung_Palace%2C_Seoul.jpg",
+   "alt": "Gyeonghoeru Pavilion at Gyeongbokgung Palace in Seoul, beside its lotus pond",
+   "by": "Frank Schulenburg",
+   "license": "CC BY-SA 4.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+   "page": "https://commons.wikimedia.org/wiki/File:Gyeonghoeru_%28Royal_Banquet_Hall%29_at_Gyeongbokgung_Palace%2C_Seoul.jpg",
+   "pos": "50% 50%"
+  },
+  "japan": {
+   "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Arakurayama_Sengen_Park_-_Japan.jpg/1280px-Arakurayama_Sengen_Park_-_Japan.jpg",
+   "alt": "Mount Fuji seen from Arakurayama Sengen Park in Fujiyoshida, Japan",
+   "by": "Otto Domes",
+   "license": "CC BY-SA 4.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+   "page": "https://commons.wikimedia.org/wiki/File:Arakurayama_Sengen_Park_-_Japan.jpg",
+   "pos": "50% 40%"
+  },
+  "uk": {
+   "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Palace_of_Westminster%2C_London_-_Feb_2007.jpg/1280px-Palace_of_Westminster%2C_London_-_Feb_2007.jpg",
+   "alt": "The Palace of Westminster and Big Ben beside the River Thames at night, London",
+   "by": "Diliff",
+   "license": "CC BY-SA 2.5",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/",
+   "page": "https://commons.wikimedia.org/wiki/File:Palace_of_Westminster%2C_London_-_Feb_2007.jpg",
+   "pos": "82% 50%"
+  },
+  "italy": {
+   "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Colosseum-exterior-2007.JPG/1280px-Colosseum-exterior-2007.JPG",
+   "alt": "The Colosseum in Rome, Italy",
+   "by": "Paul Zangaro",
+   "license": "CC BY-SA 3.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+   "page": "https://commons.wikimedia.org/wiki/File:Colosseum-exterior-2007.JPG",
+   "pos": "50% 50%"
+  },
+  "russia": {
+   "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Basil-cathedral-morning.jpg/960px-Basil-cathedral-morning.jpg",
+   "alt": "Saint Basil's Cathedral on Red Square, Moscow, in the early morning",
+   "by": "A.Savin",
+   "license": "Free Art License",
+   "licenseUrl": "https://artlibre.org/licence/lal/en/",
+   "page": "https://commons.wikimedia.org/wiki/File:Basil-cathedral-morning.jpg",
+   "pos": "50% 35%"
+  },
+  "finland": {
+   "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Helsinki_July_2013-27a.jpg/1280px-Helsinki_July_2013-27a.jpg",
+   "alt": "Helsinki Cathedral above Senate Square, Helsinki, Finland",
+   "by": "Alvesgaspar",
+   "license": "CC BY-SA 3.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+   "page": "https://commons.wikimedia.org/wiki/File:Helsinki_July_2013-27a.jpg",
+   "pos": "50% 45%"
+  },
+  "malaysia": {
+   "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Petronas_Panorama_II.jpg/960px-Petronas_Panorama_II.jpg",
+   "alt": "The Petronas Twin Towers lit up at night, Kuala Lumpur",
+   "by": "Someformofhuman",
+   "license": "CC BY-SA 4.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+   "page": "https://commons.wikimedia.org/wiki/File:Petronas_Panorama_II.jpg",
+   "pos": "50% 30%"
+  },
+  "malta": {
+   "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Our_Lady_of_Mount_Carmel_and_St_Pauls_Pro-Cathedral.jpg/1280px-Our_Lady_of_Mount_Carmel_and_St_Pauls_Pro-Cathedral.jpg",
+   "alt": "Valletta skyline with the Carmelite Basilica dome and St Paul's Pro-Cathedral spire, Malta",
+   "by": "Tony Zelenoff",
+   "license": "CC BY-SA 4.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+   "page": "https://commons.wikimedia.org/wiki/File:Our_Lady_of_Mount_Carmel_and_St_Pauls_Pro-Cathedral.jpg",
+   "pos": "50% 50%"
+  },
+  "china": {
+   "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/20090529_Great_Wall_8185.jpg/1280px-20090529_Great_Wall_8185.jpg",
+   "alt": "The Great Wall of China near Jinshanling",
+   "by": "Jakub Hałun",
+   "license": "CC BY-SA 3.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+   "page": "https://commons.wikimedia.org/wiki/File:20090529_Great_Wall_8185.jpg",
+   "pos": "50% 50%"
+  },
+  "cyprus": {
+   "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Petra_tou_romiou_beach.jpg/960px-Petra_tou_romiou_beach.jpg",
+   "alt": "Aphrodite's Rock (Petra tou Romiou) on the south coast of Cyprus",
+   "by": "Nino Verde",
+   "license": "CC BY-SA 3.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+   "page": "https://commons.wikimedia.org/wiki/File:Petra_tou_romiou_beach.jpg",
+   "pos": "50% 50%"
+  },
+  "sweden": {
+   "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Stockholm_city_hall_2008-07-15-1_filtered.jpg/1280px-Stockholm_city_hall_2008-07-15-1_filtered.jpg",
+   "alt": "Stockholm City Hall seen across the water, Stockholm, Sweden",
+   "by": "Kim Hansen",
+   "license": "CC BY-SA 3.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+   "page": "https://commons.wikimedia.org/wiki/File:Stockholm_city_hall_2008-07-15-1_filtered.jpg",
+   "pos": "50% 55%"
+  },
+  "usa": {
+   "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Statue_of_Liberty%2C_NY.jpg/1280px-Statue_of_Liberty%2C_NY.jpg",
+   "alt": "The Statue of Liberty on Liberty Island, New York Harbor",
+   "by": "William Warby",
+   "license": "CC BY 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+   "page": "https://commons.wikimedia.org/wiki/File:Statue_of_Liberty%2C_NY.jpg",
+   "pos": "50% 35%"
+  }
+ },
+ "UNIVERSITIES": [
+  {
+   "id": "gachon",
+   "name": "Gachon University",
+   "dest": "korea",
+   "city": "Seongnam, 20 to 30 minutes from Seoul",
+   "levels": [
+    "Master’s"
+   ],
+   "summary": "Private university near Seoul with an English-taught MBA and an E-visa route.",
+   "facts": [
+    [
+     "English",
+     "IELTS 5.5"
+    ],
+    [
+     "Scholarship",
+     "50% first-semester tuition"
+    ],
+    [
+     "Next intake",
+     "March 2027"
+    ]
+   ]
+  },
+  {
+   "id": "kyungsung",
+   "name": "Kyungsung University",
+   "dest": "korea",
+   "city": "Busan",
+   "levels": [
+    "Bachelor’s"
+   ],
+   "summary": "Six Bachelor’s programs including Global Business, Hospitality, Korean Studies and IT Engineering.",
+   "facts": [
+    [
+     "English",
+     "IELTS 5.5 or TOEFL iBT 71"
+    ],
+    [
+     "Scholarship",
+     "30% to 50% by IELTS score"
+    ],
+    [
+     "Next intake",
+     "March 2027"
+    ]
+   ]
+  },
+  {
+   "id": "pyeongtaek",
+   "name": "Pyeongtaek University",
+   "dest": "korea",
+   "city": "Pyeongtaek",
+   "levels": [
+    "Master’s"
+   ],
+   "summary": "Fully English-taught Master’s in Business Administration and Environmental Convergence Engineering.",
+   "facts": [
+    [
+     "English",
+     "IELTS 5.5 / TOEFL 71 / CEFR B2"
+    ],
+    [
+     "Scholarship",
+     "30% to 50% by English score"
+    ],
+    [
+     "Next intake",
+     "March 2027"
+    ]
+   ]
+  },
+  {
+   "id": "jeonbuk",
+   "name": "Jeonbuk National University",
+   "dest": "korea",
+   "city": "Jeonju",
+   "levels": [
+    "Master’s"
+   ],
+   "summary": "National university with large scholarships for selected Master’s applicants.",
+   "facts": [
+    [
+     "English",
+     "Depends on the program"
+    ],
+    [
+     "Scholarship",
+     "Up to 80% for selected applicants"
+    ],
+    [
+     "Next intake",
+     "To be announced"
+    ]
+   ]
+  }
+ ],
+ "INTAKES": [
+  {
+   "id": "gachon-r1",
+   "dest": "korea",
+   "title": "Gachon University · MBA",
+   "levels": [
+    "Master’s"
+   ],
+   "intake": "March 2027",
+   "round": "Round 1",
+   "s": "2026-10-07",
+   "e": "2026-10-14"
+  },
+  {
+   "id": "gachon-r2",
+   "dest": "korea",
+   "title": "Gachon University · MBA",
+   "levels": [
+    "Master’s"
+   ],
+   "intake": "March 2027",
+   "round": "Round 2",
+   "s": "2026-11-11",
+   "e": "2026-11-18"
+  },
+  {
+   "id": "kyungsung-r2",
+   "dest": "korea",
+   "title": "Kyungsung University · Bachelor’s",
+   "levels": [
+    "Bachelor’s"
+   ],
+   "intake": "March 2027",
+   "round": "Round 2 (incl. transfer)",
+   "s": "2026-09-28",
+   "e": "2026-10-12"
+  },
+  {
+   "id": "pyeongtaek",
+   "dest": "korea",
+   "title": "Pyeongtaek University · Master’s",
+   "levels": [
+    "Master’s"
+   ],
+   "intake": "March 2027",
+   "round": "Spring 2027 admission",
+   "tba": true
+  },
+  {
+   "id": "russia",
+   "dest": "russia",
+   "title": "Russian universities · Fully funded Master’s",
+   "levels": [
+    "Master’s"
+   ],
+   "intake": "2027",
+   "round": "2027 scholarship round",
+   "tba": true
+  },
+  {
+   "id": "finland",
+   "dest": "finland",
+   "title": "Finnish universities · Bachelor’s and Master’s",
+   "levels": [
+    "Bachelor’s",
+    "Master’s"
+   ],
+   "intake": "January 2027",
+   "round": "January intake",
+   "tba": true
+  },
+  {
+   "id": "malaysia",
+   "dest": "malaysia",
+   "title": "Malaysian universities · Foundation to Master’s",
+   "levels": [
+    "Foundation",
+    "Diploma",
+    "Bachelor’s",
+    "Master’s"
+   ],
+   "intake": "Next intake",
+   "round": "Rolling intakes",
+   "tba": true
+  },
+  {
+   "id": "china",
+   "dest": "china",
+   "title": "Chinese universities · Degree and language",
+   "levels": [
+    "Bachelor’s",
+    "Master’s",
+    "Language"
+   ],
+   "intake": "September 2027",
+   "round": "September intake",
+   "tba": true
+  },
+  {
+   "id": "korea-lang",
+   "dest": "korea",
+   "title": "Korean universities · KLP and EAP",
+   "levels": [
+    "Language"
+   ],
+   "intake": "2027",
+   "round": "Language programs",
+   "tba": true
+  },
+  {
+   "id": "jeonbuk",
+   "dest": "korea",
+   "title": "Jeonbuk National University · Master’s",
+   "levels": [
+    "Master’s"
+   ],
+   "intake": "Fall 2026",
+   "round": "Application",
+   "s": "2026-05-18",
+   "e": "2026-05-29"
+  }
+ ],
+ "SCHOLARSHIP_OFFERS": [
+  {
+   "id": "sch-gachon",
+   "university": "Gachon University",
+   "dest": "korea",
+   "levels": [
+    "Master’s"
+   ],
+   "level": "Master’s (MBA)",
+   "award": "50% tuition waiver",
+   "condition": "First semester, all admitted students",
+   "intakeId": "gachon-r1"
+  },
+  {
+   "id": "sch-kyungsung",
+   "university": "Kyungsung University",
+   "dest": "korea",
+   "levels": [
+    "Bachelor’s"
+   ],
+   "level": "Bachelor’s",
+   "award": "30% to 50%",
+   "condition": "First semester, by IELTS score (5.5 / 7.0 / 7.5+)",
+   "intakeId": "kyungsung-r2"
+  },
+  {
+   "id": "sch-pyeongtaek",
+   "university": "Pyeongtaek University",
+   "dest": "korea",
+   "levels": [
+    "Master’s"
+   ],
+   "level": "Master’s",
+   "award": "30% to 50%",
+   "condition": "By IELTS or TOEFL score",
+   "intakeId": "pyeongtaek"
+  },
+  {
+   "id": "sch-russia",
+   "university": "Russian universities",
+   "dest": "russia",
+   "levels": [
+    "Master’s"
+   ],
+   "level": "Master’s",
+   "award": "Fully funded places",
+   "condition": "Tuition waiver, stipend, dormitory and insurance",
+   "intakeId": "russia"
+  },
+  {
+   "id": "sch-china",
+   "university": "Chinese universities",
+   "dest": "china",
+   "levels": [
+    "Bachelor’s",
+    "Master’s"
+   ],
+   "level": "Bachelor’s · Master’s",
+   "award": "Up to 100% tuition",
+   "condition": "CSC and university scholarships",
+   "intakeId": "china"
+  },
+  {
+   "id": "sch-jeonbuk",
+   "university": "Jeonbuk National University",
+   "dest": "korea",
+   "levels": [
+    "Master’s"
+   ],
+   "level": "Master’s",
+   "award": "Up to 80%",
+   "condition": "Selected applicants",
+   "intakeId": "jeonbuk"
+  }
+ ],
+ "GOV_SCHOLARSHIPS": [
+  {
+   "code": "US",
+   "name": "Fulbright Foreign Student Program",
+   "country": "USA",
+   "coverage": "Fully funded",
+   "levels": "Master’s · PhD",
+   "url": "https://foreign.fulbrightonline.org"
+  },
+  {
+   "code": "UK",
+   "name": "Chevening Scholarships",
+   "country": "United Kingdom",
+   "coverage": "Fully funded",
+   "levels": "One-year Master’s",
+   "url": "https://www.chevening.org"
+  },
+  {
+   "code": "EU",
+   "name": "Erasmus Mundus Joint Master’s",
+   "country": "Europe",
+   "coverage": "Fully funded",
+   "levels": "Joint Master’s",
+   "url": "https://erasmus-plus.ec.europa.eu"
+  },
+  {
+   "code": "AU",
+   "name": "Australia Awards",
+   "country": "Australia",
+   "coverage": "Fully funded",
+   "levels": "Bachelor’s · Master’s · PhD",
+   "url": "https://www.dfat.gov.au/people-to-people/australia-awards"
+  },
+  {
+   "code": "DE",
+   "name": "DAAD Scholarships",
+   "country": "Germany",
+   "coverage": "Full or partial",
+   "levels": "Master’s · PhD",
+   "url": "https://www.daad.de/en/"
+  },
+  {
+   "code": "JP",
+   "name": "MEXT Scholarship",
+   "country": "Japan",
+   "coverage": "Fully funded",
+   "levels": "Bachelor’s · Master’s · PhD",
+   "url": "https://www.studyinjapan.go.jp/en/"
+  },
+  {
+   "code": "CN",
+   "name": "Chinese Government Scholarship (CSC)",
+   "country": "China",
+   "coverage": "Fully funded",
+   "levels": "Bachelor’s · Master’s · PhD",
+   "url": "https://www.campuschina.org"
+  },
+  {
+   "code": "FI",
+   "name": "Finland Government Scholarship Pool",
+   "country": "Finland",
+   "coverage": "Full or partial",
+   "levels": "Selected programs",
+   "url": "https://www.studyinfinland.fi"
+  },
+  {
+   "code": "IT",
+   "name": "Italian Government Scholarships (MAECI)",
+   "country": "Italy",
+   "coverage": "Fully funded",
+   "levels": "Bachelor’s · Master’s · PhD",
+   "url": "https://studyinitaly.esteri.it"
+  },
+  {
+   "code": "CA",
+   "name": "Canadian graduate scholarships",
+   "country": "Canada",
+   "coverage": "Varies",
+   "levels": "Master’s · PhD",
+   "url": "https://www.educanada.ca",
+   "note": "Canada has been changing its scholarship programs. Check the current one before applying."
+  }
+ ],
+ "TEAM": [
+  {
+   "id": "ceo",
+   "name": "MD Ibna Faysal",
+   "role": "Chief Executive Officer & Country Director",
+   "location": "Dhaka, Bangladesh",
+   "photo": "assets/img/team/ceo.jpg",
+   "bio": "Leads EduRise in Bangladesh: student counselling, admissions and service standards. His own studies in Malaysia inspired him to start EduRise.",
+   "story": "MD Ibna Faysal leads the overall operations of EduRise Global in Bangladesh and is responsible for student counselling, admission management and the consultancy’s service standards. He studied in Malaysia, where his journey in international education began, and that experience inspired him to establish EduRise Global. Because he faced the same challenges himself, he focuses on honest, practical and student-focused guidance, so that every student gets accurate information and realistic expectations before a life-changing decision.",
+   "tags": [
+    "Studied in Malaysia"
+   ]
+  },
+  {
+   "id": "faysal",
+   "name": "Faysal Ahmed",
+   "role": "Chairman, European Affairs",
+   "location": "Madrid, Spain",
+   "photo": "assets/img/team/faysal.jpg",
+   "bio": "Oversees European operations and supervises admissions for Malta, South Korea, Japan and other European destinations.",
+   "story": "Faysal Ahmed lives in Spain and oversees EduRise Global’s European operations and international coordination. He completed his studies in South Korea, moved to Austria for further study, and then settled in Spain. He supervises admission processes for Malta, South Korea, Japan and several European destinations, and strengthens EduRise Global’s academic network with first-hand knowledge of studying and living abroad.",
+   "tags": [
+    "Studied in South Korea",
+    "Austria"
+   ]
+  },
+  {
+   "id": "raihan",
+   "name": "Raihan Gazi",
+   "role": "Managing Director, Global Partnerships",
+   "location": "United Kingdom",
+   "photo": "assets/img/team/raihan.jpg",
+   "bio": "Builds relationships with universities and explores new study destinations. ACCA qualified and runs his own business in the UK.",
+   "story": "Raihan Gazi is based in the United Kingdom and leads EduRise Global’s global partnerships and international collaborations. He has completed ACCA and runs his own professional business in the UK. His role is to build relationships with institutions, explore new study destinations and keep EduRise Global well connected across the global education industry.",
+   "tags": [
+    "ACCA qualified",
+    "Business owner in the UK"
+   ]
+  },
+  {
+   "onHome": false,
+   "id": "shahriar",
+   "name": "Md Shahriar Karim",
+   "role": "International Relations & Partnerships Lead",
+   "location": "Kota Samarahan, Sarawak, Malaysia",
+   "photo": "assets/img/team/shahriar.jpg",
+   "alsoRole": "General Manager, Sarawak Synergy Consultancy (SSC)",
+   "bio": "Leads our bilateral operations from Sarawak, linking students from South Asia with universities in East Malaysia. Also General Manager of Sarawak Synergy Consultancy (SSC).",
+   "story": [
+    "Md Shahriar Karim leads the bilateral operations of EduRise Global, serving as the strategic bridge between international student talent pools in South Asia and higher learning institutions in East Malaysia.",
+    "Operating permanently from Sarawak, Shahriar acts as the Regional Partner for EduRise Global while concurrently heading local ground operations as the General Manager for Sarawak Synergy Consultancy (SSC). Through this dual capacity, he ensures that the international recruitment and marketing strategies developed abroad are flawlessly executed and supported on the ground in Malaysia.",
+    "As an alumnus of the Malaysian higher education system with a background in software engineering, Shahriar possesses a firsthand understanding of the international student journey. He leverages this experience alongside his extensive background in Sarawak-based operations management to champion a high-touch stewardship model. His work focuses on establishing robust institutional partnerships, overseeing pre-arrival student screening protocols, and ensuring rigorous compliance with local immigration (JIMS) and educational standards.",
+    "Under his operational leadership, incoming international students receive structured orientation, seamless academic integration, and round-the-clock welfare advocacy throughout their tertiary education in Borneo."
+   ],
+   "portfolio": [
+    "Institutional MoUs",
+    "Regional Strategic Operations",
+    "Student Welfare & Compliance"
+   ],
+   "tags": [
+    "Malaysian university alumnus",
+    "Software engineering background"
+   ]
+  },
+  {
+   "onHome": false,
+   "id": "emon",
+   "name": "Sobzol Hosen Emon",
+   "role": "Executive Partner",
+   "location": "",
+   "photo": "assets/img/team/emon.jpg",
+   "bio": "Drives business development and strategic partnerships, helping EduRise Global grow in the international education sector.",
+   "story": [
+    "At EduRise Global, Sobzol Hosen Emon is committed to driving business development, fostering strategic partnerships and contributing to the organisation’s long-term growth in the international education sector.",
+    "He believes that strong partnerships, strategic thinking and a student-centred approach are essential to creating meaningful global education opportunities.",
+    "Through collaborative leadership and a commitment to professional excellence, his goal is to help EduRise Global strengthen its position in the international education landscape while supporting students in pursuing their academic ambitions abroad."
+   ],
+   "portfolioLabel": "Core focus",
+   "portfolio": [
+    "Strategic Business Development",
+    "Partnership & Relationship Building",
+    "Organizational Growth",
+    "International Education Opportunities"
+   ],
+   "motto": "Building Trust. Expanding Horizons. Empowering Futures.",
+   "tags": []
+  }
+ ],
+ "OFFICES": [
+  {
+   "tag": "Head office",
+   "country": "Bangladesh",
+   "name": "Dhaka, Bijoy Nagar",
+   "address": "177 Mahtab Center, 6th Floor, Room 01, Bijoy Nagar, Dhaka-1000",
+   "map": "Mahtab Center Bijoy Nagar Dhaka",
+   "tbc": false
+  },
+  {
+   "tag": "Branch",
+   "country": "Bangladesh",
+   "name": "Dhaka, Purana Paltan",
+   "address": "37/2 Zaman Tower, Culvert Road, Purana Paltan, Dhaka-1000",
+   "map": "Zaman Tower Purana Paltan Dhaka",
+   "tbc": true
+  },
+  {
+   "tag": "European Affairs",
+   "country": "Spain",
+   "name": "Madrid",
+   "address": "Sta Valle de Oro, 8-02 IZ, 28019 Madrid",
+   "map": "Valle de Oro 28019 Madrid",
+   "tbc": false
+  },
+  {
+   "tag": "Global Partnerships",
+   "country": "United Kingdom",
+   "name": "Suffolk",
+   "address": "24 Suffolk Road Court, Suffolk",
+   "map": "Suffolk Road Court Suffolk",
+   "tbc": true
+  }
+ ],
+ "NEWS": [
+  {
+   "id": "n-gachon",
+   "date": "2026-10-07",
+   "tag": "Intake",
+   "title": "Gachon University MBA: March 2027 applications are open",
+   "summary": "Round 1 for the English-taught MBA at Gachon University near Seoul runs from 7 to 14 October 2026, with a 50% first-semester tuition waiver.",
+   "body": "Gachon University in Seongnam, 20 to 30 minutes from Seoul, is accepting applications for its March 2027 MBA intake. Round 1 runs from 7 to 14 October 2026 and Round 2 from 11 to 18 November 2026. Admitted students receive a 50% tuition waiver in the first semester. The minimum English requirement is IELTS 5.5. Talk to a counsellor to check your documents before the deadline."
+  },
+  {
+   "id": "n-kyungsung",
+   "date": "2026-09-28",
+   "tag": "Intake",
+   "title": "Kyungsung University opens Round 2 for Bachelor’s and transfer students",
+   "summary": "Busan-based Kyungsung University is taking first-year and transfer applications for March 2027 until 12 October 2026.",
+   "body": "Kyungsung University in Busan offers Bachelor’s programs in Global Business Administration, Global Hospitality Management, Global Korean Studies, International Studies, Global Mechanical Design Engineering and Global IT Engineering. Round 2 applications, including transfer applications, are open from 28 September to 12 October 2026. Scholarships of 30%, 40% or 50% for the first semester are linked to IELTS scores of 5.5, 7.0 and 7.5+."
+  },
+  {
+   "id": "n-russia",
+   "date": "2026-09-15",
+   "tag": "Scholarship",
+   "title": "Fully funded Master’s places in Russia for 2027",
+   "summary": "Scholarship places cover tuition, a monthly stipend, dormitory accommodation and health insurance.",
+   "body": "Russian universities are offering fully funded Master’s places for the 2027 intake in engineering, computer science, business, economics, natural sciences, agriculture and the humanities. Applicants usually need a completed Bachelor’s degree with a CGPA of 2.70 or higher (some programs accept 2.50), and many programs do not require IELTS. A study gap of up to 10 years and an age limit of around 35 apply at most universities."
+  }
+ ],
+ "TESTIMONIALS": [],
+ "POLICIES": [
+  {
+   "id": "privacy",
+   "title": "Privacy policy",
+   "paragraphs": [
+    "We collect the details you send through our forms or WhatsApp, such as your name, phone number, email, qualification and preferred country, only to answer your enquiry and support your application.",
+    "We share your documents with universities, scholarship bodies or visa authorities only when you ask us to apply on your behalf. We do not sell your data.",
+    "You can ask us to correct or delete your details at any time by contacting us."
+   ]
+  },
+  {
+   "id": "terms",
+   "title": "Terms of use",
+   "paragraphs": [
+    "Content on this website is general guidance and does not create a service agreement. Services, fees and refund terms are confirmed in writing before any payment.",
+    "Program details, fees and dates may change. Always confirm the current details with a counsellor before you apply."
+   ]
+  },
+  {
+   "id": "disclaimer",
+   "title": "Disclaimer",
+   "paragraphs": [
+    "Admission requirements, tuition, scholarships, work rights and family accompaniment rules are set by universities and governments, and they can change without notice.",
+    "EduRise Global cannot guarantee admission, a scholarship or a visa. Those decisions belong to the university, the scholarship body or the immigration authority.",
+    "University and scholarship names are used for information only and do not imply a partnership unless stated."
+   ]
+  }
+ ],
+ "PROGRAMS": [
+  {
+   "id": "gachon-mba",
+   "university": "Gachon University",
+   "uni": "gachon",
+   "dest": "korea",
+   "city": "Seongnam, near Seoul",
+   "title": "Master’s in Business Administration (MBA)",
+   "levels": [
+    "Master’s"
+   ],
+   "language": "English",
+   "duration": "2 years",
+   "visa": "E-visa",
+   "english": {
+    "ielts": 5.5,
+    "text": "IELTS 5.5"
+   },
+   "cgpa": null,
+   "budget": "mid",
+   "majors": [
+    "Business Administration"
+   ],
+   "tuition": {
+    "amount": 5243000,
+    "per": "semester",
+    "cur": "KRW"
+   },
+   "oneTime": [
+    [
+     "Application fee",
+     120000
+    ],
+    [
+     "Entrance fee",
+     907000
+    ],
+    [
+     "E-visa submission fee",
+     95000
+    ]
+   ],
+   "scholarships": [
+    {
+     "label": "All admitted students",
+     "pct": 50,
+     "scope": "first"
+    }
+   ],
+   "intakes": [
+    "gachon-r1",
+    "gachon-r2"
+   ],
+   "highlights": [
+    "Private university 20 to 30 minutes from Seoul",
+    "E-visa route; embassy interview requirements to be confirmed",
+    "50% tuition waiver in the first semester"
+   ]
+  },
+  {
+   "id": "kyungsung-ba",
+   "university": "Kyungsung University",
+   "uni": "kyungsung",
+   "dest": "korea",
+   "city": "Busan",
+   "title": "Bachelor’s programs (first-year and transfer)",
+   "levels": [
+    "Bachelor’s"
+   ],
+   "language": "English and Korean",
+   "duration": "4 years",
+   "visa": "E-visa",
+   "english": {
+    "ielts": 5.5,
+    "text": "IELTS 5.5+ or TOEFL iBT 71+ (preferred)"
+   },
+   "cgpa": null,
+   "budget": "mid",
+   "majors": [
+    "Global Business Administration",
+    "Global Hospitality Management",
+    "Global Korean Studies",
+    "International Studies",
+    "Global Mechanical Design Engineering",
+    "Global IT Engineering"
+   ],
+   "tuition": {
+    "amount": 3396000,
+    "per": "semester",
+    "cur": "KRW",
+    "note": "Business, Hospitality and Korean Studies. Mechanical and IT: 4,436,000 KRW"
+   },
+   "oneTime": [
+    [
+     "Application fee",
+     80000
+    ]
+   ],
+   "scholarships": [
+    {
+     "label": "IELTS 5.5",
+     "pct": 30,
+     "scope": "first"
+    },
+    {
+     "label": "IELTS 7.0",
+     "pct": 40,
+     "scope": "first"
+    },
+    {
+     "label": "IELTS 7.5+",
+     "pct": 50,
+     "scope": "first"
+    }
+   ],
+   "intakes": [
+    "kyungsung-r2"
+   ],
+   "milestones": [
+    [
+     "Interview",
+     "4 to 9 Nov 2026"
+    ],
+    [
+     "Admission result",
+     "16 Nov 2026"
+    ],
+    [
+     "Semester begins",
+     "2 Mar 2027"
+    ]
+   ],
+   "highlights": [
+    "Well-regarded university in Busan",
+    "Six programs for international students",
+    "Online university interview"
+   ]
+  },
+  {
+   "id": "pyeongtaek-ma",
+   "university": "Pyeongtaek University",
+   "uni": "pyeongtaek",
+   "dest": "korea",
+   "city": "Pyeongtaek",
+   "title": "Master’s programs, 100% English track",
+   "levels": [
+    "Master’s"
+   ],
+   "language": "English",
+   "duration": "2 years",
+   "visa": "E-visa",
+   "english": {
+    "ielts": 5.5,
+    "text": "IELTS 5.5 / TOEFL iBT 71 / CEFR B2 / NEW TEPS 327"
+   },
+   "cgpa": null,
+   "budget": "mid",
+   "majors": [
+    "Business Administration",
+    "Environmental Convergence Engineering"
+   ],
+   "tuition": {
+    "amount": 4502000,
+    "per": "semester",
+    "cur": "KRW",
+    "note": "Business Administration. Environmental Convergence Engineering: 5,095,000 KRW"
+   },
+   "oneTime": [
+    [
+     "Application fee",
+     100000
+    ],
+    [
+     "Enrollment fee",
+     840000
+    ],
+    [
+     "E-visa fee",
+     100000
+    ]
+   ],
+   "scholarships": [
+    {
+     "label": "IELTS 5.5 / TOEFL 71",
+     "pct": 30,
+     "scope": "first"
+    },
+    {
+     "label": "IELTS 6.5 / TOEFL 90",
+     "pct": 40,
+     "scope": "first"
+    },
+    {
+     "label": "IELTS 7.5 / TOEFL 100",
+     "pct": 50,
+     "scope": "first"
+    }
+   ],
+   "intakes": [
+    "pyeongtaek"
+   ],
+   "highlights": [
+    "Fully English-taught Master’s",
+    "Scholarship set by your English score",
+    "Spring 2027 timeline to be announced"
+   ]
+  },
+  {
+   "id": "korea-language",
+   "university": "Korean universities (various)",
+   "uni": null,
+   "dest": "korea",
+   "city": "Seoul and other cities",
+   "title": "KLP and EAP language programs",
+   "levels": [
+    "Language"
+   ],
+   "language": "Korean / English",
+   "duration": "6 to 12 months",
+   "visa": "D-4",
+   "english": {
+    "none": true,
+    "text": "No IELTS needed"
+   },
+   "cgpa": null,
+   "budget": "low",
+   "majors": [
+    "Korean Language Program (KLP)",
+    "English for Academic Purposes (EAP)"
+   ],
+   "tuition": null,
+   "oneTime": [],
+   "scholarships": [],
+   "intakes": [
+    "korea-lang"
+   ],
+   "highlights": [
+    "Build language skills before a degree",
+    "Progress to a Bachelor’s or Master’s afterwards"
+   ]
+  },
+  {
+   "id": "russia-funded",
+   "university": "Russian universities (various)",
+   "uni": null,
+   "dest": "russia",
+   "city": "Moscow, Kazan and other cities",
+   "title": "Fully funded Master’s scholarship places",
+   "levels": [
+    "Master’s"
+   ],
+   "language": "English or Russian",
+   "duration": "2 years",
+   "visa": "Student visa",
+   "english": {
+    "none": true,
+    "text": "IELTS, TOEFL or Duolingo; many programs without IELTS"
+   },
+   "cgpa": 2.7,
+   "budget": "low",
+   "majors": [
+    "Engineering",
+    "Computer Science and IT",
+    "Business Administration",
+    "Economics and Finance",
+    "Natural Sciences",
+    "Humanities and Social Sciences"
+   ],
+   "tuition": {
+    "amount": 0,
+    "per": "year",
+    "cur": "USD",
+    "note": "Tuition is waived on scholarship places"
+   },
+   "oneTime": [],
+   "scholarships": [
+    {
+     "label": "Scholarship places",
+     "pct": 100,
+     "scope": "all"
+    }
+   ],
+   "intakes": [
+    "russia"
+   ],
+   "highlights": [
+    "Monthly stipend, which varies by university",
+    "Dormitory accommodation and health insurance",
+    "Age usually under 35; study gap up to 10 years"
+   ]
+  },
+  {
+   "id": "finland-jan",
+   "university": "Finnish universities (various)",
+   "uni": null,
+   "dest": "finland",
+   "city": "Helsinki and other cities",
+   "title": "Bachelor’s and Master’s programs",
+   "levels": [
+    "Bachelor’s",
+    "Master’s"
+   ],
+   "language": "English",
+   "duration": "2 to 4 years",
+   "visa": "Residence permit",
+   "english": {
+    "ielts": 6,
+    "text": "IELTS 6.0+ or TOEFL iBT 90+"
+   },
+   "cgpa": null,
+   "budget": "high",
+   "majors": [
+    "Business",
+    "Engineering",
+    "IT",
+    "Hospitality",
+    "Health and Social Services"
+   ],
+   "tuition": null,
+   "oneTime": [],
+   "scholarships": [],
+   "intakes": [
+    "finland"
+   ],
+   "highlights": [
+    "Study gap of 10+ years considered for Master’s at some universities",
+    "Spouse may apply, subject to immigration rules"
+   ]
+  },
+  {
+   "id": "malaysia-all",
+   "university": "Malaysian universities (various)",
+   "uni": null,
+   "dest": "malaysia",
+   "city": "Kuala Lumpur and other cities",
+   "title": "Foundation, Diploma, Bachelor’s and Master’s",
+   "levels": [
+    "Foundation",
+    "Diploma",
+    "Bachelor’s",
+    "Master’s"
+   ],
+   "language": "English",
+   "duration": "1 to 4 years",
+   "visa": "Student pass",
+   "english": {
+    "none": true,
+    "text": "Low IELTS or without IELTS at selected universities"
+   },
+   "cgpa": null,
+   "budget": "mid",
+   "majors": [
+    "Business",
+    "Computing",
+    "Engineering",
+    "Hospitality",
+    "Media"
+   ],
+   "tuition": null,
+   "oneTime": [],
+   "scholarships": [],
+   "intakes": [
+    "malaysia"
+   ],
+   "highlights": [
+    "Credit transfer options",
+    "Internship and job exposure",
+    "Lower living costs"
+   ]
+  },
+  {
+   "id": "china-all",
+   "university": "Chinese universities (various)",
+   "uni": null,
+   "dest": "china",
+   "city": "Beijing, Shanghai and other cities",
+   "title": "Degree and Chinese language programs",
+   "levels": [
+    "Bachelor’s",
+    "Master’s",
+    "Language"
+   ],
+   "language": "English or Chinese",
+   "duration": "1 to 4 years",
+   "visa": "X1 / X2",
+   "english": {
+    "none": true,
+    "text": "Without IELTS options available"
+   },
+   "cgpa": null,
+   "budget": "mid",
+   "majors": [
+    "Engineering",
+    "Computer Science and IT",
+    "Business and Management",
+    "Medicine and Health Sciences",
+    "Chinese Language"
+   ],
+   "tuition": {
+    "min": 2000,
+    "max": 6000,
+    "per": "year",
+    "cur": "USD"
+   },
+   "oneTime": [],
+   "scholarships": [
+    {
+     "label": "CSC and university scholarships",
+     "pct": 100,
+     "scope": "all",
+     "upTo": true
+    }
+   ],
+   "intakes": [
+    "china"
+   ],
+   "highlights": [
+    "Chinese Government (CSC) and university scholarships",
+    "Airport pickup and accommodation support",
+    "Part-time work rules are strict; confirm before relying on income"
+   ]
+  }
+ ],
+ "RATES": {
+  "KRW": 0.088,
+  "USD": 122,
+  "EUR": 132,
+  "MYR": 27.5,
+  "CNY": 16.9
+ },
+ "RATES_UPDATED": "2026-10-01",
+ "LIVING_COSTS": {
+  "korea": {
+   "amount": 900000,
+   "cur": "KRW",
+   "note": "Shared housing, food and transport outside Seoul"
+  },
+  "japan": {
+   "amount": 900,
+   "cur": "USD",
+   "note": "Shared housing, food and transport"
+  },
+  "russia": {
+   "amount": 250,
+   "cur": "USD",
+   "note": "Dormitory, food and transport"
+  },
+  "finland": {
+   "amount": 800,
+   "cur": "EUR",
+   "note": "Student housing, food and transport"
+  },
+  "malaysia": {
+   "amount": 2000,
+   "cur": "MYR",
+   "note": "Shared housing, food and transport"
+  },
+  "china": {
+   "amount": 170,
+   "cur": "USD",
+   "note": "Dormitory, food and transport"
+  }
+ }
+}

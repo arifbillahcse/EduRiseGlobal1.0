@@ -1,6 +1,6 @@
 -- EduRise Global — database schema (Phase 0)
 -- Target: MySQL 8.0+ or MariaDB 10.6+, InnoDB, utf8mb4 (needed for Bangla).
--- Bangla and English text live side by side in *_en / *_bn columns.
+-- Content columns mirror public_html/js/data.js (see the note above the content tables).
 -- Every content table shares: id, sort_order, is_visible, tbc, created_at, updated_at.
 --   is_visible = 0  hides a row instead of deleting it (admin can bring it back)
 --   tbc        = 1  marks information EduRise has not confirmed yet
@@ -86,9 +86,8 @@ CREATE TABLE media (
 
 CREATE TABLE settings (
   id              INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  setting_key     VARCHAR(80) NOT NULL,               -- e.g. phone, whatsapp, promo_bar, facebook_url
-  value_en        TEXT NULL,
-  value_bn        TEXT NULL,
+  setting_key     VARCHAR(80) NOT NULL,               -- site, rates, rates_updated, living_costs ...
+  value_json      JSON NOT NULL,
   updated_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY uq_setting_key (setting_key)
@@ -96,223 +95,251 @@ CREATE TABLE settings (
 
 -- ---------------------------------------------------------------------------
 -- Content tables (shown on the website)
+-- Columns mirror the fields in public_html/js/data.js, so the pages render
+-- exactly as before. Lists and nested values are JSON columns.
+-- Bangla text still comes from js/i18n.js; *_bn columns arrive with the
+-- admin editor, when staff start changing text.
 -- ---------------------------------------------------------------------------
 
 CREATE TABLE destinations (
-  id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  slug             VARCHAR(60) NOT NULL,              -- korea, cyprus, china ...
-  name_en          VARCHAR(120) NOT NULL,
-  name_bn          VARCHAR(120) NULL,
-  flag_code        CHAR(2) NULL,                      -- ISO code, e.g. KR
-  capital          VARCHAR(120) NULL,
-  airport_code     CHAR(3) NULL,
-  intro_en         TEXT NULL,
-  intro_bn         TEXT NULL,
-  highlights_en    JSON NULL,                         -- ["...", "..."]
-  highlights_bn    JSON NULL,
-  requirements_en  JSON NULL,                         -- [["Academic","HSC ..."], ...]
-  requirements_bn  JSON NULL,
-  photo_media_id   INT UNSIGNED NULL,
-  photo_credit     VARCHAR(255) NULL,
-  sort_order       SMALLINT NOT NULL DEFAULT 0,
-  is_visible       TINYINT(1) NOT NULL DEFAULT 1,
-  tbc              TINYINT(1) NOT NULL DEFAULT 0,
-  created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  id                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  slug               VARCHAR(60) NOT NULL,              -- korea, cyprus ... (destination.html#<slug>, /study-in-<slug>)
+  name               VARCHAR(120) NOT NULL,
+  code               CHAR(3) NULL,                      -- airport/city code shown on cards
+  city               VARCHAR(120) NULL,
+  levels             JSON NOT NULL,                     -- ["Bachelor’s", "Master’s"]
+  intro              TEXT NULL,
+  highlights         JSON NOT NULL,
+  requirements       JSON NOT NULL,                     -- [["Academic", "HSC ..."], ...]
+  extra_docs         JSON NOT NULL,
+  photo_src          VARCHAR(500) NULL,
+  photo_alt          VARCHAR(255) NULL,
+  photo_by           VARCHAR(190) NULL,
+  photo_license      VARCHAR(80) NULL,
+  photo_license_url  VARCHAR(255) NULL,
+  photo_page         VARCHAR(500) NULL,
+  photo_pos          VARCHAR(20) NULL,
+  sort_order         SMALLINT NOT NULL DEFAULT 0,
+  is_visible         TINYINT(1) NOT NULL DEFAULT 1,
+  tbc                TINYINT(1) NOT NULL DEFAULT 0,
+  created_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY uq_destination_slug (slug),
-  KEY idx_destination_list (is_visible, sort_order),
-  CONSTRAINT fk_destination_photo FOREIGN KEY (photo_media_id) REFERENCES media (id) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE programs (
-  id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  destination_id   INT UNSIGNED NOT NULL,
-  level            ENUM('foundation','diploma','bachelor','master','language','other') NOT NULL,
-  field_en         VARCHAR(190) NOT NULL,
-  field_bn         VARCHAR(190) NULL,
-  duration         VARCHAR(60) NULL,
-  tuition_note     VARCHAR(255) NULL,
-  intake_note      VARCHAR(255) NULL,
-  sort_order       SMALLINT NOT NULL DEFAULT 0,
-  is_visible       TINYINT(1) NOT NULL DEFAULT 1,
-  tbc              TINYINT(1) NOT NULL DEFAULT 0,
-  created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (id),
-  KEY idx_program_dest (destination_id, is_visible, sort_order),
-  KEY idx_program_level (level),
-  CONSTRAINT fk_program_dest FOREIGN KEY (destination_id) REFERENCES destinations (id) ON DELETE CASCADE
+  KEY idx_destination_list (is_visible, sort_order)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE universities (
-  id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  destination_id   INT UNSIGNED NOT NULL,
-  name             VARCHAR(190) NOT NULL,
-  city             VARCHAR(120) NULL,
-  website_url      VARCHAR(255) NULL,
-  logo_media_id    INT UNSIGNED NULL,
-  sort_order       SMALLINT NOT NULL DEFAULT 0,
-  is_visible       TINYINT(1) NOT NULL DEFAULT 1,
-  tbc              TINYINT(1) NOT NULL DEFAULT 0,
-  created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  id                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  slug               VARCHAR(60) NOT NULL,
+  destination_id     INT UNSIGNED NOT NULL,
+  name               VARCHAR(190) NOT NULL,
+  city               VARCHAR(190) NULL,
+  levels             JSON NOT NULL,
+  summary            TEXT NULL,
+  facts              JSON NOT NULL,                     -- [["English", "IELTS 5.5"], ...]
+  website_url        VARCHAR(255) NULL,
+  sort_order         SMALLINT NOT NULL DEFAULT 0,
+  is_visible         TINYINT(1) NOT NULL DEFAULT 1,
+  tbc                TINYINT(1) NOT NULL DEFAULT 0,
+  created_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
+  UNIQUE KEY uq_uni_slug (slug),
   KEY idx_uni_dest (destination_id, is_visible, sort_order),
-  CONSTRAINT fk_uni_dest FOREIGN KEY (destination_id) REFERENCES destinations (id) ON DELETE CASCADE,
-  CONSTRAINT fk_uni_logo FOREIGN KEY (logo_media_id) REFERENCES media (id) ON DELETE SET NULL
+  CONSTRAINT fk_uni_dest FOREIGN KEY (destination_id) REFERENCES destinations (id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE intakes (
-  id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  destination_id   INT UNSIGNED NOT NULL,
-  month_label      VARCHAR(60) NOT NULL,              -- e.g. March, September
-  deadline_note    VARCHAR(255) NULL,
-  sort_order       SMALLINT NOT NULL DEFAULT 0,
-  is_visible       TINYINT(1) NOT NULL DEFAULT 1,
-  tbc              TINYINT(1) NOT NULL DEFAULT 0,
-  created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  id                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  slug               VARCHAR(60) NOT NULL,
+  destination_id     INT UNSIGNED NOT NULL,
+  title              VARCHAR(255) NOT NULL,
+  levels             JSON NOT NULL,
+  intake             VARCHAR(60) NULL,                  -- e.g. March 2027
+  round_label        VARCHAR(120) NULL,
+  starts_on          DATE NULL,                         -- first day to apply (Dhaka time)
+  ends_on            DATE NULL,                         -- last day to apply
+  tba                TINYINT(1) NOT NULL DEFAULT 0,     -- dates not announced yet
+  sort_order         SMALLINT NOT NULL DEFAULT 0,
+  is_visible         TINYINT(1) NOT NULL DEFAULT 1,
+  tbc                TINYINT(1) NOT NULL DEFAULT 0,
+  created_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
+  UNIQUE KEY uq_intake_slug (slug),
   KEY idx_intake_dest (destination_id, is_visible, sort_order),
   CONSTRAINT fk_intake_dest FOREIGN KEY (destination_id) REFERENCES destinations (id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE scholarships (
-  id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  destination_id   INT UNSIGNED NOT NULL,
-  title_en         VARCHAR(190) NOT NULL,
-  title_bn         VARCHAR(190) NULL,
-  amount_note      VARCHAR(255) NULL,
-  eligibility_en   TEXT NULL,
-  eligibility_bn   TEXT NULL,
-  link_url         VARCHAR(255) NULL,
-  sort_order       SMALLINT NOT NULL DEFAULT 0,
-  is_visible       TINYINT(1) NOT NULL DEFAULT 1,
-  tbc              TINYINT(1) NOT NULL DEFAULT 0,
-  created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  id                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  slug               VARCHAR(60) NOT NULL,
+  destination_id     INT UNSIGNED NOT NULL,
+  university         VARCHAR(190) NOT NULL,
+  levels             JSON NOT NULL,
+  level_label        VARCHAR(120) NULL,                 -- e.g. Master’s (MBA)
+  award              VARCHAR(190) NULL,
+  condition_text     VARCHAR(255) NULL,
+  intake_slug        VARCHAR(60) NULL,                  -- links to intakes.slug
+  sort_order         SMALLINT NOT NULL DEFAULT 0,
+  is_visible         TINYINT(1) NOT NULL DEFAULT 1,
+  tbc                TINYINT(1) NOT NULL DEFAULT 0,
+  created_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
+  UNIQUE KEY uq_scholar_slug (slug),
   KEY idx_scholar_dest (destination_id, is_visible, sort_order),
   CONSTRAINT fk_scholar_dest FOREIGN KEY (destination_id) REFERENCES destinations (id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE gov_scholarships (
-  id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  country_name     VARCHAR(120) NOT NULL,
-  title_en         VARCHAR(190) NOT NULL,
-  title_bn         VARCHAR(190) NULL,
-  body_en          TEXT NULL,
-  body_bn          TEXT NULL,
-  link_url         VARCHAR(255) NULL,
-  sort_order       SMALLINT NOT NULL DEFAULT 0,
-  is_visible       TINYINT(1) NOT NULL DEFAULT 1,
-  tbc              TINYINT(1) NOT NULL DEFAULT 0,
-  created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  id                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  code               CHAR(2) NOT NULL,                  -- country code shown on the card
+  name               VARCHAR(190) NOT NULL,
+  country            VARCHAR(120) NOT NULL,
+  coverage           VARCHAR(120) NULL,
+  levels_text        VARCHAR(190) NULL,
+  url                VARCHAR(255) NULL,
+  note               VARCHAR(500) NULL,
+  sort_order         SMALLINT NOT NULL DEFAULT 0,
+  is_visible         TINYINT(1) NOT NULL DEFAULT 1,
+  tbc                TINYINT(1) NOT NULL DEFAULT 0,
+  created_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   KEY idx_gov_list (is_visible, sort_order)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE programs (
+  id                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  slug               VARCHAR(60) NOT NULL,              -- program.html#<slug>
+  destination_id     INT UNSIGNED NOT NULL,
+  university         VARCHAR(190) NOT NULL,
+  uni_slug           VARCHAR(60) NULL,                  -- links to universities.slug
+  city               VARCHAR(190) NULL,
+  title              VARCHAR(255) NOT NULL,
+  levels             JSON NOT NULL,
+  language           VARCHAR(120) NULL,
+  duration           VARCHAR(60) NULL,
+  visa               VARCHAR(60) NULL,
+  english            JSON NULL,                         -- {"ielts":5.5,"text":"IELTS 5.5"} or {"none":true,...}
+  cgpa               DECIMAL(3,2) NULL,
+  budget             ENUM('low','mid','high') NULL,
+  majors             JSON NOT NULL,
+  tuition            JSON NULL,                         -- {"amount":..,"per":"semester","cur":"KRW"} or a range; NULL = ask a counsellor
+  one_time           JSON NOT NULL,                     -- [["Application fee", 120000], ...]
+  scholarships       JSON NOT NULL,
+  intakes            JSON NOT NULL,                     -- intake slugs
+  milestones         JSON NULL,
+  highlights         JSON NOT NULL,
+  sort_order         SMALLINT NOT NULL DEFAULT 0,
+  is_visible         TINYINT(1) NOT NULL DEFAULT 1,
+  tbc                TINYINT(1) NOT NULL DEFAULT 0,
+  created_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_program_slug (slug),
+  KEY idx_program_dest (destination_id, is_visible, sort_order),
+  CONSTRAINT fk_program_dest FOREIGN KEY (destination_id) REFERENCES destinations (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE team (
-  id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  slug             VARCHAR(60) NOT NULL,              -- used for leadership.html#leader-<slug>
-  name             VARCHAR(120) NOT NULL,
-  role_en          VARCHAR(190) NOT NULL,
-  role_bn          VARCHAR(190) NULL,
-  also_role        VARCHAR(190) NULL,
-  bio_en           TEXT NULL,
-  bio_bn           TEXT NULL,
-  story_json       JSON NULL,                         -- paragraphs
-  portfolio_json   JSON NULL,                         -- list items
-  portfolio_label  VARCHAR(120) NULL,
-  motto            VARCHAR(255) NULL,
-  location         VARCHAR(120) NULL,
-  photo_media_id   INT UNSIGNED NULL,
-  on_home          TINYINT(1) NOT NULL DEFAULT 1,     -- 0 = only on leadership page
-  sort_order       SMALLINT NOT NULL DEFAULT 0,
-  is_visible       TINYINT(1) NOT NULL DEFAULT 1,
-  tbc              TINYINT(1) NOT NULL DEFAULT 0,
-  created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  id                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  slug               VARCHAR(60) NOT NULL,              -- leadership.html#leader-<slug>
+  name               VARCHAR(120) NOT NULL,
+  role               VARCHAR(190) NOT NULL,
+  also_role          VARCHAR(190) NULL,
+  location           VARCHAR(190) NULL,
+  photo              VARCHAR(255) NULL,                 -- path under public_html/
+  bio                TEXT NULL,
+  story              JSON NULL,                         -- one string, or a list of paragraphs
+  portfolio_label    VARCHAR(120) NULL,
+  portfolio          JSON NULL,
+  motto              VARCHAR(255) NULL,
+  tags               JSON NOT NULL,
+  on_home            TINYINT(1) NOT NULL DEFAULT 1,     -- 0 = only on the leadership page
+  sort_order         SMALLINT NOT NULL DEFAULT 0,
+  is_visible         TINYINT(1) NOT NULL DEFAULT 1,
+  tbc                TINYINT(1) NOT NULL DEFAULT 0,
+  created_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY uq_team_slug (slug),
-  KEY idx_team_list (is_visible, sort_order),
-  CONSTRAINT fk_team_photo FOREIGN KEY (photo_media_id) REFERENCES media (id) ON DELETE SET NULL
+  KEY idx_team_list (is_visible, sort_order)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE offices (
-  id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  name_en          VARCHAR(120) NOT NULL,
-  name_bn          VARCHAR(120) NULL,
-  address_en       VARCHAR(500) NULL,
-  address_bn       VARCHAR(500) NULL,
-  phone            VARCHAR(40) NULL,
-  email            VARCHAR(190) NULL,
-  hours_en         VARCHAR(190) NULL,
-  hours_bn         VARCHAR(190) NULL,
-  map_url          VARCHAR(500) NULL,
-  sort_order       SMALLINT NOT NULL DEFAULT 0,
-  is_visible       TINYINT(1) NOT NULL DEFAULT 1,
-  tbc              TINYINT(1) NOT NULL DEFAULT 0,
-  created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  id                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  tag                VARCHAR(80) NULL,                  -- Head office, Branch ...
+  country            VARCHAR(120) NOT NULL,
+  name               VARCHAR(190) NOT NULL,
+  address            VARCHAR(500) NULL,
+  map_query          VARCHAR(255) NULL,
+  phone              VARCHAR(40) NULL,
+  email              VARCHAR(190) NULL,
+  hours              VARCHAR(190) NULL,
+  sort_order         SMALLINT NOT NULL DEFAULT 0,
+  is_visible         TINYINT(1) NOT NULL DEFAULT 1,
+  tbc                TINYINT(1) NOT NULL DEFAULT 0,
+  created_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE news (
-  id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  slug             VARCHAR(190) NOT NULL,
-  title_en         VARCHAR(255) NOT NULL,
-  title_bn         VARCHAR(255) NULL,
-  body_en          MEDIUMTEXT NULL,
-  body_bn          MEDIUMTEXT NULL,
-  cover_media_id   INT UNSIGNED NULL,
-  status           ENUM('draft','published') NOT NULL DEFAULT 'draft',
-  published_at     DATETIME NULL,
-  sort_order       SMALLINT NOT NULL DEFAULT 0,
-  is_visible       TINYINT(1) NOT NULL DEFAULT 1,
-  tbc              TINYINT(1) NOT NULL DEFAULT 0,
-  created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  id                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  slug               VARCHAR(190) NOT NULL,
+  published_on       DATE NOT NULL,
+  tag                VARCHAR(60) NULL,
+  title              VARCHAR(255) NOT NULL,
+  summary            TEXT NULL,
+  body               MEDIUMTEXT NULL,
+  cover_media_id     INT UNSIGNED NULL,
+  status             ENUM('draft','published') NOT NULL DEFAULT 'published',
+  sort_order         SMALLINT NOT NULL DEFAULT 0,
+  is_visible         TINYINT(1) NOT NULL DEFAULT 1,
+  tbc                TINYINT(1) NOT NULL DEFAULT 0,
+  created_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY uq_news_slug (slug),
-  KEY idx_news_list (status, published_at),
+  KEY idx_news_list (status, published_on),
   CONSTRAINT fk_news_cover FOREIGN KEY (cover_media_id) REFERENCES media (id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE testimonials (
-  id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  student_name     VARCHAR(120) NOT NULL,
-  destination_id   INT UNSIGNED NULL,
-  quote_en         TEXT NOT NULL,
-  quote_bn         TEXT NULL,
-  photo_media_id   INT UNSIGNED NULL,
-  consent_on_file  TINYINT(1) NOT NULL DEFAULT 0,     -- written consent from the student
-  verified         TINYINT(1) NOT NULL DEFAULT 0,     -- real student, checked by admin
-  sort_order       SMALLINT NOT NULL DEFAULT 0,
-  is_visible       TINYINT(1) NOT NULL DEFAULT 0,     -- hidden until checked
-  tbc              TINYINT(1) NOT NULL DEFAULT 0,
-  created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  id                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  slug               VARCHAR(60) NOT NULL,
+  name               VARCHAR(120) NOT NULL,
+  destination        VARCHAR(120) NULL,                 -- country name as shown
+  university         VARCHAR(190) NULL,
+  program            VARCHAR(190) NULL,
+  quote              TEXT NOT NULL,
+  photo_media_id     INT UNSIGNED NULL,
+  consent            TINYINT(1) NOT NULL DEFAULT 0,     -- written consent from the student is on file
+  verified           TINYINT(1) NOT NULL DEFAULT 0,     -- real student, checked by an admin
+  sort_order         SMALLINT NOT NULL DEFAULT 0,
+  is_visible         TINYINT(1) NOT NULL DEFAULT 0,     -- hidden until checked
+  tbc                TINYINT(1) NOT NULL DEFAULT 0,
+  created_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  KEY idx_testi_public (is_visible, verified, consent_on_file, sort_order),
-  CONSTRAINT fk_testi_dest FOREIGN KEY (destination_id) REFERENCES destinations (id) ON DELETE SET NULL,
+  UNIQUE KEY uq_testi_slug (slug),
+  KEY idx_testi_public (is_visible, verified, consent, sort_order),
   CONSTRAINT fk_testi_photo FOREIGN KEY (photo_media_id) REFERENCES media (id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE policies (
-  id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  slug             VARCHAR(60) NOT NULL,              -- privacy, terms, refund
-  title_en         VARCHAR(190) NOT NULL,
-  title_bn         VARCHAR(190) NULL,
-  body_en          MEDIUMTEXT NULL,
-  body_bn          MEDIUMTEXT NULL,
-  sort_order       SMALLINT NOT NULL DEFAULT 0,
-  is_visible       TINYINT(1) NOT NULL DEFAULT 1,
-  tbc              TINYINT(1) NOT NULL DEFAULT 0,
-  created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  id                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  slug               VARCHAR(60) NOT NULL,              -- privacy, terms, disclaimer
+  title              VARCHAR(190) NOT NULL,
+  paragraphs         JSON NOT NULL,
+  sort_order         SMALLINT NOT NULL DEFAULT 0,
+  is_visible         TINYINT(1) NOT NULL DEFAULT 1,
+  tbc                TINYINT(1) NOT NULL DEFAULT 0,
+  created_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY uq_policy_slug (slug)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -328,6 +355,7 @@ CREATE TABLE leads (
   email            VARCHAR(190) NULL,
   destination_id   INT UNSIGNED NULL,
   level            VARCHAR(40) NULL,                  -- ssc, hsc, diploma, bachelor, unsure
+  interest         VARCHAR(190) NULL,
   message          TEXT NULL,
   source_page      VARCHAR(120) NULL,
   status           ENUM('new','contacted','closed') NOT NULL DEFAULT 'new',

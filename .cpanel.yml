@@ -1,0 +1,10 @@
+---
+# cPanel "Git Version Control" deploy for the STAGING site.
+# Copies this repo to ~/staging (the staging subdomain's document root must be
+# ~/staging/public_html, so app/ and storage/ stay outside it).
+# Never overwritten or deleted on the server: config.php, logs/cache/backups, uploads.
+deployment:
+  tasks:
+    - export DEPLOYPATH=$HOME/staging
+    - /bin/mkdir -p $DEPLOYPATH
+    - /usr/bin/rsync -a --delete --exclude='.git' --exclude='.cpanel.yml' --exclude='app/config/config.php' --exclude='storage/logs/*' --exclude='storage/cache/*' --exclude='storage/backups/*' --exclude='public_html/uploads/*' ./ $DEPLOYPATH/

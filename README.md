@@ -2,6 +2,8 @@
 
 Plain HTML, CSS and JavaScript. No build tools or frameworks.
 
+> **Branch `PHP`:** the site now runs on a raw PHP backend. Pages live in `app/Views/pages/`, static files in `public_html/`. See [BACKEND.md](BACKEND.md).
+
 ## Status
 
 | Phase | Scope | Package | Status |

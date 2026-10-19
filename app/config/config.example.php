@@ -11,7 +11,7 @@ return [
     // local | staging | live
     'env'      => 'local',
     'debug'    => true,                       // must be false on live
-    'base_url' => 'http://localhost/edurise', // no trailing slash
+    'base_url' => 'http://localhost:8000',   // no trailing slash; https://staging.eduriseglobal.bd on staging
     'timezone' => 'Asia/Dhaka',
 
     'db' => [
