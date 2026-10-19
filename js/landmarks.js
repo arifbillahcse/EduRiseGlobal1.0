@@ -91,14 +91,18 @@ const Landmarks = (() => {
     '<g fill="#7A3524"><rect x="138" y="72" width="6" height="10" rx="3"/></g>' +
     '<path d="M0 124 L24 112 L52 120 L70 110 L96 124 L96 136 0 136Z" fill="#5E7F6A"/>' +
     '<rect y="134" width="240" height="46" fill="#3F6F9E"/><rect y="134" width="240" height="4" fill="#6D97C2"/>' +
-    '<g fill="#B4553C" opacity=".35"><rect x="96" y="140" width="120" height="14"/><rect x="132" y="140" width="18" height="34"/></g>'
+    '<g fill="#B4553C" opacity=".35"><rect x="96" y="140" width="120" height="14"/><rect x="132" y="140" width="18" height="34"/></g>',
+    usa: () => sun(186, 50, 18, '#FFF1C4') + clouds('#fff', .5) +
+      skyline('#8FA6C8', 150, [[0, 12, 34], [14, 10, 52], [26, 14, 40], [196, 12, 46], [210, 16, 30], [228, 12, 56]]) +
+      `<g fill="#3E8C7A">${rect(104, 128, 32, 26, '#5D6F86')}${rect(98, 122, 44, 8, '#6E819A')}${path('M110 122 L112 76 Q120 70 128 76 L130 122Z', '#3E8C7A')}${path('M112 84 Q120 78 128 84 L127 96 Q120 92 113 96Z', '#357A6A')}<circle cx="120" cy="68" r="7"/>${path('M113 64 L111 56 M116 62 L115 53 M120 61 L120 51 M124 62 L125 53 M127 64 L129 56', 'none', 'stroke="#3E8C7A" stroke-width="2.2" stroke-linecap="round"')}${rect(129, 40, 4, 36, '#3E8C7A', 2)}${path('M127 41 Q131 30 135 41Z', '#F2B23C')}${rect(106, 92, 8, 14, '#357A6A', 2)}</g>` +
+      path('M0 150 Q30 146 60 150 T120 150 T180 150 T240 150 V180 H0Z', '#3F6F9E') + rect(0, 164, 240, 16, '#335C86')
   };
 
   /* sky gradient per country: top, bottom */
   const SKY = {
     korea: ['#F7C6D9', '#9E8FD3'], japan: ['#FFE7CC', '#F6C9A8'], uk: ['#C9D6EA', '#9FB2D3'], italy: ['#FFD7A6', '#F2A774'],
     malta: ['#BFE6F2', '#7CC4DD'], russia: ['#D7D3F0', '#AFC0E6'], finland: ['#DDF0FB', '#A9D3EE'], malaysia: ['#F8B98B', '#B06AA0'],
-    china: ['#CDEBE0', '#F4D79A'], cyprus: ['#FFE6C2', '#8FCDE4'], sweden: ['#DCE8F6', '#A6C1E3']
+    china: ['#CDEBE0', '#F4D79A'], cyprus: ['#FFE6C2', '#8FCDE4'], sweden: ['#DCE8F6', '#A6C1E3'], usa: ['#D9E7F7', '#A9C3E6']
   };
 
   const sceneSVG = id => `<svg class="dpanel__art" viewBox="0 0 240 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">${SCENES[id] ? SCENES[id]() : ''}</svg>`;
@@ -126,7 +130,9 @@ const Landmarks = (() => {
     malaysia: Array.from({ length: 14 }, (_, i) => `<rect y="${(i * 20 / 14).toFixed(3)}" width="30" height="${(20 / 14 + .02).toFixed(3)}" fill="${i % 2 ? '#fff' : '#CC0001'}"/>`).join('') +
       `<rect width="15" height="11.43" fill="#010066"/><circle cx="5.6" cy="5.7" r="3.8" fill="#FC0"/><circle cx="6.6" cy="5.7" r="3.2" fill="#010066"/><polygon points="${star(10.6, 5.7, 2.8, 14, .45)}" fill="#FC0"/>`,
     sweden: '<rect width="30" height="20" fill="#006AA7"/><rect x="9.4" width="3.8" height="20" fill="#FECC02"/><rect y="8.1" width="30" height="3.8" fill="#FECC02"/>',
-    cyprus: '<rect width="30" height="20" fill="#fff"/><path d="M6.5 8.6 9.6 6.6 13 6.9 16.4 5.7 19.6 4.9 23.6 2.9 21.6 5.7 19.2 7.5 15.6 8.9 12.2 9.9 8.6 9.9Z" fill="#D57800"/><g fill="none" stroke="#4E5B31" stroke-width=".9" stroke-linecap="round"><path d="M10.4 15.6c1.6 1.4 3.4 1.6 4.4 1.5"/><path d="M19.6 15.6c-1.6 1.4-3.4 1.6-4.4 1.5"/></g><g fill="#4E5B31"><ellipse cx="11.4" cy="14.9" rx="1" ry=".45" transform="rotate(-35 11.4 14.9)"/><ellipse cx="12.9" cy="16.1" rx="1" ry=".45" transform="rotate(-20 12.9 16.1)"/><ellipse cx="18.6" cy="14.9" rx="1" ry=".45" transform="rotate(35 18.6 14.9)"/><ellipse cx="17.1" cy="16.1" rx="1" ry=".45" transform="rotate(20 17.1 16.1)"/></g>'
+    cyprus: '<rect width="30" height="20" fill="#fff"/><path d="M6.5 8.6 9.6 6.6 13 6.9 16.4 5.7 19.6 4.9 23.6 2.9 21.6 5.7 19.2 7.5 15.6 8.9 12.2 9.9 8.6 9.9Z" fill="#D57800"/><g fill="none" stroke="#4E5B31" stroke-width=".9" stroke-linecap="round"><path d="M10.4 15.6c1.6 1.4 3.4 1.6 4.4 1.5"/><path d="M19.6 15.6c-1.6 1.4-3.4 1.6-4.4 1.5"/></g><g fill="#4E5B31"><ellipse cx="11.4" cy="14.9" rx="1" ry=".45" transform="rotate(-35 11.4 14.9)"/><ellipse cx="12.9" cy="16.1" rx="1" ry=".45" transform="rotate(-20 12.9 16.1)"/><ellipse cx="18.6" cy="14.9" rx="1" ry=".45" transform="rotate(35 18.6 14.9)"/><ellipse cx="17.1" cy="16.1" rx="1" ry=".45" transform="rotate(20 17.1 16.1)"/></g>',
+    usa: Array.from({ length: 13 }, (_, i) => `<rect y="${(i * 20 / 13).toFixed(3)}" width="30" height="${(20 / 13 + .02).toFixed(3)}" fill="${i % 2 ? '#fff' : '#B22234'}"/>`).join('') +
+      '<rect width="12" height="10.77" fill="#3C3B6E"/>' + Array.from({ length: 20 }, (_, i) => `<circle cx="${(1.3 + (i % 5) * 2.35).toFixed(2)}" cy="${(1.3 + Math.floor(i / 5) * 2.7).toFixed(2)}" r=".55" fill="#fff"/>`).join('')
   };
   const flagSVG = (id, cls = '') => `<svg class="${cls}" viewBox="0 0 30 20" aria-hidden="true" focusable="false">${FLAGS[id] || '<rect width="30" height="20" fill="#9DB8F5"/>'}</svg>`;
 

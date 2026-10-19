@@ -111,14 +111,19 @@ const DESTINATIONS = [
     intro: 'We guide applications to universities in Sweden. A counsellor confirms the current programs, intakes and requirements for your profile.',
     highlights: ['Ask a counsellor for the programs and intakes currently open'],
     requirements: [['Programs', 'To be confirmed with EduRise'], ['English', 'Depends on the university and program']],
+    extraDocs: [] },
+  { id: 'usa', code: 'NYC', city: 'New York', name: 'United States', levels: ['Programs TBC'], tbc: true,
+    intro: 'We guide applications to universities in the United States. A counsellor confirms the current programs, intakes and requirements for your profile.',
+    highlights: ['Ask a counsellor for the programs and intakes currently open'],
+    requirements: [['Programs', 'To be confirmed with EduRise'], ['English', 'Depends on the university and program']],
     extraDocs: [] }
 ];
-/* country order set by the client (19 Oct 2026); countries not in the list keep their place after it */
-const DEST_ORDER = ['korea', 'cyprus', 'china', 'malaysia', 'japan', 'finland', 'uk', 'malta', 'sweden'];
+/* country order set by the client (19 Oct 2026; USA added in place of "Other countries"); countries not in the list keep their place after it */
+const DEST_ORDER = ['korea', 'cyprus', 'china', 'malaysia', 'japan', 'finland', 'uk', 'malta', 'sweden', 'usa'];
 DESTINATIONS.sort((a, b) => (DEST_ORDER.indexOf(a.id) + 1 || 99) - (DEST_ORDER.indexOf(b.id) + 1 || 99));
 const OTHER_REGIONS = [
   { region: 'Europe',        countries: ['Estonia', 'Hungary', 'Other EU countries'] },
-  { region: 'North America', countries: ['USA', 'Canada'] },
+  { region: 'North America', countries: ['Canada'] },
   { region: 'Oceania',       countries: ['Australia', 'New Zealand'] }
 ];
 /* a country's own documents; an item that refines a base item replaces it (same first three words) */
@@ -246,7 +251,9 @@ const DEST_PHOTOS = {
   cyprus: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Petra_tou_romiou_beach.jpg/960px-Petra_tou_romiou_beach.jpg',
     alt: "Aphrodite's Rock (Petra tou Romiou) on the south coast of Cyprus", by: 'Nino Verde', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/', page: 'https://commons.wikimedia.org/wiki/File:Petra_tou_romiou_beach.jpg', pos: '50% 50%' },
   sweden: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Stockholm_city_hall_2008-07-15-1_filtered.jpg/1280px-Stockholm_city_hall_2008-07-15-1_filtered.jpg',
-    alt: "Stockholm City Hall seen across the water, Stockholm, Sweden", by: 'Kim Hansen', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/', page: 'https://commons.wikimedia.org/wiki/File:Stockholm_city_hall_2008-07-15-1_filtered.jpg', pos: '50% 55%' }
+    alt: "Stockholm City Hall seen across the water, Stockholm, Sweden", by: 'Kim Hansen', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/', page: 'https://commons.wikimedia.org/wiki/File:Stockholm_city_hall_2008-07-15-1_filtered.jpg', pos: '50% 55%' },
+  usa: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Statue_of_Liberty%2C_NY.jpg/1280px-Statue_of_Liberty%2C_NY.jpg',
+    alt: "The Statue of Liberty on Liberty Island, New York Harbor", by: 'William Warby', license: 'CC BY 2.0', licenseUrl: 'https://creativecommons.org/licenses/by/2.0/', page: 'https://commons.wikimedia.org/wiki/File:Statue_of_Liberty%2C_NY.jpg', pos: '50% 35%' }
 };
 
 /* homepage "Why choose us" (DOCX §4.1) — every point comes from the PDF company profile */

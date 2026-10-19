@@ -9,7 +9,7 @@ const DestPanels = (() => {
   const TONE = {
     korea: ['#0B2A63', '#C60C30'], japan: ['#5E0A1E', '#BC002D'], uk: ['#0A1A52', '#C8102E'], malta: ['#5A1018', '#CF142B'],
     italy: ['#0B4A2E', '#CE2B37'], russia: ['#0E2A66', '#D52B1E'], finland: ['#0A2E66', '#5B8FD9'], malaysia: ['#0A1A5C', '#FFCC00'],
-    china: ['#7A0E12', '#FFDE00'], cyprus: ['#5A3A12', '#D57800'], sweden: ['#063F6E', '#FECC02']
+    china: ['#7A0E12', '#FFDE00'], cyprus: ['#5A3A12', '#D57800'], sweden: ['#063F6E', '#FECC02'], usa: ['#0A1F4F', '#B22234']
   };
   const flagSVG = id => Landmarks.flagSVG(id, 'dpanel__flagsvg');
 
@@ -21,27 +21,6 @@ const DestPanels = (() => {
   const offersFor = id => Store.list('scholarships').filter(o => o.dest === id).length;
 
   let panels = [], current = 0, hoverTimer = null;
-
-  /* last panel: other countries, linking to the full destinations page */
-  function othersHTML(i) {
-    return `<li class="dpanel dpanel--others" style="--bg:#14254A;--accent:#FFC83D" data-i="${i}">
-      <span class="dpanel__tint" aria-hidden="true"></span>
-      <button type="button" class="dpanel__face" id="dp-btn-others" aria-expanded="false" aria-controls="dp-body-others">
-        <span class="dpanel__flag dpanel__flag--globe">${icon('globe')}</span>
-        <span class="dpanel__vname">Other countries</span>
-        <span class="dpanel__code">+ MORE</span>
-      </button>
-      <div class="dpanel__body" id="dp-body-others" role="region" aria-labelledby="dp-btn-others">
-        <span class="dpanel__city">${icon('globe', 'icon--sm')}<span>More destinations</span></span>
-        <h3 class="dpanel__name">Other countries</h3>
-        <p class="dpanel__note">We also guide applications to other study destinations. Ask a counsellor about current intakes.</p>
-        <div class="dpanel__actions">
-          <a class="btn btn--sun btn--sm" href="destinations.html">All destinations${icon('arrow')}</a>
-          <button type="button" class="dpanel__ask" data-enquire="Studying in another country">${icon('whatsapp')}Ask us</button>
-        </div>
-      </div>
-    </li>`;
-  }
 
   function panelHTML(d, i) {
     const [bg, accent] = TONE[d.id] || ['#14254A', '#2F5CCB'];
@@ -94,8 +73,7 @@ const DestPanels = (() => {
     const box = $('#destPanels'); if (!box) return;
     const all = Store.list('destinations');
     panels = DEST_ORDER.map(id => all.find(d => d.id === id)).filter(Boolean);   // client's order (data.js)
-    box.innerHTML = panels.map(panelHTML).join('') + othersHTML(panels.length);
-    panels = panels.concat({ id: 'others' });
+    box.innerHTML = panels.map(panelHTML).join('');
     // a photo that fails to load is removed, and the panel shows its drawn landmark instead
     $$('.dpanel__photo', box).forEach(img => {
       const fail = () => { const li = img.closest('.dpanel'); li.classList.remove('has-photo'); img.remove(); };
