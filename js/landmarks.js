@@ -73,14 +73,32 @@ const Landmarks = (() => {
       path('M86 88 L98 76 H142 L154 88Z', '#1F4E8C') + rect(108, 66, 24, 10, '#B8322B') +
       path('M94 68 L106 56 H134 L146 68Z', '#1F4E8C') + path('M106 57 Q120 38 134 57Z', '#1F4E8C') +
       `<circle cx="120" cy="38" r="3.4" fill="#E8B63C"/>` + rect(118.8, 40, 2.4, 6, '#E8B63C') +
-      rect(0, 160, 240, 20, '#7FA68E')
+      rect(0, 160, 240, 20, '#7FA68E'),
+/* Petra tou Romiou (Aphrodite's Rock) off the south coast */
+    cyprus: () => '<circle cx="64" cy="52" r="18" fill="#FFF3C9"/><g fill="#fff" opacity=".5"><ellipse cx="176" cy="40" rx="20" ry="6"/><ellipse cx="190" cy="35" rx="12" ry="7"/></g>' +
+    '<path d="M0 118 C30 104 52 100 78 112 L84 132 0 132Z" fill="#D7B98C"/><path d="M0 124 C24 114 44 112 66 122 L70 132 0 132Z" fill="#C49A68"/>' +
+    '<rect y="128" width="240" height="52" fill="#2F86B4"/><rect y="128" width="240" height="6" fill="#62B3D6"/>' +
+    '<path d="M118 132 C120 108 132 94 146 92 C160 92 168 108 170 132Z" fill="#C9A47A"/><path d="M146 92 C160 92 168 108 170 132 L152 132 C152 112 150 100 146 92Z" fill="#A9845B"/>' +
+    '<path d="M172 132 C174 120 182 114 190 116 C198 118 200 126 202 132Z" fill="#B8915F"/><path d="M98 132 C100 124 106 120 112 122 C116 124 117 128 118 132Z" fill="#B8915F"/>' +
+    '<g fill="#fff" opacity=".55"><rect x="20" y="146" width="40" height="2" rx="1"/><rect x="132" y="156" width="56" height="2" rx="1"/><rect x="84" y="166" width="30" height="2" rx="1"/></g>',
+  /* Stockholm City Hall tower with the three crowns, across the water */
+    sweden: () => '<circle cx="58" cy="48" r="16" fill="#fff" opacity=".9"/><g fill="#fff" opacity=".55"><ellipse cx="170" cy="42" rx="22" ry="6"/><ellipse cx="184" cy="37" rx="13" ry="7"/></g>' +
+    '<rect x="96" y="96" width="120" height="40" fill="#B4553C"/><rect x="96" y="92" width="120" height="6" fill="#8E3F2C"/>' +
+    '<g fill="#7A3524">' + [104, 116, 128, 152, 164, 176, 188, 200].map(x => `<rect x="${x}" y="104" width="6" height="12" rx="3"/>`).join('') + '</g>' +
+    '<rect x="132" y="62" width="18" height="74" fill="#A84D36"/><rect x="129" y="58" width="24" height="7" fill="#8E3F2C"/>' +
+    '<path d="M131 58 L141 42 L151 58Z" fill="#4E8C78"/><rect x="140" y="34" width="2" height="10" fill="#E8B63C"/>' +
+    '<g fill="#E8B63C"><circle cx="137" cy="34" r="2.4"/><circle cx="141" cy="32" r="2.4"/><circle cx="145" cy="34" r="2.4"/></g>' +
+    '<g fill="#7A3524"><rect x="138" y="72" width="6" height="10" rx="3"/></g>' +
+    '<path d="M0 124 L24 112 L52 120 L70 110 L96 124 L96 136 0 136Z" fill="#5E7F6A"/>' +
+    '<rect y="134" width="240" height="46" fill="#3F6F9E"/><rect y="134" width="240" height="4" fill="#6D97C2"/>' +
+    '<g fill="#B4553C" opacity=".35"><rect x="96" y="140" width="120" height="14"/><rect x="132" y="140" width="18" height="34"/></g>'
   };
 
   /* sky gradient per country: top, bottom */
   const SKY = {
     korea: ['#F7C6D9', '#9E8FD3'], japan: ['#FFE7CC', '#F6C9A8'], uk: ['#C9D6EA', '#9FB2D3'], italy: ['#FFD7A6', '#F2A774'],
     malta: ['#BFE6F2', '#7CC4DD'], russia: ['#D7D3F0', '#AFC0E6'], finland: ['#DDF0FB', '#A9D3EE'], malaysia: ['#F8B98B', '#B06AA0'],
-    china: ['#CDEBE0', '#F4D79A']
+    china: ['#CDEBE0', '#F4D79A'], cyprus: ['#FFE6C2', '#8FCDE4'], sweden: ['#DCE8F6', '#A6C1E3']
   };
 
   const sceneSVG = id => `<svg class="dpanel__art" viewBox="0 0 240 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">${SCENES[id] ? SCENES[id]() : ''}</svg>`;
@@ -106,7 +124,9 @@ const Landmarks = (() => {
       [[-1, -1], [1, 1], [1, -1], [-1, 1]].map(([sx, sy]) => `<g transform="translate(${15 + sx * 9.5} ${10 + sy * 6}) rotate(${sx * sy > 0 ? 56.3 : -56.3})"><rect x="-2" y="-1.6" width="4" height=".7" fill="#000"/><rect x="-2" y="-.35" width="4" height=".7" fill="#000"/><rect x="-2" y=".9" width="4" height=".7" fill="#000"/></g>`).join(''),
     uk: '<clipPath id="fUk1"><path d="M0 0h30v20H0z"/></clipPath><clipPath id="fUk2"><path d="M15 10h15v10zv10H0zH0V0zV0h15z"/></clipPath><g clip-path="url(#fUk1)"><path d="M0 0h30v20H0z" fill="#012169"/><path d="M0 0l30 20M30 0L0 20" stroke="#fff" stroke-width="4"/><path d="M0 0l30 20M30 0L0 20" clip-path="url(#fUk2)" stroke="#C8102E" stroke-width="2.4"/><path d="M15 0v20M0 10h30" stroke="#fff" stroke-width="6.5"/><path d="M15 0v20M0 10h30" stroke="#C8102E" stroke-width="4"/></g>',
     malaysia: Array.from({ length: 14 }, (_, i) => `<rect y="${(i * 20 / 14).toFixed(3)}" width="30" height="${(20 / 14 + .02).toFixed(3)}" fill="${i % 2 ? '#fff' : '#CC0001'}"/>`).join('') +
-      `<rect width="15" height="11.43" fill="#010066"/><circle cx="5.6" cy="5.7" r="3.8" fill="#FC0"/><circle cx="6.6" cy="5.7" r="3.2" fill="#010066"/><polygon points="${star(10.6, 5.7, 2.8, 14, .45)}" fill="#FC0"/>`
+      `<rect width="15" height="11.43" fill="#010066"/><circle cx="5.6" cy="5.7" r="3.8" fill="#FC0"/><circle cx="6.6" cy="5.7" r="3.2" fill="#010066"/><polygon points="${star(10.6, 5.7, 2.8, 14, .45)}" fill="#FC0"/>`,
+    sweden: '<rect width="30" height="20" fill="#006AA7"/><rect x="9.4" width="3.8" height="20" fill="#FECC02"/><rect y="8.1" width="30" height="3.8" fill="#FECC02"/>',
+    cyprus: '<rect width="30" height="20" fill="#fff"/><path d="M6.5 8.6 9.6 6.6 13 6.9 16.4 5.7 19.6 4.9 23.6 2.9 21.6 5.7 19.2 7.5 15.6 8.9 12.2 9.9 8.6 9.9Z" fill="#D57800"/><g fill="none" stroke="#4E5B31" stroke-width=".9" stroke-linecap="round"><path d="M10.4 15.6c1.6 1.4 3.4 1.6 4.4 1.5"/><path d="M19.6 15.6c-1.6 1.4-3.4 1.6-4.4 1.5"/></g><g fill="#4E5B31"><ellipse cx="11.4" cy="14.9" rx="1" ry=".45" transform="rotate(-35 11.4 14.9)"/><ellipse cx="12.9" cy="16.1" rx="1" ry=".45" transform="rotate(-20 12.9 16.1)"/><ellipse cx="18.6" cy="14.9" rx="1" ry=".45" transform="rotate(35 18.6 14.9)"/><ellipse cx="17.1" cy="16.1" rx="1" ry=".45" transform="rotate(20 17.1 16.1)"/></g>'
   };
   const flagSVG = (id, cls = '') => `<svg class="${cls}" viewBox="0 0 30 20" aria-hidden="true" focusable="false">${FLAGS[id] || '<rect width="30" height="20" fill="#9DB8F5"/>'}</svg>`;
 

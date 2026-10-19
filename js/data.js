@@ -100,10 +100,24 @@ const DESTINATIONS = [
     intro: 'Degree and Chinese language programs, with Chinese Government (CSC) and university scholarship options and two intakes a year.',
     highlights: ['Chinese Government (CSC), provincial and university scholarships', 'Engineering, IT, business and medical programs', 'Airport pickup and accommodation support', 'September and March intakes'],
     requirements: [['Academic', 'HSC for Bachelor’s; Bachelor’s degree for Master’s'], ['English', 'Some programs without IELTS'], ['Chinese', 'Not required for English-taught programs'], ['Intakes', 'September and March']],
-    extraDocs: ['Physical examination form'] }
+    extraDocs: ['Physical examination form'] },
+  /* Cyprus and Sweden added 19 Oct 2026 at the client's request. Programs and requirements are still to be confirmed (TBC). */
+  { id: 'cyprus', code: 'LCA', city: 'Nicosia', name: 'Cyprus', levels: ['Programs TBC'], tbc: true,
+    intro: 'We guide applications to universities in Cyprus. A counsellor confirms the current programs, intakes and requirements for your profile.',
+    highlights: ['Ask a counsellor for the programs and intakes currently open'],
+    requirements: [['Programs', 'To be confirmed with EduRise'], ['English', 'Depends on the university and program']],
+    extraDocs: [] },
+  { id: 'sweden', code: 'ARN', city: 'Stockholm', name: 'Sweden', levels: ['Programs TBC'], tbc: true,
+    intro: 'We guide applications to universities in Sweden. A counsellor confirms the current programs, intakes and requirements for your profile.',
+    highlights: ['Ask a counsellor for the programs and intakes currently open'],
+    requirements: [['Programs', 'To be confirmed with EduRise'], ['English', 'Depends on the university and program']],
+    extraDocs: [] }
 ];
+/* country order set by the client (19 Oct 2026); countries not in the list keep their place after it */
+const DEST_ORDER = ['korea', 'cyprus', 'china', 'malaysia', 'japan', 'finland', 'uk', 'malta', 'sweden'];
+DESTINATIONS.sort((a, b) => (DEST_ORDER.indexOf(a.id) + 1 || 99) - (DEST_ORDER.indexOf(b.id) + 1 || 99));
 const OTHER_REGIONS = [
-  { region: 'Europe',        countries: ['Estonia', 'Hungary', 'Cyprus', 'Other EU countries'] },
+  { region: 'Europe',        countries: ['Estonia', 'Hungary', 'Other EU countries'] },
   { region: 'North America', countries: ['USA', 'Canada'] },
   { region: 'Oceania',       countries: ['Australia', 'New Zealand'] }
 ];
@@ -228,7 +242,11 @@ const DEST_PHOTOS = {
   malta: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Our_Lady_of_Mount_Carmel_and_St_Pauls_Pro-Cathedral.jpg/1280px-Our_Lady_of_Mount_Carmel_and_St_Pauls_Pro-Cathedral.jpg',
     alt: "Valletta skyline with the Carmelite Basilica dome and St Paul's Pro-Cathedral spire, Malta", by: 'Tony Zelenoff', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/', page: 'https://commons.wikimedia.org/wiki/File:Our_Lady_of_Mount_Carmel_and_St_Pauls_Pro-Cathedral.jpg', pos: '50% 50%' },
   china: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/20090529_Great_Wall_8185.jpg/1280px-20090529_Great_Wall_8185.jpg',
-    alt: "The Great Wall of China near Jinshanling", by: 'Jakub Hałun', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/', page: 'https://commons.wikimedia.org/wiki/File:20090529_Great_Wall_8185.jpg', pos: '50% 50%' }
+    alt: "The Great Wall of China near Jinshanling", by: 'Jakub Hałun', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/', page: 'https://commons.wikimedia.org/wiki/File:20090529_Great_Wall_8185.jpg', pos: '50% 50%' },
+  cyprus: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Petra_tou_romiou_beach.jpg/960px-Petra_tou_romiou_beach.jpg',
+    alt: "Aphrodite's Rock (Petra tou Romiou) on the south coast of Cyprus", by: 'Nino Verde', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/', page: 'https://commons.wikimedia.org/wiki/File:Petra_tou_romiou_beach.jpg', pos: '50% 50%' },
+  sweden: { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Stockholm_city_hall_2008-07-15-1_filtered.jpg/1280px-Stockholm_city_hall_2008-07-15-1_filtered.jpg',
+    alt: "Stockholm City Hall seen across the water, Stockholm, Sweden", by: 'Kim Hansen', license: 'CC BY-SA 3.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/', page: 'https://commons.wikimedia.org/wiki/File:Stockholm_city_hall_2008-07-15-1_filtered.jpg', pos: '50% 55%' }
 };
 
 /* homepage "Why choose us" (DOCX §4.1) — every point comes from the PDF company profile */
