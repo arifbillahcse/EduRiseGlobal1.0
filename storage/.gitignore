@@ -1,0 +1,10 @@
+# Runtime files stay on the server, never in Git.
+*
+!.gitignore
+!logs/
+!cache/
+!backups/
+logs/*
+cache/*
+backups/*
+!*/.gitkeep

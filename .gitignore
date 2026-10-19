@@ -2,3 +2,8 @@
 Thumbs.db
 node_modules/
 *.log
+
+# PHP backend: secrets and runtime data never go to Git
+app/config/config.php
+public_html/uploads/*
+!public_html/uploads/.gitkeep
