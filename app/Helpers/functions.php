@@ -30,6 +30,17 @@ function base_path(): string
     return rtrim($path, '/');
 }
 
+/** Path to a file in public_html with a content-hash version, e.g. asset('css/panel.css') -> /css/panel.css?v=1a2b3c4d */
+function asset(string $relPath): string
+{
+    static $seen = [];
+    if (!isset($seen[$relPath])) {
+        $file = APP_ROOT . '/public_html/' . $relPath;
+        $seen[$relPath] = is_file($file) ? substr((string) md5_file($file), 0, 8) : '0';
+    }
+    return base_path() . '/' . $relPath . '?v=' . $seen[$relPath];
+}
+
 /** Absolute URL for a site path, e.g. url('about.html'). */
 function url(string $path = ''): string
 {

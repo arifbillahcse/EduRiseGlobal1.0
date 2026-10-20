@@ -23,7 +23,7 @@ const BN = {
   'Scholarships': 'স্কলারশিপ', 'Services': 'সেবাসমূহ', 'About': 'আমাদের সম্পর্কে', 'Contact': 'যোগাযোগ',
   'Free consultation': 'ফ্রি কনসালটেশন', 'Book a free consultation': 'ফ্রি কনসালটেশন বুক করুন',
   'Explore': 'এক্সপ্লোর', 'Eligibility check': 'যোগ্যতা যাচাই', 'Cost estimator': 'খরচের হিসাব',
-  'News': 'খবর', 'Staff dashboard (demo)': 'স্টাফ ড্যাশবোর্ড (ডেমো)',
+  'News': 'খবর', 'Staff login': 'স্টাফ লগইন',
   'Offices:': 'অফিস:', 'Dhaka (head office) · Madrid, Spain · Suffolk, UK': 'ঢাকা (প্রধান অফিস) · মাদ্রিদ, স্পেন · সাফোক, যুক্তরাজ্য',
   'EduRise Global. All rights reserved.': 'EduRise Global. সর্বস্বত্ব সংরক্ষিত।',
   'Privacy policy': 'গোপনীয়তা নীতি', 'Terms of use': 'ব্যবহারের শর্তাবলি', 'Disclaimer': 'দায়মুক্তি',

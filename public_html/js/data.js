@@ -46,7 +46,7 @@ const FOOTER_EXTRA = [
   { label: 'Eligibility check',      href: 'eligibility.html',    phase: 7 },
   { label: 'Cost estimator',         href: 'cost-estimator.html', phase: 7 },
   { label: 'News',                   href: 'news.html',  phase: 6 },
-  { label: 'Staff dashboard (demo)', href: 'admin.html', phase: 6 }
+  { label: 'Staff login',            href: 'admin',      phase: 6 }
 ];
 
 const LEGAL = [

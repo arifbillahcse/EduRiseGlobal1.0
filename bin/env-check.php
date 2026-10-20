@@ -48,7 +48,7 @@ check($results, 'post_max_size >= 8M', $toBytes((string) ini_get('post_max_size'
 check($results, 'file_uploads enabled', (bool) ini_get('file_uploads'));
 
 // 4. Folders the app writes to
-foreach (['storage/logs', 'storage/cache', 'storage/backups'] as $dir) {
+foreach (['storage/logs', 'storage/cache', 'storage/backups', 'storage/sessions'] as $dir) {
     $path = "$root/$dir";
     check($results, "writable: $dir", is_dir($path) && is_writable($path));
 }

@@ -7,4 +7,4 @@ deployment:
   tasks:
     - export DEPLOYPATH=$HOME/staging
     - /bin/mkdir -p $DEPLOYPATH
-    - /usr/bin/rsync -a --delete --exclude='.git' --exclude='.cpanel.yml' --exclude='app/config/config.php' --exclude='storage/logs/*' --exclude='storage/cache/*' --exclude='storage/backups/*' --exclude='public_html/uploads/*' ./ $DEPLOYPATH/
+    - /usr/bin/rsync -a --delete --exclude='.git' --exclude='.cpanel.yml' --exclude='app/config/config.php' --exclude='storage/logs/*' --exclude='storage/sessions/*' --exclude='storage/cache/*' --exclude='storage/backups/*' --exclude='public_html/uploads/*' ./ $DEPLOYPATH/

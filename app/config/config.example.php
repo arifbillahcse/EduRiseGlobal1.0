@@ -24,6 +24,7 @@ return [
     ],
 
     'mail' => [
+        'transport'  => 'log',                    // log = write to storage/logs/mail.log (local) · mail = send (staging/live)
         'from_email' => 'noreply@eduriseglobal.bd',
         'from_name'  => 'EduRise Global',
         'smtp_host'  => 'mail.eduriseglobal.bd',

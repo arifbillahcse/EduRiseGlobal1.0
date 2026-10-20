@@ -4,7 +4,9 @@
 !logs/
 !cache/
 !backups/
+!sessions/
 logs/*
 cache/*
 backups/*
+sessions/*
 !*/.gitkeep

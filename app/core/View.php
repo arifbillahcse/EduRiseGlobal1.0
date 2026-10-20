@@ -35,8 +35,8 @@ final class View
         $html = preg_replace('#\b(href|src)="(css|js|assets)/#', '$1="' . $base . '/$2/', $html);
 
         // cache-busting: ?v= is the file's own content hash, so a changed file is never served stale
-        $html = preg_replace_callback('#="' . preg_quote($base, '#') . '/((?:css|js)/[\w.-]+)\?v=[0-9a-f]+"#', static function (array $m) use ($base): string {
-            return '="' . $base . '/' . $m[1] . '?v=' . self::assetVersion($m[1]) . '"';
+        $html = preg_replace_callback('#="' . preg_quote($base, '#') . '/((?:css|js)/[\w.-]+)\?v=[0-9a-f]+"#', static function (array $m): string {
+            return '="' . asset($m[1]) . '"';
         }, $html);
 
         // 3. canonical / og:url / og:image on this site's own domain
@@ -55,14 +55,4 @@ final class View
         Response::html($html, $status);
     }
 
-    /** First 8 characters of the file's md5, or 0 if missing. */
-    private static function assetVersion(string $relPath): string
-    {
-        static $seen = [];
-        if (!isset($seen[$relPath])) {
-            $file = APP_ROOT . '/public_html/' . $relPath;
-            $seen[$relPath] = is_file($file) ? substr((string) md5_file($file), 0, 8) : '0';
-        }
-        return $seen[$relPath];
-    }
 }

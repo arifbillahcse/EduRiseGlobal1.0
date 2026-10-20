@@ -20,6 +20,7 @@ CREATE TABLE admin_users (
   password_hash   VARCHAR(255) NOT NULL,              -- password_hash() output, never plain text
   role            ENUM('admin','editor') NOT NULL DEFAULT 'editor',
   is_active       TINYINT(1) NOT NULL DEFAULT 1,
+  password_changed_at DATETIME NULL,                  -- signs out other sessions when the password changes
   last_login_at   DATETIME NULL,
   created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
