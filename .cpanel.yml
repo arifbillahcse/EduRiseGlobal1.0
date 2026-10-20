@@ -1,0 +1,8 @@
+---
+# cPanel "Git Version Control" deploy. bin/deploy.sh decides where by branch:
+#   PHP  -> ~/staging           (staging.eduriseglobal.bd, document root staging/public_html)
+#   main -> ~/public_html + ~/edurise   (the live site)
+# Server-only files (config.php, logs, backups, uploads) are never overwritten.
+deployment:
+  tasks:
+    - /bin/bash bin/deploy.sh

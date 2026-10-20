@@ -2,6 +2,9 @@
 
 Plain HTML, CSS and JavaScript. No build tools or frameworks.
 
+> **Branch `PHP`:** the site now runs on a raw PHP backend. Pages live in `app/Views/pages/`, static files in `public_html/`. See [BACKEND.md](BACKEND.md); going live: [LAUNCH.md](LAUNCH.md).
+> On this branch the browser-only demo dashboard (`admin.html`, `js/admin.js`) is replaced by the real admin panel at `/admin`; the notes about it below describe the static demo on `main`.
+
 ## Status
 
 | Phase | Scope | Package | Status |

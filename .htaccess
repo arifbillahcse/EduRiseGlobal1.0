@@ -1,0 +1,11 @@
+# EduRise Global — safety net for a clone that sits inside a web folder
+# (e.g. ~/public_html/EduRiseGlobal1.0). The site's real web root is public_html/;
+# everything else here (app/, storage/, bin/, database/, .git) must never be served.
+<IfModule mod_authz_core.c>
+  Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Order deny,allow
+  Deny from all
+</IfModule>
+Options -Indexes

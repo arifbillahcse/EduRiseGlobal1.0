@@ -1,6 +1,0 @@
-User-agent: *
-Disallow: /admin.html
-Disallow: /styleguide.html
-Disallow: /checklist.html
-
-Sitemap: https://www.eduriseglobal.com/sitemap.xml

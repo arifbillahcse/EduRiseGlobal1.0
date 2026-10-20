@@ -1,0 +1,55 @@
+# EduRise Global — Apache rules (cPanel)
+
+Options -Indexes
+
+# the web root is open, even when the folder above it is closed (see ../.htaccess)
+<IfModule mod_authz_core.c>
+  Require all granted
+</IfModule>
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # pass the browser's login to PHP (needed for the staging password under PHP-FPM)
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+  # one address for the live site: eduriseglobal.bd -> https://www.eduriseglobal.bd (one redirect, not two)
+  RewriteCond %{HTTP_HOST} ^eduriseglobal\.bd$ [NC]
+  RewriteRule ^ https://www.eduriseglobal.bd%{REQUEST_URI} [R=301,L]
+
+  # HTTPS everywhere (skipped for localhost while developing)
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:\d+)?$ [NC]
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+  # hidden files (.git, .env, .htaccess) are never served
+  RewriteRule (^|/)\. - [F,L]
+
+  # real files (css, js, images) are served directly; everything else goes to index.php
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ index.php [L,QSA]
+
+  # old page files no longer exist here: *.html is handled by index.php too
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header always unset X-Powered-By
+</IfModule>
+
+# long cache for versioned assets (files are linked with ?v=<hash>)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+</IfModule>
