@@ -27,6 +27,11 @@ DirectoryIndex index.php
   # hidden files (.git, .env, .htaccess) are never served
   RewriteRule (^|/)\. - [F,L]
 
+  # one address per page: /admin/ -> /admin, /about.html/ -> /about.html (folders stay as they are)
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} ^(.+)/$
+  RewriteRule ^ %1 [R=301,L]
+
   # real files (css, js, images) are served directly; everything else goes to index.php
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^ index.php [L,QSA]

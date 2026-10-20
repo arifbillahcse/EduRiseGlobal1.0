@@ -10,7 +10,7 @@ const ico = (name, cls = '') => icon(name, cls);   // short alias for templates 
 /* ---------- shell markup ---------- */
 function brandHTML(label = 'EduRise Global, home') {
   return `<a class="brand" href="index.html" aria-label="${label}">
-    <img src="assets/img/brand/logo-mark.png" alt="" width="71" height="40">
+    <img src="/assets/img/brand/logo-mark.png" alt="" width="71" height="40">
     <span><span class="brand__name">EduRise</span><span class="brand__sub">GLOBAL</span></span></a>`;
 }
 

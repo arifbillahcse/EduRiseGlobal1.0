@@ -294,7 +294,7 @@ function renderChecklistPage() {
   document.title = `${d.name} document checklist | EduRise Global`;
   $('#checklist').innerHTML = `
     <header class="cl-head">
-      <div class="cl-brand"><img src="assets/img/brand/logo-mark.png" alt="" width="71" height="40"><div><b>EduRise Global</b><span>Guiding Your Global Future</span></div></div>
+      <div class="cl-brand"><img src="/assets/img/brand/logo-mark.png" alt="" width="71" height="40"><div><b>EduRise Global</b><span>Guiding Your Global Future</span></div></div>
       <div class="cl-actions no-print">
         <button type="button" class="btn btn--brand btn--sm" id="clPrint">${icon('download')}Print or save as PDF</button>
         <a class="btn btn--ghost btn--sm" href="${destUrl(d.id)}">Back to ${esc(d.name)}</a>
