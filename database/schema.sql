@@ -16,6 +16,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 CREATE TABLE admin_users (
   id              INT UNSIGNED NOT NULL AUTO_INCREMENT,
   name            VARCHAR(120) NOT NULL,
+  username        VARCHAR(40) NULL,                   -- signs in with this (or the email); lowercase a-z 0-9 . _ -
   email           VARCHAR(190) NOT NULL,
   password_hash   VARCHAR(255) NOT NULL,              -- password_hash() output, never plain text
   role            ENUM('admin','editor') NOT NULL DEFAULT 'editor',
@@ -25,7 +26,8 @@ CREATE TABLE admin_users (
   created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  UNIQUE KEY uq_admin_email (email)
+  UNIQUE KEY uq_admin_email (email),
+  UNIQUE KEY uq_admin_username (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE login_attempts (

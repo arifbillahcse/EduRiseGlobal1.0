@@ -11,11 +11,12 @@
 <?php endif; ?>
 <div class="pn-card pn-card--flush">
   <table class="pn-table">
-    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Last sign-in</th><th><span class="pn-sr">Actions</span></th></tr></thead>
+    <thead><tr><th>Name</th><th>Username</th><th>Email</th><th>Role</th><th>Status</th><th>Last sign-in</th><th><span class="pn-sr">Actions</span></th></tr></thead>
     <tbody>
     <?php foreach ($users as $row): ?>
       <tr class="<?= $row['is_active'] ? '' : 'is-off' ?>">
         <td><?= e($row['name']) ?><?= (int) $row['id'] === (int) $user['id'] ? ' <span class="pn-muted">(you)</span>' : '' ?></td>
+        <td><?= $row['username'] ? e($row['username']) : '<span class="pn-muted">not set</span>' ?></td>
         <td><?= e($row['email']) ?></td>
         <td><span class="pn-role pn-role--<?= e($row['role']) ?>"><?= e(AdminUser::ROLES[$row['role']]) ?></span></td>
         <td><?= $row['is_active'] ? 'Active' : 'Turned off' ?></td>

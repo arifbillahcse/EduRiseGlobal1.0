@@ -8,6 +8,7 @@
   <form method="post" action="<?= e($action) ?>" class="pn-form">
     <?= Csrf::field() ?>
     <label>Name<input type="text" name="name" value="<?= e($form['name']) ?>" maxlength="120" required></label>
+    <label>Username <span class="pn-muted">(for signing in: 3–40 characters, a–z, 0–9, dot, dash or underscore)</span><input type="text" name="username" value="<?= e($form['username'] ?? '') ?>" maxlength="40" pattern="[a-zA-Z0-9][a-zA-Z0-9._\-]{2,39}" autocapitalize="none" spellcheck="false" autocomplete="off" required></label>
     <?php if ($edit): ?>
       <p><span class="pn-label">Email</span><?= e($edit['email']) ?></p>
     <?php else: ?>

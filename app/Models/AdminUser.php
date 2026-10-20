@@ -24,25 +24,53 @@ final class AdminUser
         return $rows[0] ?? null;
     }
 
-    public static function all(): array
+    public static function findByUsername(string $username): ?array
     {
-        return Database::all('SELECT id, name, email, role, is_active, last_login_at, created_at FROM admin_users ORDER BY is_active DESC, role, name');
+        $rows = Database::all('SELECT * FROM admin_users WHERE username = ?', [self::normaliseUsername($username)]);
+        return $rows[0] ?? null;
     }
 
-    public static function create(string $name, string $email, string $role, ?string $password = null): int
+    /** The account for what was typed in the sign-in box: a username, or an email. */
+    public static function findByLogin(string $login): ?array
+    {
+        $login = trim($login);
+        if ($login === '') {
+            return null;
+        }
+        return str_contains($login, '@') ? self::findByEmail($login) : self::findByUsername($login);
+    }
+
+    public static function normaliseUsername(string $username): string
+    {
+        return mb_strtolower(trim($username));
+    }
+
+    /** 3–40 characters: a-z, 0-9, dot, dash, underscore; starts with a letter or number. */
+    public static function validUsername(string $username): bool
+    {
+        return (bool) preg_match('/^[a-z0-9][a-z0-9._-]{2,39}$/', $username);
+    }
+
+    public static function all(): array
+    {
+        return Database::all('SELECT id, name, username, email, role, is_active, last_login_at, created_at FROM admin_users ORDER BY is_active DESC, role, name');
+    }
+
+    public static function create(string $name, string $email, string $role, ?string $password = null, ?string $username = null): int
     {
         // without a password the account gets a random one nobody knows; the person sets theirs from an emailed link
         $hash = self::hash($password ?? bin2hex(random_bytes(32)));
         Database::run(
-            'INSERT INTO admin_users (name, email, password_hash, role, password_changed_at) VALUES (?, ?, ?, ?, NOW())',
-            [trim($name), self::normaliseEmail($email), $hash, $role]
+            'INSERT INTO admin_users (name, username, email, password_hash, role, password_changed_at) VALUES (?, ?, ?, ?, ?, NOW())',
+            [trim($name), $username !== null && $username !== '' ? self::normaliseUsername($username) : null, self::normaliseEmail($email), $hash, $role]
         );
         return (int) Database::pdo()->lastInsertId();
     }
 
-    public static function update(int $id, string $name, string $role, bool $active): void
+    public static function update(int $id, string $name, string $role, bool $active, ?string $username = null): void
     {
-        Database::run('UPDATE admin_users SET name = ?, role = ?, is_active = ? WHERE id = ?', [trim($name), $role, $active ? 1 : 0, $id]);
+        Database::run('UPDATE admin_users SET name = ?, username = ?, role = ?, is_active = ? WHERE id = ?',
+            [trim($name), $username !== null && $username !== '' ? self::normaliseUsername($username) : null, $role, $active ? 1 : 0, $id]);
     }
 
     /** Sets a new password and signs the person out everywhere else. */

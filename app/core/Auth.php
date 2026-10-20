@@ -58,17 +58,18 @@ final class Auth
     }
 
     /** Result of a sign-in attempt: 'ok', 'locked' or 'invalid'. */
-    public static function attempt(string $email, string $password): string
+    public static function attempt(string $login, string $password): string
     {
-        $email = AdminUser::normaliseEmail($email);
         $ip = self::ipHash();
+        $u = AdminUser::findByLogin($login);
+        // failed tries are counted per account (its email), so the username and the email share one limit
+        $email = $u['email'] ?? (str_contains($login, '@') ? AdminUser::normaliseEmail($login) : AdminUser::normaliseUsername($login));
 
         if (self::locked($email, $ip)) {
             self::logAttempt($email, $ip, false);     // keeps the lock going while someone keeps trying
             return 'locked';
         }
 
-        $u = $email !== '' ? AdminUser::findByEmail($email) : null;
         // same work whether or not the account exists, so timing reveals nothing
         $hash = $u['password_hash'] ?? AdminUser::hash(bin2hex(random_bytes(8)));
         $ok = password_verify($password, $hash) && $u && $u['is_active'];

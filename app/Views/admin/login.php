@@ -5,7 +5,7 @@
   <?php if ($error): ?><div class="pn-alert pn-alert--error" role="alert"><?= e($error) ?></div><?php endif; ?>
   <form method="post" action="<?= e($b) ?>/admin/login" class="pn-form">
     <?= Csrf::field() ?>
-    <label>Email<input type="email" name="email" value="<?= e($email) ?>" autocomplete="username" required autofocus></label>
+    <label>Username<input type="text" name="login" value="<?= e($login) ?>" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="190" required autofocus></label>
     <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
     <button class="pn-btn" type="submit">Sign in</button>
   </form>

@@ -30,7 +30,7 @@ final class UserController extends BaseController
         if (!$u = self::requireAdmin()) {
             return;
         }
-        self::render('user-form', ['title' => 'Add a user', 'user' => $u, 'edit' => null, 'form' => ['name' => '', 'email' => '', 'role' => 'editor', 'is_active' => 1], 'errors' => []]);
+        self::render('user-form', ['title' => 'Add a user', 'user' => $u, 'edit' => null, 'form' => ['name' => '', 'username' => '', 'email' => '', 'role' => 'editor', 'is_active' => 1], 'errors' => []]);
     }
 
     public static function store(): void
@@ -41,16 +41,19 @@ final class UserController extends BaseController
         if (!self::checkCsrf($u)) {
             return;
         }
-        $form = ['name' => self::input('name'), 'email' => AdminUser::normaliseEmail(self::input('email')), 'role' => self::input('role'), 'is_active' => 1];
+        $form = ['name' => self::input('name'), 'username' => AdminUser::normaliseUsername(self::input('username')), 'email' => AdminUser::normaliseEmail(self::input('email')), 'role' => self::input('role'), 'is_active' => 1];
         $errors = self::validate($form);
         if (!$errors && AdminUser::findByEmail($form['email'])) {
             $errors[] = 'An account with that email already exists.';
+        }
+        if (!$errors && AdminUser::findByUsername($form['username'])) {
+            $errors[] = 'That username is taken. Choose another.';
         }
         if ($errors) {
             self::render('user-form', ['title' => 'Add a user', 'user' => $u, 'edit' => null, 'form' => $form, 'errors' => $errors], 422);
             return;
         }
-        $id = AdminUser::create($form['name'], $form['email'], $form['role']);
+        $id = AdminUser::create($form['name'], $form['email'], $form['role'], null, $form['username']);
         self::sendLink($id, true);
         Session::flash('success', "{$form['name']} was added as " . AdminUser::ROLES[$form['role']] . '. A link to set their password was emailed to them.');
         self::redirect('/users');
@@ -82,8 +85,13 @@ final class UserController extends BaseController
             self::redirect('/users');
             return;
         }
-        $form = ['name' => self::input('name'), 'email' => $edit['email'], 'role' => self::input('role'), 'is_active' => isset($_POST['is_active']) ? 1 : 0];
+        $form = ['name' => self::input('name'), 'username' => AdminUser::normaliseUsername(self::input('username')), 'email' => $edit['email'], 'role' => self::input('role'), 'is_active' => isset($_POST['is_active']) ? 1 : 0];
         $errors = self::validate($form, false);
+
+        $other = $form['username'] !== '' ? AdminUser::findByUsername($form['username']) : null;
+        if ($other && (int) $other['id'] !== (int) $edit['id']) {
+            $errors[] = 'That username is taken. Choose another.';
+        }
 
         $self = (int) $edit['id'] === (int) $u['id'];
         if ($self && ($form['role'] !== 'admin' || !$form['is_active'])) {
@@ -98,7 +106,7 @@ final class UserController extends BaseController
             self::render('user-form', ['title' => 'Edit user', 'user' => $u, 'edit' => $edit, 'form' => $form + $edit, 'errors' => $errors], 422);
             return;
         }
-        AdminUser::update((int) $edit['id'], $form['name'], $form['role'], (bool) $form['is_active']);
+        AdminUser::update((int) $edit['id'], $form['name'], $form['role'], (bool) $form['is_active'], $form['username']);
         Session::flash('success', 'Saved. ' . ($form['is_active'] ? '' : "{$form['name']} can no longer sign in."));
         self::redirect('/users');
     }
@@ -133,6 +141,9 @@ final class UserController extends BaseController
         $e = [];
         if ($form['name'] === '' || mb_strlen($form['name']) > 120) {
             $e[] = 'Enter a name (up to 120 characters).';
+        }
+        if (!AdminUser::validUsername($form['username'])) {
+            $e[] = 'Choose a username: 3–40 characters, a–z, 0–9, dot, dash or underscore.';
         }
         if ($checkEmail && !filter_var($form['email'], FILTER_VALIDATE_EMAIL)) {
             $e[] = 'Enter a valid email address.';

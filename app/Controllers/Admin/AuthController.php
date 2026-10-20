@@ -19,7 +19,7 @@ final class AuthController extends BaseController
             self::redirect('');
             return;
         }
-        self::render('login', ['title' => 'Sign in', 'email' => '', 'error' => null]);
+        self::render('login', ['title' => 'Sign in', 'login' => '', 'error' => null]);
     }
 
     public static function login(): void
@@ -28,8 +28,8 @@ final class AuthController extends BaseController
         if (!self::checkCsrf()) {
             return;
         }
-        $email = self::input('email');
-        $result = Auth::attempt($email, (string) ($_POST['password'] ?? ''));
+        $login = self::input('login');
+        $result = Auth::attempt($login, (string) ($_POST['password'] ?? ''));
 
         if ($result === 'ok') {
             $to = Session::get('after_login');
@@ -42,8 +42,8 @@ final class AuthController extends BaseController
         }
         $error = $result === 'locked'
             ? 'Too many failed attempts. Sign-in is locked for ' . Auth::LOCK_MINUTES . ' minutes.'
-            : 'The email or password is wrong.';
-        self::render('login', ['title' => 'Sign in', 'email' => $email, 'error' => $error], $result === 'locked' ? 429 : 200);
+            : 'The username or password is wrong.';
+        self::render('login', ['title' => 'Sign in', 'login' => $login, 'error' => $error], $result === 'locked' ? 429 : 200);
     }
 
     public static function logout(): void

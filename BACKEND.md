@@ -304,6 +304,7 @@ php -S localhost:8000 -t public_html bin/dev-router.php
 - `2026-10-20-phase3-content.sql`
 - `2026-10-20-phase4-seo.sql`
 - `2026-10-20-phase5-leads.sql`
+- `2026-10-21-admin-username.sql` (admins sign in with a username; the email still works and is used for password resets)
 
 Then run `php bin/import-data.php --replace` once, to copy the existing Bangla into the new columns. Only do this before staff start editing, because it replaces the content.
 
