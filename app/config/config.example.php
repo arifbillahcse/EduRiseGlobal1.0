@@ -50,9 +50,13 @@ return [
         'login_max_tries'=> 5,                   // per 15 minutes, per email and per IP
     ],
 
-    'uploads' => [
-        'dir'       => __DIR__ . '/../../public_html/uploads',
-        'max_bytes' => 5 * 1024 * 1024,
-        'allowed'   => ['image/jpeg', 'image/png', 'image/webp'],
+    // Staging only: a password for the whole site (empty user = no password, as on live).
+    // Make the hash with: php bin/hash-password.php
+    'access' => [
+        'user'          => '',
+        'password_hash' => '',
     ],
+
+    // Live only: the web root, when it is not beside app/ (cPanel main domain: ~/public_html).
+    // 'public_dir' => '/home/USER/public_html',
 ];

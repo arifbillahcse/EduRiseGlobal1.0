@@ -20,5 +20,7 @@ if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) {
     exit("Another send-mail is still running.\n");
 }
 $r = App\Core\Mailer::processQueue(50);
-echo date('Y-m-d H:i:s') . " tried {$r['tried']}, sent {$r['sent']}\n";
+$line = date('Y-m-d H:i:s') . " tried {$r['tried']}, sent {$r['sent']}";
+file_put_contents(APP_ROOT . '/storage/cache/send-mail.ok', $line . "\n");   // checked by env-check
+echo $line . "\n";
 flock($lock, LOCK_UN);

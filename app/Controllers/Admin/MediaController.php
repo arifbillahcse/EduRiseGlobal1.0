@@ -78,7 +78,7 @@ final class MediaController extends BaseController
         }
         $m = self::find($id);
         if ($m && !self::usedIn($m['path'])) {
-            $file = APP_ROOT . '/public_html/' . $m['path'];
+            $file = PUBLIC_DIR . '/' . $m['path'];
             // only ever delete inside uploads/
             if (str_starts_with($m['path'], 'uploads/') && !str_contains($m['path'], '..') && is_file($file)) {
                 unlink($file);

@@ -114,6 +114,50 @@ if (is_dir("$root/storage/cache") && !is_writable("$root/storage/cache")) {
     check($results, 'send-mail lock file can be written', false, 'storage/cache must be writable for the cron job');
 }
 
+// 7. Launch readiness
+if (isset($config)) {
+    $env = $config['env'] ?? '?';
+    $live = $env === 'live';
+    $base = (string) ($config['base_url'] ?? '');
+    check($results, 'base_url uses https', !$live || str_starts_with($base, 'https://'), $base, !$live);
+    $public = rtrim((string) ($config['public_dir'] ?? "$root/public_html"), '/');
+    check($results, 'web root found (public_dir)', is_file("$public/index.php"), $public);
+    check($results, 'storage/ is outside the web root', !str_starts_with(realpath("$root/storage") ?: "$root/storage", (realpath($public) ?: $public) . '/'));
+    $hasPw = !empty($config['access']['user']) && !empty($config['access']['password_hash']);
+    if ($env === 'staging') {
+        check($results, 'staging is password-protected (access)', $hasPw, 'config.php → access; make the hash with bin/hash-password.php');
+    } elseif ($live) {
+        check($results, 'live site has no site password', !$hasPw, 'remove config.php → access on live', true);
+    }
+    if (isset($pdo)) {
+        try {
+            $users = $pdo->query('SELECT email, role, is_active FROM admin_users')->fetchAll(PDO::FETCH_ASSOC);
+            $test = array_filter($users, static fn ($u) => preg_match('/@(test\.local|example\.(com|org|net))$|^(test|demo|admin)@/i', $u['email']));
+            check($results, 'no test or demo admin accounts', !$test, $test ? implode(', ', array_column($test, 'email')) : count($users) . ' account(s)', !$live);
+            $admins = count(array_filter($users, static fn ($u) => $u['role'] === 'admin' && $u['is_active']));
+            check($results, 'at least one active Admin', $admins > 0, $admins ? "$admins active" : 'create one: php bin/create-admin.php');
+            // the site's database user should only reach its own database
+            $grants = $pdo->query('SHOW GRANTS FOR CURRENT_USER()')->fetchAll(PDO::FETCH_COLUMN);
+            $wide = array_filter($grants, static fn ($g) => preg_match('/ON \*\.\* /', $g) && !preg_match('/^GRANT USAGE ON/i', $g));
+            $dbName = $config['db']['name'];
+            $other = array_filter($grants, static fn ($g) => preg_match('/ON `([^`]+)`\./', $g, $m) && str_replace('\\_', '_', $m[1]) !== $dbName);
+            check($results, 'database user limited to its own database', !$wide && !$other, $wide || $other ? 'grants: ' . implode(' | ', array_map(static fn ($g) => substr($g, 0, 60), array_merge($wide, $other))) : "only $dbName", !$live);
+        } catch (PDOException $e) {
+            check($results, 'launch checks on the database', false, $e->getMessage(), true);
+        }
+    }
+    // the cron jobs leave a stamp each time they run
+    $age = static fn (string $f) => is_file("$root/storage/cache/$f") ? time() - filemtime("$root/storage/cache/$f") : null;
+    foreach (['send-mail.ok' => [15 * 60, 'send-mail cron ran in the last 15 minutes'], 'backup.ok' => [26 * 3600, 'backup cron ran in the last 26 hours'],
+              'maintenance.ok' => [26 * 3600, 'maintenance cron ran in the last 26 hours']] as $f => [$max, $label]) {
+        $a = $age($f);
+        check($results, $label, $a !== null && $a <= $max, $a === null ? 'never ran: add the cron job' : 'last run ' . round($a / 60) . ' min ago', !$live);
+    }
+    $latest = glob("$root/storage/backups/edurise-*-db.sql.gz") ?: [];
+    rsort($latest);
+    check($results, 'a database backup exists', $latest && filesize($latest[0]) > 1000, $latest ? basename($latest[0]) : 'none yet: php bin/backup.php', !$live);
+}
+
 // Report
 $fails = 0;
 foreach ($results as [$status, $label, $detail]) {

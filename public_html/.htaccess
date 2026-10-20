@@ -6,6 +6,9 @@ DirectoryIndex index.php
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # pass the browser's login to PHP (needed for the staging password under PHP-FPM)
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
   # one address for the live site: eduriseglobal.bd -> https://www.eduriseglobal.bd (one redirect, not two)
   RewriteCond %{HTTP_HOST} ^eduriseglobal\.bd$ [NC]
   RewriteRule ^ https://www.eduriseglobal.bd%{REQUEST_URI} [R=301,L]

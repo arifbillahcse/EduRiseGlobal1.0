@@ -83,7 +83,7 @@ final class Upload
             $ext = 'jpg';
         }
         $rel = 'uploads/' . date('Y/m') . '/' . bin2hex(random_bytes(16)) . '.' . $ext;
-        $abs = APP_ROOT . '/public_html/' . $rel;
+        $abs = PUBLIC_DIR . '/' . $rel;
         if (!is_dir(dirname($abs)) && !mkdir(dirname($abs), 0755, true) && !is_dir(dirname($abs))) {
             throw new RuntimeException('The uploads folder is not writable on the server.');
         }

@@ -11,7 +11,7 @@ Plan document: https://claude.ai/code/artifact/d8bfb890-a05d-4d20-88bd-900cc19b5
 | 3 | Content editing in English and Bangla, image uploads, settings | Done |
 | 4 | SEO: own address, title and description per country and program; sitemap and robots from the database | Done |
 | 5 | Forms and leads in the database, email with retries, spam protection, Leads in the admin | Done |
-| 6 | Launch checks: live server, backups, clean-up | Next |
+| 6 | Launch readiness: live layout and deploy, backups and restore, maintenance, staging password, launch checks | Done |
 
 ## How Phase 1 works
 
@@ -180,6 +180,59 @@ Tested:
 - Phases 2–4 suites rerun: 35/35, 38/38, 20/20.
 - **Not testable here:** the mail-tester.com score (needs the real domain's SPF, DKIM and DMARC), and real Turnstile keys.
 
+## How Phase 6 works (launch readiness)
+
+The step-by-step go-live guide is **[LAUNCH.md](LAUNCH.md)**.
+
+- **Live layout:**
+  - On the main domain, cPanel's web root is `~/public_html`, so on live the rest lives in `~/edurise` (app, bin, database, storage), outside the web root.
+  - `public_html/index.php` finds the app beside the web root (staging, local) or in `~/edurise` (live).
+  - Command-line scripts learn the web root from `config.php` → `public_dir`.
+- **`bin/deploy.sh`** (run by `.cpanel.yml`) deploys by branch:
+  - `PHP` → `~/staging`.
+  - `main` → `~/public_html` + `~/edurise`.
+  - It never touches `config.php`, logs, sessions, backups, `uploads/`, `.well-known/` (SSL), `cgi-bin/` or Google verification files.
+  - Any other branch is refused. It never runs `--delete` over the whole home folder.
+- **`bin/backup.php`** (daily cron) writes `storage/backups/edurise-<date>-db.sql.gz` (every table, structure and rows, utf8mb4, written by PHP alone) and `…-uploads.zip`, and keeps the newest 14 of each.
+- **`bin/restore.php <db file> [--uploads=<zip>]`:**
+  - Checks the file is a complete EduRise backup, and asks for the database name.
+  - Saves the current state first, as a separate `before-restore` backup, then restores.
+- **`bin/maintenance.php`** (daily cron):
+  - Rotates logs over 5 MB (5 old copies, gzipped).
+  - Removes session files older than 12 hours.
+  - Deletes old sign-in attempts (30 days), used or expired reset links (7 days) and sent emails (90 days).
+  - Leads and content are never touched.
+- **Staging password** (`config.php` → `access`, made with `bin/hash-password.php`):
+  - Checked in PHP for every page, the admin and the form endpoint; static files stay public.
+  - Guessing is slowed down after 20 tries.
+  - cPanel's Directory Privacy is not used, because a deploy replaces `.htaccess` and would silently open the site.
+  - `.htaccess` passes the browser's login to PHP-FPM.
+- **`bin/env-check.php`** now also checks:
+  - `https` base address and that the web root is found;
+  - `storage/` is outside the web root;
+  - staging has a password, live has none;
+  - no test or demo accounts, and at least one active Admin;
+  - the database user can only reach its own database;
+  - the three cron jobs actually ran;
+  - a backup exists.
+
+  On live, these are FAILs.
+
+Tested:
+- 17 checks:
+  - backup → damage (deleted leads, dropped table, edited country, deleted image) → restore gives byte-identical data and schema, and every page works;
+  - incomplete and foreign backup files refused;
+  - no passwords or `config.php` anywhere in the git history;
+  - env-check catching test accounts, a database user with rights on everything, and an `http` address on live;
+  - the staging password on pages, admin and forms, including the slow-down after 20 guesses;
+  - logs, config, scripts and `.git` unreachable from the browser;
+  - sitemap, robots and canonical links on the live domain;
+  - deploy of both branches into a fake home folder.
+- The site in the live layout: uploads land in `~/public_html/uploads`.
+- Log rotation and backup pruning.
+- The staging password under Apache with PHP-FPM, as on cPanel.
+- All earlier suites rerun: Phases 2–5 (35, 38, 20, 27) and the save-everything round trip.
+
 ## Folder structure
 
 ```
@@ -188,14 +241,14 @@ app/
   bootstrap.php     config, autoload, error handling
   routes.php        all website addresses
   config/           config.php lives here on each server, never in Git
-  core/             Config, Database (PDO), Router, View, Response, ErrorHandler, Session, Csrf, Auth, Mailer, Smtp, FormToken, Upload
+  core/             Config, Database (PDO), Router, View, Response, ErrorHandler, Session, Csrf, Auth, Access, Mailer, Smtp, FormToken, Upload, Backup
   Controllers/      PageController, SeoController (sitemap, robots), EnquiryController (forms); Admin/ (Auth, Panel, User, Content, Media, Settings, Lead)
   Models/           Sections (editable sections), Content (saving), ContentRepository (website data in data.js shape), Seo, Lead, AdminUser
   Views/pages/      the page templates (the old *.html files)
   Views/admin/      admin panel templates
   Helpers/          e(), json_for_script(), url()
 storage/            logs/, sessions/, cache/, backups/ — runtime only, not in Git
-bin/                env-check, create-admin, send-mail (cron), export-data (Node), import-data, dev-router
+bin/                deploy.sh, env-check, create-admin, hash-password, send-mail / backup / maintenance (cron), restore, export-data (Node), import-data, dev-router
 database/           schema.sql, migrations/, seed/content.json
 partials/           icon sprite master copy (not served)
 ```
@@ -218,7 +271,7 @@ php -S localhost:8000 -t public_html bin/dev-router.php
 
 ## Staging on cPanel
 
-1. **Subdomains:** create `staging.eduriseglobal.bd` with document root **`staging/public_html`** (not `public_html/staging`). Then protect it with *Directory Privacy* so only you and EduRise can see it.
+1. **Subdomains:** create `staging.eduriseglobal.bd` with document root **`staging/public_html`** (not `public_html/staging`). The password is set in step 5; do not use *Directory Privacy*, because deploys replace `.htaccess`.
 2. **MySQL Databases:** create `edurise_staging` and one user with ALL PRIVILEGES on that database only.
 3. **phpMyAdmin:** set the collation to `utf8mb4_unicode_ci`, then use *Import* to load `database/schema.sql`.
 4. **Git Version Control:** clone this repo, branch `PHP`, into `~/repositories/edurise`. Then click *Manage → Pull or Deploy → Deploy HEAD Commit*. `.cpanel.yml` copies it to `~/staging`.
@@ -231,6 +284,7 @@ php -S localhost:8000 -t public_html bin/dev-router.php
    php bin/env-check.php
    php bin/import-data.php
    php bin/create-admin.php        # first Admin: your name, email and a strong password
+   php bin/hash-password.php       # staging password: put user + hash in config.php → access
    ```
    Email is set up in step 6 (password-reset and invite links use it too).
 6. **Email** (`config.php` → `mail`):
@@ -238,7 +292,9 @@ php -S localhost:8000 -t public_html bin/dev-router.php
    - Set `transport` = `smtp`, `smtp_host` = `mail.eduriseglobal.bd`, `smtp_port` = `465`, `smtp_secure` = `ssl`, and the mailbox password.
    - Set `lead_to` to the inbox EduRise reads, e.g. info@eduriseglobal.bd.
    - In cPanel → Email Deliverability, make SPF and DKIM valid, and add a DMARC record.
-7. **Cron job** (cPanel → Cron Jobs, every 5 minutes): `php $HOME/staging/bin/send-mail.php >/dev/null 2>&1`
+7. **Cron jobs** (cPanel → Cron Jobs):
+   - every 5 minutes: `php $HOME/staging/bin/send-mail.php >/dev/null 2>&1`
+   - daily at 03:00: `php $HOME/staging/bin/backup.php && php $HOME/staging/bin/maintenance.php >/dev/null 2>&1`
 8. **Optional bot check:** create a free Cloudflare Turnstile widget for the domain and put both keys in `config.php` → `turnstile`.
 9. Run `php bin/env-check.php` again, and fix any FAIL. A WARN on SPF, DKIM or DMARC means email may land in spam.
 10. Open https://staging.eduriseglobal.bd and click through every page, then sign in at `/admin` and add the EduRise staff under **Users**.
@@ -254,3 +310,5 @@ Then run `php bin/import-data.php --replace` once, to copy the existing Bangla i
 Also set PHP's `upload_max_filesize` to 8M and `post_max_size` to 12M in *MultiPHP INI Editor*, so the 5 MB image limit is the one staff meet.
 
 Later deploys: push to `PHP`, then *Pull* and *Deploy HEAD Commit* in cPanel. `config.php`, logs and uploads on the server are never overwritten.
+
+Going live: follow **[LAUNCH.md](LAUNCH.md)**.

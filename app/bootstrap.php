@@ -38,6 +38,9 @@ if (!is_file($configFile)) {
 }
 App\Core\Config::load(require $configFile);
 
+// the web root: known to the front controller; command-line scripts read it from config (live: ~/public_html)
+define('PUBLIC_DIR', rtrim(defined('WEB_ROOT') ? WEB_ROOT : (string) App\Core\Config::get('public_dir', APP_ROOT . '/public_html'), '/'));
+
 date_default_timezone_set((string) App\Core\Config::get('timezone', 'Asia/Dhaka'));
 mb_internal_encoding('UTF-8');
 

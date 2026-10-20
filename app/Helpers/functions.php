@@ -35,7 +35,7 @@ function asset(string $relPath): string
 {
     static $seen = [];
     if (!isset($seen[$relPath])) {
-        $file = APP_ROOT . '/public_html/' . $relPath;
+        $file = PUBLIC_DIR . '/' . $relPath;
         $seen[$relPath] = is_file($file) ? substr((string) md5_file($file), 0, 8) : '0';
     }
     return base_path() . '/' . $relPath . '?v=' . $seen[$relPath];
