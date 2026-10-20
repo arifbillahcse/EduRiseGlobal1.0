@@ -91,6 +91,29 @@ if (!is_file($configFile)) {
     }
 }
 
+// 6. Email: transport, inbox for leads, and the sending domain's DNS (SPF, DKIM, DMARC)
+if (isset($config)) {
+    $transport = $config['mail']['transport'] ?? 'log';
+    check($results, 'mail.transport sends real email', $transport !== 'log' || ($config['env'] ?? '') === 'local', "transport=$transport", true);
+    $leadTo = (string) ($config['mail']['lead_to'] ?? '');
+    check($results, 'mail.lead_to set (inbox for leads)', filter_var($leadTo, FILTER_VALIDATE_EMAIL) && !str_starts_with(strtolower($leadTo), 'tbc@'),
+        $leadTo !== '' ? $leadTo : 'not set: the email in Settings is used', true);
+    $domain = substr(strrchr((string) ($config['mail']['from_email'] ?? ''), '@') ?: '@', 1);
+    if ($domain !== '' && function_exists('dns_get_record')) {
+        $txt = static function (string $name): array {
+            $r = @dns_get_record($name, DNS_TXT);
+            return is_array($r) ? array_map(static fn ($x) => implode('', (array) ($x['entries'] ?? [$x['txt'] ?? ''])), $r) : [];
+        };
+        $has = static fn (array $records, string $start) => (bool) array_filter($records, static fn ($t) => stripos($t, $start) === 0);
+        check($results, "SPF record for $domain", $has($txt($domain), 'v=spf1'), 'TXT v=spf1 … (cPanel → Email Deliverability)', true);
+        check($results, "DKIM record for $domain", $has($txt("default._domainkey.$domain"), 'v=DKIM1'), 'TXT default._domainkey (cPanel → Email Deliverability)', true);
+        check($results, "DMARC record for $domain", $has($txt("_dmarc.$domain"), 'v=DMARC1'), 'TXT _dmarc: v=DMARC1; p=quarantine; rua=mailto:…', true);
+    }
+}
+if (is_dir("$root/storage/cache") && !is_writable("$root/storage/cache")) {
+    check($results, 'send-mail lock file can be written', false, 'storage/cache must be writable for the cron job');
+}
+
 // Report
 $fails = 0;
 foreach ($results as [$status, $label, $detail]) {

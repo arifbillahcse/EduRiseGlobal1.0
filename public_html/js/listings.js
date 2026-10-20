@@ -45,7 +45,8 @@ const emptyHTML = what => `<div class="empty">${icon('search', 'icon--lg')}<p>No
 
 /* ---------- enquiry dialog ----------
    Any element with data-enquire="Item name" opens it. On submit the details
-   open in WhatsApp, pre-filled to EduRise's number (Package 2: no storage). */
+   open in WhatsApp, pre-filled to EduRise's number, and the lead is saved on
+   the server (it appears under Leads in the admin and is emailed to EduRise). */
 const Enquiry = (() => {
   let dialog, form, interest;
 
@@ -65,8 +66,10 @@ const Enquiry = (() => {
         <div class="field"><label class="field__label" for="enq-qual">Highest qualification <span class="req">*</span></label>
           <select class="field__control" id="enq-qual" name="qual"><option value="">Select</option><option>SSC / O-levels</option><option>HSC / A-levels</option><option>Diploma</option><option>Bachelor’s</option><option>Master’s</option></select>
           <span class="field__error">Choose your highest qualification.</span></div>
+        <div class="ts-slot"></div>
+        <p class="form-alert" role="alert" hidden></p>
         <button class="btn btn--go btn--block" type="submit">${icon('whatsapp')}Send on WhatsApp</button>
-        <p class="form-note">Your enquiry opens in WhatsApp with these details filled in. Press send there to reach a counsellor.</p>
+        <p class="form-note">Your enquiry is saved for a counsellor and opens in WhatsApp with these details filled in. Press send there for the fastest reply.</p>
       </form>
       <div class="modal__body success" id="enqDone" hidden tabindex="-1"></div>`;
     document.body.appendChild(dialog);
@@ -74,11 +77,12 @@ const Enquiry = (() => {
 
     $('.modal__close', dialog).addEventListener('click', close);
     dialog.addEventListener('click', e => { if (e.target === dialog) close(); });   // click on the backdrop
-    Forms.attach(form, { name: 'name', phone: 'bdPhone', qual: 'required' }, v => {
+    Forms.attach(form, { name: 'name', phone: 'bdPhone', qual: 'required' }, async v => {
       const text = `Hello EduRise Global, I am ${v.name} (${v.phone}). Qualification: ${v.qual}. I would like to know more about: ${interest}.`;
-      if (typeof Leads !== 'undefined') Leads.add({ name: v.name, phone: v.phone, qual: v.qual, interest, source: 'Enquiry form' });   // Package 3 lead list
       const url = waLink(text);
+      // WhatsApp must open inside the click (pop-up blockers), so it opens first; the lead is saved alongside
       window.open(url, '_blank', 'noopener');
+      if (!await Forms.send(form, { source: 'enquiry', interest })) return;   // not saved: the form stays, with the reason and a WhatsApp link
       form.hidden = true;
       const done = $('#enqDone', dialog);
       done.hidden = false;

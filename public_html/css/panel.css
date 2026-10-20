@@ -136,3 +136,30 @@ p{margin:0 0 var(--s-3)}
 .pn-rates{display:flex;flex-wrap:wrap;gap:var(--s-3) var(--s-6)}
 .pn-rates label{flex-direction:row;align-items:center;display:flex;gap:6px;font-weight:600}
 .pn-rates input{width:7em!important}
+
+/* ---------- leads ---------- */
+.pn-btn--ghost{background:var(--surface);color:var(--brand-text);border:1px solid var(--line)}
+.pn-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:var(--s-4)}
+.pn-tabs a{padding:6px 12px;border-radius:var(--r-pill);border:1px solid var(--line);background:var(--surface);color:var(--ink-2);text-decoration:none;font-size:14px;font-weight:500}
+.pn-tabs a span{color:var(--ink-3);margin-left:4px}
+.pn-tabs a[aria-current="page"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.pn-tabs a[aria-current="page"] span{color:#fff;opacity:.8}
+.pn-filter{display:flex;flex-wrap:wrap;gap:var(--s-2);align-items:center;margin-bottom:var(--s-4)}
+.pn-filter input,.pn-filter select{font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:var(--r-xs);background:var(--surface)}
+.pn-filter input{flex:1 1 240px}
+.pn-table tr.is-new td:first-child{box-shadow:inset 3px 0 0 var(--sun)}
+.pn-nowrap{white-space:nowrap}
+.pn-status--new{background:var(--sun-soft);color:var(--sun-text)}
+.pn-status--contacted{background:var(--brand-soft);color:var(--brand-text)}
+.pn-status--applied{background:var(--brand-soft);color:var(--brand-text)}
+.pn-status--converted{background:var(--go-soft);color:var(--go-text)}
+.pn-pager{display:flex;gap:var(--s-5);align-items:center;justify-content:center;margin-top:var(--s-4)}
+.pn-two{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:var(--s-5);align-items:start}
+.pn-dl{display:grid;grid-template-columns:max-content 1fr;gap:8px var(--s-5);margin:0 0 var(--s-5)}
+.pn-dl dt{color:var(--ink-3);font-size:14px}
+.pn-dl dd{margin:0;overflow-wrap:anywhere}
+.pn-message{background:var(--surface-2);border-radius:var(--r-sm);padding:var(--s-4);white-space:normal;overflow-wrap:anywhere}
+.pn-list{margin:0;padding-left:18px}
+.pn-form select,.pn-form textarea{font:inherit;font-weight:400;padding:9px 11px;border:1px solid var(--line);border-radius:var(--r-xs);background:var(--surface);color:var(--ink);width:100%}
+@media (max-width:900px){.pn-two{grid-template-columns:1fr}}
+.pn-count{font:600 12px var(--font-body);background:var(--sun);color:var(--night);border-radius:var(--r-pill);padding:2px 8px;margin-left:6px;vertical-align:2px}

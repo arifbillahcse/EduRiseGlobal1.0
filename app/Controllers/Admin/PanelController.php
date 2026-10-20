@@ -16,7 +16,8 @@ final class PanelController extends BaseController
         if (!$u = self::requireUser()) {
             return;
         }
-        self::render('dashboard', ['title' => 'Dashboard', 'user' => $u]);
+        $newLeads = (int) \App\Core\Database::value("SELECT COUNT(*) FROM leads WHERE status = 'new'");
+        self::render('dashboard', ['title' => 'Dashboard', 'user' => $u, 'newLeads' => $newLeads]);
     }
 
     public static function section(string $section): void

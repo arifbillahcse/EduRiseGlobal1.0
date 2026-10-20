@@ -291,9 +291,9 @@ function initHomeContact() {
   const form = $('#homeForm'); if (!form) return;
   $('#h-country').innerHTML = '<option value="">Not decided yet</option>' +
     Store.list('destinations').map(d => `<option>${esc(d.name)}</option>`).join('') + '<option>Other</option>';
-  Forms.attach(form, { name: 'name', phone: 'bdPhone', qual: 'required' }, v => {
+  Forms.attach(form, { name: 'name', phone: 'bdPhone', qual: 'required' }, async v => {
     const message = `Hello EduRise Global, I am ${v.name}. Qualification: ${v.qual}. Interested in: ${v.country || 'not decided yet'}. Please call me back.`;
-    Leads.add({ name: v.name, phone: v.phone, qual: v.qual, interest: v.country || 'Not decided', source: 'Homepage form' });
+    if (!await Forms.send(form, { source: 'home' })) return;      // saved on the server, then emailed to EduRise
     form.hidden = true;
     const ok = $('#homeSuccess');
     ok.hidden = false;

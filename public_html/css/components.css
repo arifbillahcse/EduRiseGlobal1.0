@@ -165,3 +165,10 @@ select.field__control{appearance:none;padding-right:38px;background-image:linear
 .cta-band__phone{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--night-fg)}
 .cta-band__phone .icon{color:var(--sun)}
 @media (max-width:560px){.cta-band__actions .btn{flex:1 1 100%}}
+
+/* ---------- form messages from the server (Phase 5) ---------- */
+.form-alert{margin-top:16px;padding:12px 14px;border:1px solid var(--alert);background:var(--alert-soft);color:var(--alert);border-radius:var(--r-sm);font-size:14px;font-weight:600}
+.form-alert a{color:inherit}
+.ts-slot{margin-top:16px;min-height:65px}
+.ts-slot:empty{display:none}
+button[aria-busy="true"]{opacity:.7;cursor:progress}

@@ -55,8 +55,10 @@ CREATE TABLE password_resets (
 CREATE TABLE mail_queue (
   id              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   to_email        VARCHAR(190) NOT NULL,
+  reply_to        VARCHAR(190) NULL,
   subject         VARCHAR(255) NOT NULL,
   body            MEDIUMTEXT NOT NULL,
+  lead_id         BIGINT UNSIGNED NULL,                -- the lead this email is about
   status          ENUM('pending','sent','failed') NOT NULL DEFAULT 'pending',
   tries           TINYINT UNSIGNED NOT NULL DEFAULT 0,
   last_error      VARCHAR(500) NULL,
@@ -367,22 +369,24 @@ CREATE TABLE policies (
 CREATE TABLE leads (
   id               BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   name             VARCHAR(120) NOT NULL,
-  phone            VARCHAR(40) NULL,
+  phone            VARCHAR(20) NOT NULL,                -- stored as +8801XXXXXXXXX
   email            VARCHAR(190) NULL,
-  destination_id   INT UNSIGNED NULL,
-  level            VARCHAR(40) NULL,                  -- ssc, hsc, diploma, bachelor, unsure
-  interest         VARCHAR(190) NULL,
+  qualification    VARCHAR(60) NULL,                    -- SSC / O-levels, HSC / A-levels, Diploma ...
+  country          VARCHAR(120) NULL,                   -- country chosen in the form
+  interest         VARCHAR(255) NULL,                   -- what they asked about (program, university, offer)
   message          TEXT NULL,
-  source_page      VARCHAR(120) NULL,
-  status           ENUM('new','contacted','closed') NOT NULL DEFAULT 'new',
-  ip_hash          CHAR(64) NULL,                     -- never the raw IP
+  source           VARCHAR(40) NOT NULL,                -- Homepage form, Contact page, Enquiry form
+  page             VARCHAR(255) NULL,                   -- page address the form was sent from
+  status           ENUM('new','contacted','applied','converted','not_interested') NOT NULL DEFAULT 'new',
   admin_note       TEXT NULL,
+  emailed_at       DATETIME NULL,                       -- when EduRise was emailed about it
+  ip_hash          CHAR(64) NULL,                       -- never the raw IP
   created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   KEY idx_lead_status (status, created_at),
-  KEY idx_lead_ip_time (ip_hash, created_at),
-  CONSTRAINT fk_lead_dest FOREIGN KEY (destination_id) REFERENCES destinations (id) ON DELETE SET NULL
+  KEY idx_lead_created (created_at),
+  KEY idx_lead_phone (phone)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -216,15 +216,15 @@ function renderContactPage() {
   renderOfficeMap();
 
   const form = $('#contactForm');
-  Forms.attach(form, { name: 'name', phone: 'bdPhone', email: 'optionalEmail', qual: 'required' }, v => {
+  Forms.attach(form, { name: 'name', phone: 'bdPhone', email: 'optionalEmail', qual: 'required' }, async v => {
     const message = `Hello EduRise Global, I am ${v.name}. Qualification: ${v.qual}. Interested in: ${v.country || 'not decided yet'}.${v.msg ? ' ' + v.msg : ''}`;
-    Leads.add({ name: v.name, phone: v.phone, email: v.email, qual: v.qual, interest: (v.country || 'Not decided') + (v.msg ? ' · ' + v.msg : ''), source: 'Contact page' });   // Package 3 lead list
+    if (!await Forms.send(form, { source: 'contact' })) return;   // saved on the server, then emailed to EduRise
     form.hidden = true;
     const ok = $('#contactSuccess');
     ok.hidden = false;
     ok.innerHTML = `<span class="success__tick">${icon('check')}</span>
       <h2>Thank you, ${esc(v.name.split(' ')[0])}</h2>
-      <p>On the live website this message is emailed to EduRise and a counsellor contacts you on <b class="tnum">${esc(v.phone)}</b>. For a faster reply, send it on WhatsApp too.</p>
+      <p>Your message has reached EduRise. A counsellor will contact you on <b class="tnum">${esc(v.phone)}</b>, usually on the same working day. For a faster reply, send it on WhatsApp too.</p>
       <div class="success__summary">${esc(message)}</div>
       <div class="success__actions">
         <a class="btn btn--go" href="${waLink(message)}" target="_blank" rel="noopener">${icon('whatsapp')}Send on WhatsApp</a>

@@ -117,29 +117,3 @@ const Store = (() => {
 
   return { list, get, update, add, remove, setHidden, move, reset, hasChanges, history, restore, setActor, collections: Object.keys(SOURCES) };
 })();
-
-/* =====================================================================
-   Leads (Phase 8, Package 3): every enquiry from the website is saved
-   with a status, so counsellors can follow up from the staff dashboard.
-   In this demo leads are kept in the visitor's own browser; on the live
-   site they are stored in the database and also sent to WhatsApp.
-   ===================================================================== */
-const Leads = (() => {
-  const KEY = 'edurise-leads';
-  const STATUSES = ['New', 'Contacted', 'Applied', 'Converted', 'Not interested'];
-  const all = () => store.get(KEY, []);
-  const save = list => store.set(KEY, list);
-  function add({ name, phone, email = '', qual = '', interest = '', source = 'Website' }) {
-    const list = all();
-    list.unshift({ id: 'lead-' + Date.now().toString(36), date: new Date().toISOString(), name, phone, email, qual, interest, source, status: 'New' });
-    save(list);
-  }
-  function setStatus(id, status) { save(all().map(l => l.id === id ? Object.assign(l, { status }) : l)); }
-  function remove(id) { save(all().filter(l => l.id !== id)); }
-  function csv() {
-    const cols = ['date', 'name', 'phone', 'email', 'qual', 'interest', 'source', 'status'];
-    const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
-    return [cols.join(','), ...all().map(l => cols.map(c => q(c === 'date' ? l.date.slice(0, 16).replace('T', ' ') : l[c])).join(','))].join('\n');
-  }
-  return { all, add, setStatus, remove, csv, STATUSES };
-})();

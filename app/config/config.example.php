@@ -24,14 +24,22 @@ return [
     ],
 
     'mail' => [
-        'transport'  => 'log',                    // log = write to storage/logs/mail.log (local) · mail = send (staging/live)
+        'transport'  => 'log',                    // log = storage/logs/mail.log (local) · smtp = the domain mailbox (staging/live) · mail = PHP mail()
         'from_email' => 'noreply@eduriseglobal.bd',
         'from_name'  => 'EduRise Global',
         'smtp_host'  => 'mail.eduriseglobal.bd',
         'smtp_port'  => 465,
+        'smtp_secure'=> 'ssl',                    // ssl for port 465, tls for 587
         'smtp_user'  => 'noreply@eduriseglobal.bd',
         'smtp_pass'  => 'change-me',
-        'lead_to'    => 'TBC@eduriseglobal.bd',  // inbox that receives new leads (EduRise to confirm)
+        'lead_to'    => 'TBC@eduriseglobal.bd',  // inbox for new leads (EduRise to confirm); not set = the email in Settings
+    ],
+
+    // Cloudflare Turnstile (free bot check on the website forms). Empty keys = off.
+    // dash.cloudflare.com → Turnstile → Add site → eduriseglobal.bd → copy both keys here.
+    'turnstile' => [
+        'site_key'   => '',
+        'secret_key' => '',
     ],
 
     'security' => [

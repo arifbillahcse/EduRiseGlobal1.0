@@ -43,7 +43,7 @@
   <section class="section">
     <div class="container contact">
       <div class="card contact__form">
-        <form id="contactForm">
+        <form id="contactForm" method="post" action="enquiry"><input type="hidden" name="source" value="contact"><input type="hidden" name="ft" value="">
           <h2>Send us a message</h2>
           <p style="margin-top:12px;color:var(--ink-2)">Fields marked * are required. Email is optional, because most families prefer WhatsApp.</p>
           <div class="form-grid">
@@ -56,6 +56,8 @@
             <div class="field full"><label class="field__label" for="contactCountry">Preferred country</label><select class="field__control" id="contactCountry" name="country"></select></div>
             <div class="field full"><label class="field__label" for="c-msg">Message</label><textarea class="field__control" id="c-msg" name="msg" rows="4" placeholder="Tell us your results, English score and what you would like to study."></textarea></div>
           </div>
+          <div class="ts-slot"></div>
+          <p class="form-alert" role="alert" hidden></p>
           <button class="btn btn--go btn--lg" type="submit" style="margin-top:20px">Send message</button>
           <p class="form-note">We use your details only to reply to your enquiry.</p>
         </form>

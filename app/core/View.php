@@ -45,11 +45,14 @@ final class View
         // 3. canonical / og:url / og:image on this site's own domain
         $html = str_replace(self::DEMO_DOMAIN, rtrim((string) Config::get('base_url'), '/'), $html);
 
-        // 1. database content before data.js
+        // 1. database content, and the stamp the website forms send back (see FormToken), before data.js
+        $token = FormToken::make();
+        $inline = '<script>window.EDURISE_FORM=' . json_for_script(['token' => $token, 'turnstile' => (string) Config::get('turnstile.site_key', '')]) . ';</script>' . "\n";
         if ($data !== null) {
-            $inline = '<script>window.EDURISE_DB=' . json_for_script($data) . ';</script>' . "\n";
-            $html = preg_replace('#(<script src="[^"]*js/data\.js[^"]*"></script>)#', $inline . '$1', $html, 1);
+            $inline .= '<script>window.EDURISE_DB=' . json_for_script($data) . ';</script>' . "\n";
         }
+        $html = preg_replace('#(<script src="[^"]*js/data\.js[^"]*"></script>)#', $inline . '$1', $html, 1);
+        $html = str_replace('name="ft" value=""', 'name="ft" value="' . $token . '"', $html);   // forms sent without JavaScript
 
         $html = self::applyMeta($html, $meta);
 

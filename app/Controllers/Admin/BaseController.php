@@ -26,7 +26,7 @@ abstract class BaseController
         'offices'          => ['label' => 'Offices',       'admin' => true,  'phase' => null, 'note' => 'Office addresses'],
         'policies'         => ['label' => 'Policies',      'admin' => true,  'phase' => null, 'note' => 'Privacy, terms and disclaimer'],
         'media'            => ['label' => 'Media',         'admin' => false, 'phase' => null, 'note' => 'Uploaded images'],
-        'leads'            => ['label' => 'Leads',         'admin' => false, 'phase' => 5,    'note' => 'Enquiries from the website forms'],
+        'leads'            => ['label' => 'Leads',         'admin' => false, 'phase' => null, 'note' => 'Enquiries from the website forms'],
         'settings'         => ['label' => 'Settings',      'admin' => true,  'phase' => null, 'note' => 'Phone, WhatsApp, social links, promo bar, rates'],
         'users'            => ['label' => 'Users',         'admin' => true,  'phase' => null, 'note' => 'Who can sign in, and their role'],
     ];

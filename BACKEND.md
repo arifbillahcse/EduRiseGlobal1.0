@@ -10,8 +10,8 @@ Plan document: https://claude.ai/code/artifact/d8bfb890-a05d-4d20-88bd-900cc19b5
 | 2 | Admin login, Admin/Editor roles, sessions, CSRF, password reset, users | Done |
 | 3 | Content editing in English and Bangla, image uploads, settings | Done |
 | 4 | SEO: own address, title and description per country and program; sitemap and robots from the database | Done |
-| 5 | Forms and leads in the database, email, spam protection | Next |
-| 6 | Launch checks: live server, backups, clean-up | |
+| 5 | Forms and leads in the database, email with retries, spam protection, Leads in the admin | Done |
+| 6 | Launch checks: live server, backups, clean-up | Next |
 
 ## How Phase 1 works
 
@@ -139,6 +139,47 @@ Tested:
 
 After launch: add the site to Google Search Console and submit `https://www.eduriseglobal.bd/sitemap.xml`. If EduRise also owns `eduriseglobal.com`, point it at the same hosting and add a redirect to the `.bd` address.
 
+## How Phase 5 works (forms, leads, email)
+
+- **The three website forms post to `/enquiry`:** the homepage call-back form, the contact page form, and the enquiry dialog on universities, programs and scholarships.
+  - With JavaScript they answer in JSON, and errors appear under the right field.
+  - Without JavaScript they still work and show a small result page.
+- **The lead is saved first, then emailed.**
+  - Every email goes into `mail_queue` before sending. A failed email stays there with its error, and `bin/send-mail.php` (cron, every 5 minutes) retries after 5, 15, 60, 180 and 720 minutes. A wrong SMTP password never loses a lead.
+  - Emails are plain text, with Reply-To set to the student's email. Whatever a student types arrives as text, and line breaks cannot add email headers.
+  - Leads go to `mail.lead_to`; if that is not set, to the email in Settings.
+- **Checks on the server:**
+  - name;
+  - Bangladeshi mobile number (`01…`, `+880…`, `880…`), stored as `+8801…`;
+  - email (optional) and qualification;
+  - lengths.
+- **Spam protection, in this order:**
+  1. Only from this website: another site's form gets 403.
+  2. At most 5 forms a minute and 20 an hour per connection.
+  3. A hidden honeypot field.
+  4. A signed page stamp: forms posted without one, or older than two days, are refused; forms sent within 2 seconds of loading are ignored.
+  5. Cloudflare Turnstile, when its keys are set in config. Its token is verified on the server.
+
+  Bots caught by the honeypot or the speed check get a normal "thank you", and nothing is saved.
+- **Enquiry dialog:** WhatsApp still opens straight away with the details, and the lead is saved alongside.
+- **Admin → Leads:**
+  - Filter by status and form; search by name, phone, email or interest.
+  - Each lead has WhatsApp (pre-filled greeting), call and email buttons, the email delivery status, and earlier enquiries from the same number.
+  - Status: New → Contacted → Applied → Converted / Not interested, plus a counsellor's note. Editors can do this too.
+  - Only Admins delete a lead (POST + confirm) or download the CSV.
+  - The CSV is UTF-8 with a BOM, so Bangla opens correctly in Excel. Cells that could run as a formula (`=`, `+`, `-`, `@`) are written as plain text.
+  - The dashboard shows how many leads are new.
+- **`bin/env-check.php`** also checks the email settings and the domain's SPF, DKIM and DMARC records.
+
+Tested:
+- 27 checks covering every Phase 5 checklist item that can be tested here:
+  - no-JavaScript validation; lead saved with a wrong SMTP password (local test mail server); cron retry delivering it;
+  - honeypot; rate limit; Turnstile with a fake verifier; text-only email; CSV formulas and Bangla;
+  - the three forms in a real browser; database down;
+  - forged and old stamps; another site posting; header injection; HTML in leads shown safely in the admin.
+- Phases 2–4 suites rerun: 35/35, 38/38, 20/20.
+- **Not testable here:** the mail-tester.com score (needs the real domain's SPF, DKIM and DMARC), and real Turnstile keys.
+
 ## Folder structure
 
 ```
@@ -147,14 +188,14 @@ app/
   bootstrap.php     config, autoload, error handling
   routes.php        all website addresses
   config/           config.php lives here on each server, never in Git
-  core/             Config, Database (PDO), Router, View, Response, ErrorHandler, Session, Csrf, Auth, Mailer, Upload
-  Controllers/      PageController, SeoController (sitemap, robots); Admin/ (Auth, Panel, User, Content, Media, Settings)
-  Models/           Sections (editable sections), Content (saving), ContentRepository (website data in data.js shape), Seo, AdminUser
+  core/             Config, Database (PDO), Router, View, Response, ErrorHandler, Session, Csrf, Auth, Mailer, Smtp, FormToken, Upload
+  Controllers/      PageController, SeoController (sitemap, robots), EnquiryController (forms); Admin/ (Auth, Panel, User, Content, Media, Settings, Lead)
+  Models/           Sections (editable sections), Content (saving), ContentRepository (website data in data.js shape), Seo, Lead, AdminUser
   Views/pages/      the page templates (the old *.html files)
   Views/admin/      admin panel templates
   Helpers/          e(), json_for_script(), url()
 storage/            logs/, sessions/, cache/, backups/ — runtime only, not in Git
-bin/                env-check, create-admin, export-data (Node), import-data, dev-router
+bin/                env-check, create-admin, send-mail (cron), export-data (Node), import-data, dev-router
 database/           schema.sql, migrations/, seed/content.json
 partials/           icon sprite master copy (not served)
 ```
@@ -191,13 +232,22 @@ php -S localhost:8000 -t public_html bin/dev-router.php
    php bin/import-data.php
    php bin/create-admin.php        # first Admin: your name, email and a strong password
    ```
-   In `config.php` set `mail.transport` to `mail` so reset and invite links are emailed from `noreply@eduriseglobal.bd`.
-6. Open https://staging.eduriseglobal.bd and click through every page, then sign in at `/admin` and add the EduRise staff under **Users**.
+   Email is set up in step 6 (password-reset and invite links use it too).
+6. **Email** (`config.php` → `mail`):
+   - Create the mailbox `noreply@eduriseglobal.bd` in cPanel → Email Accounts.
+   - Set `transport` = `smtp`, `smtp_host` = `mail.eduriseglobal.bd`, `smtp_port` = `465`, `smtp_secure` = `ssl`, and the mailbox password.
+   - Set `lead_to` to the inbox EduRise reads, e.g. info@eduriseglobal.bd.
+   - In cPanel → Email Deliverability, make SPF and DKIM valid, and add a DMARC record.
+7. **Cron job** (cPanel → Cron Jobs, every 5 minutes): `php $HOME/staging/bin/send-mail.php >/dev/null 2>&1`
+8. **Optional bot check:** create a free Cloudflare Turnstile widget for the domain and put both keys in `config.php` → `turnstile`.
+9. Run `php bin/env-check.php` again, and fix any FAIL. A WARN on SPF, DKIM or DMARC means email may land in spam.
+10. Open https://staging.eduriseglobal.bd and click through every page, then sign in at `/admin` and add the EduRise staff under **Users**.
 
 **Database already set up from an earlier phase?** In phpMyAdmin (SQL tab), run each migration in `database/migrations/` that has not been run yet, oldest first:
 - `2026-10-19-phase2-admin.sql` (before `create-admin.php`)
 - `2026-10-20-phase3-content.sql`
 - `2026-10-20-phase4-seo.sql`
+- `2026-10-20-phase5-leads.sql`
 
 Then run `php bin/import-data.php --replace` once, to copy the existing Bangla into the new columns. Only do this before staff start editing, because it replaces the content.
 
