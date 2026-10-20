@@ -1,6 +1,11 @@
 # EduRise Global — Apache rules (cPanel)
 
 Options -Indexes
+
+# the web root is open, even when the folder above it is closed (see ../.htaccess)
+<IfModule mod_authz_core.c>
+  Require all granted
+</IfModule>
 DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
