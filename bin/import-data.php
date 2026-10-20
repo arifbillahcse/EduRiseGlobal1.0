@@ -21,6 +21,7 @@ if (PHP_SAPI !== 'cli') {
 require dirname(__DIR__) . '/app/bootstrap.php';
 
 use App\Core\Database;
+use App\Models\Sections;
 
 $replace = in_array('--replace', $argv, true);
 $seedFile = APP_ROOT . '/database/seed/content.json';
@@ -43,7 +44,49 @@ if ($replace && $existing > 0) {
 }
 
 $j = static fn (mixed $v): ?string => $v === null ? null : json_encode($v, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
-$insert = static function (string $table, array $row): int {
+// Bangla already in js/i18n.js is copied into each row's bn column, so the admin shows it
+$BN = $seed['BN'] ?? [];
+$tr = static function (mixed $v) use ($BN): mixed {
+    if (is_array($v)) {
+        return array_map(static fn ($x) => is_array($x) ? array_map(static fn ($y) => is_string($y) ? ($BN[trim($y)] ?? '') : '', $x) : (is_string($x) ? ($BN[trim($x)] ?? '') : ''), $v);
+    }
+    return is_string($v) ? ($BN[trim($v)] ?? '') : '';
+};
+/** true if a translated value holds any Bangla at all (lists are checked item by item) */
+function bn_filled(mixed $v): bool
+{
+    if (is_array($v)) {
+        foreach ($v as $x) {
+            if (bn_filled($x)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return is_string($v) && $v !== '';
+}
+$filled = 'bn_filled';
+$withBn = static function (string $table, array $row) use ($tr, $filled): array {
+    $key = Sections::forTable($table);
+    if ($key === null) {
+        return $row;
+    }
+    $bn = [];
+    foreach (Sections::get($key)['fields'] as $name => $f) {
+        if (empty($f['bn']) || !isset($row[$name])) {
+            continue;
+        }
+        $v = in_array($f['type'], ['lines', 'pairs', 'paragraphs'], true) ? json_decode((string) $row[$name], true) : $row[$name];
+        $t = $tr($v);
+        if ($filled($t)) {
+            $bn[$name] = $t;
+        }
+    }
+    $row['bn'] = $bn ? json_encode($bn, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null;
+    return $row;
+};
+$insert = static function (string $table, array $row) use ($withBn): int {
+    $row = $withBn($table, $row);
     $cols = array_keys($row);
     $sql = sprintf('INSERT INTO %s (%s) VALUES (%s)', $table, implode(', ', $cols), implode(', ', array_map(static fn ($c) => ':' . $c, $cols)));
     Database::run($sql, $row);
@@ -56,7 +99,7 @@ try {
         foreach ($contentTables as $t) {
             $pdo->exec("DELETE FROM $t");
         }
-        $pdo->exec("DELETE FROM settings WHERE setting_key IN ('site', 'rates', 'rates_updated', 'living_costs')");
+        $pdo->exec("DELETE FROM settings WHERE setting_key IN ('site', 'site_bn', 'promo', 'rates', 'rates_updated', 'living_costs')");
     }
     $counts = [];
 
@@ -64,6 +107,9 @@ try {
     foreach (['site' => 'SITE', 'rates' => 'RATES', 'rates_updated' => 'RATES_UPDATED', 'living_costs' => 'LIVING_COSTS'] as $key => $src) {
         $insert('settings', ['setting_key' => $key, 'value_json' => $j($seed[$src])]);
     }
+    $siteBn = array_filter(array_map(static fn ($v) => is_string($v) ? ($BN[trim($v)] ?? '') : '', $seed['SITE']));
+    $insert('settings', ['setting_key' => 'site_bn', 'value_json' => $j((object) $siteBn)]);
+    $insert('settings', ['setting_key' => 'promo', 'value_json' => $j(array_map(static fn ($m) => ['en' => $m, 'bn' => $BN[trim($m)] ?? ''], $seed['RIBBON_MSGS'] ?? []))]);
 
     // destinations (+ photos); data.js already holds them in the client's order
     $destId = [];

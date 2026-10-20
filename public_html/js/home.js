@@ -72,7 +72,7 @@ const DestCards = (() => {
     const box = $('#heroPhotos'); if (!box || typeof DEST_PHOTOS === 'undefined') return;
     box.innerHTML = HERO_DESTINATIONS.filter(d => DEST_PHOTOS[d.id]).map((d, i) => {
       const ph = DEST_PHOTOS[d.id];
-      return `<img class="hero__photo" data-id="${d.id}" src="${ph.src}" alt="" width="1280" height="853" decoding="async"${i === 0 ? ' fetchpriority="high"' : ''} referrerpolicy="no-referrer" style="object-position:${ph.pos}">`;
+      return `<img class="hero__photo" data-id="${d.id}" src="${esc(ph.src)}" alt="" width="1280" height="853" decoding="async"${i === 0 ? ' fetchpriority="high"' : ''} referrerpolicy="no-referrer" style="object-position:${esc(ph.pos)}">`;
     }).join('');
     $$('.hero__photo', box).forEach(img => img.addEventListener('error', () => { img.remove(); showPhoto(HERO_DESTINATIONS[current].id); }, { once: true }));
   }
@@ -170,7 +170,7 @@ function renderTeam() {
     const parts = (p.location || '').split(',').map(s => s.trim()).filter(Boolean);
     const country = parts[parts.length - 1];
     return `<a class="leader-r" href="leadership.html#leader-${p.id}">
-      <span class="leader-r__pic"><img class="leader-r__photo" src="${p.photo}" alt="" width="150" height="150" loading="lazy" style="object-position:${POS[p.id] || '50% 18%'}"></span>
+      <span class="leader-r__pic"><img class="leader-r__photo" src="${esc(p.photo)}" alt="" width="150" height="150" loading="lazy" style="object-position:${POS[p.id] || '50% 18%'}"></span>
       <span>
         <span class="leader-r__num"><b>${String(i + 1).padStart(2, '0')}</b>${country ? `<span aria-hidden="true">·</span><span>${esc(country)}</span>` : ''}</span>
         <span class="leader-r__name">${esc(p.name)}</span>
@@ -231,7 +231,7 @@ function renderHomePrograms() {
         <span class="pf-card__top"><span class="pf-card__icon">${icon(p.icon)}</span>${id === 'unsure' ? '' : '<span class="pf-card__fit">Fits your profile</span>'}</span>
         <span class="pf-card__title">${esc(p.title)}</span>
         <span class="pf-card__reqs">${p.requirements.slice(0, 2).map(r => `<span>${icon('check')}${esc(r)}</span>`).join('')}</span>
-        ${flags(p.destinations)}<span class="sr-only">Available in ${p.destinations.map(destName).join(', ')}.</span>
+        ${flags(p.destinations)}<span class="sr-only">Available in ${esc(p.destinations.map(destName).join(', '))}.</span>
         <span class="pf-card__go">See program${icon('arrow')}</span>
       </a>`; }).join('')}</div>`;
   };

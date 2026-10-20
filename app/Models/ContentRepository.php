@@ -40,9 +40,12 @@ final class ContentRepository
     private static function load(): array
     {
         $out = [];
+        $i18n = [];                                      // English => Bangla, added to the i18n.js dictionary
 
         // ---------- settings ----------
+        $settings = [];
         foreach (Database::all('SELECT setting_key, value_json FROM settings') as $row) {
+            $settings[$row['setting_key']] = json_decode($row['value_json'], true);
             $key = match ($row['setting_key']) {
                 'site'          => 'site',
                 'rates'         => 'rates',
@@ -54,6 +57,32 @@ final class ContentRepository
                 $out[$key] = self::json($row['value_json']);
             }
         }
+        foreach ((array) ($settings['site_bn'] ?? []) as $field => $bn) {
+            $en = $settings['site'][$field] ?? null;
+            if (is_string($en) && is_string($bn) && trim($en) !== '' && trim($bn) !== '') {
+                $i18n[trim($en)] = trim($bn);
+            }
+        }
+        if (isset($settings['promo']) && is_array($settings['promo'])) {
+            $out['promo'] = [];
+            foreach ($settings['promo'] as $m) {
+                if (trim((string) ($m['en'] ?? '')) === '') {
+                    continue;
+                }
+                $out['promo'][] = trim($m['en']);
+                if (trim((string) ($m['bn'] ?? '')) !== '') {
+                    $i18n[trim($m['en'])] = trim($m['bn']);
+                }
+            }
+        }
+
+        // ---------- Bangla of every visible content row ----------
+        foreach (Sections::all() as $section) {
+            foreach (Database::all("SELECT * FROM {$section['table']} WHERE is_visible = 1 AND bn IS NOT NULL") as $row) {
+                $i18n = Sections::bnPairs($section, $row) + $i18n;
+            }
+        }
+        $out['i18n'] = (object) $i18n;
 
         // ---------- destinations + their photos ----------
         $destSlug = [];                                  // destinations.id -> slug, for the other tables

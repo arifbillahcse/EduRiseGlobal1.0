@@ -27,7 +27,7 @@ const DestPanels = (() => {
     const open = openIntakes(d.id), offers = offersFor(d.id);
     const ph = (typeof DEST_PHOTOS !== 'undefined' && DEST_PHOTOS[d.id]) || null;
     return `<li class="dpanel${ph ? ' has-photo' : ''}" style="--bg:${bg};--accent:${accent}" data-i="${i}">
-      ${ph ? `<img class="dpanel__photo" src="${ph.src}" alt="${esc(ph.alt)}" width="1280" height="853" loading="${i < 3 ? 'eager' : 'lazy'}" decoding="async" referrerpolicy="no-referrer" style="object-position:${ph.pos}">` : ''}
+      ${ph ? `<img class="dpanel__photo" src="${esc(ph.src)}" alt="${esc(ph.alt)}" width="1280" height="853" loading="${i < 3 ? 'eager' : 'lazy'}" decoding="async" referrerpolicy="no-referrer" style="object-position:${esc(ph.pos)}">` : ''}
       <span class="dpanel__tint" aria-hidden="true"></span>
       <span class="dpanel__scene" aria-hidden="true" style="--sky-a:${Landmarks.sky(d.id)[0]};--sky-b:${Landmarks.sky(d.id)[1]}">${Landmarks.sceneSVG(d.id)}</span>
       <span class="dpanel__code-bg" aria-hidden="true">${d.code}</span>

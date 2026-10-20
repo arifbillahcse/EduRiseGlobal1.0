@@ -344,6 +344,9 @@ const BN_PATTERNS = [
   [/^Thank you, (.+)$/, 'ধন্যবাদ, $1']
 ];
 
+/* Bangla written by staff in the admin panel (sent by the server with the page) */
+if (typeof FROM_DB !== 'undefined' && FROM_DB.i18n) Object.assign(BN, FROM_DB.i18n);
+
 const I18n = (() => {
   const DIGITS = '০১২৩৪৫৬৭৮৯';
   const bnDigits = s => String(s).replace(/\d/g, d => DIGITS[d]);

@@ -8,7 +8,10 @@ Plan document: https://claude.ai/code/artifact/d8bfb890-a05d-4d20-88bd-900cc19b5
 | 0 | Hosting checklist, folder structure, database design | Done |
 | 1 | Front controller, router, DB layer, pages served from PHP with content from the database | Done |
 | 2 | Admin login, Admin/Editor roles, sessions, CSRF, password reset, users | Done |
-| 3 | Content editing (destinations, programs, team, news ...) and image uploads | Next |
+| 3 | Content editing in English and Bangla, image uploads, settings | Done |
+| 4 | SEO: page titles and descriptions per country and program, sitemap from the database | Next |
+| 5 | Forms and leads in the database, email, spam protection | |
+| 6 | Launch checks: live server, backups, clean-up | |
 
 ## How Phase 1 works
 
@@ -53,6 +56,53 @@ Tested (PHP 8.3, MariaDB 10.11, Apache 2.4 with this `.htaccess`):
 
 Tested end to end: 35 checks covering every Phase 2 item on the security checklist, plus CSRF, open redirect, privilege escalation by an Editor, XSS in names, and session fixation.
 
+## How Phase 3 works (content editing)
+
+- **One editor for every section:** Destinations, Programs, Universities, Intakes, Scholarships, Government scholarships, Leadership, News, Testimonials, Offices and Policies.
+  - Each section is described once in `app/Models/Sections.php` (fields, Bangla, who may do what). `ContentController` builds the list, form, checks and saving from it.
+  - Adding a field = one line there plus a database column.
+- **English and Bangla side by side:**
+  - Each row's Bangla is stored in its `bn` column.
+  - The server adds those pairs to the `i18n.js` dictionary, so visitors who choose বাংলা see staff-written Bangla.
+  - Bangla that already existed in `i18n.js` was copied in by the import.
+  - In list boxes, Bangla lines follow the English order; `-` marks a line not translated yet.
+- **Show on website:** hidden items leave the website at once but stay in the admin. Anything that belongs to a hidden country is hidden with it.
+- **Changes are live at once:** pages read the database on every request (`Cache-Control: no-cache`).
+- **Who can do what:**
+
+  | Section | Editor | Admin |
+  | --- | --- | --- |
+  | Destinations | edit, hide | add, delete |
+  | Programs, universities, intakes, scholarships | add, edit, hide | delete |
+  | Leadership | edit | add, hide, delete |
+  | News | write drafts | publish, hide, delete |
+  | Testimonials | add (stays hidden) | confirm consent, mark checked, show, delete |
+  | Offices, policies, settings, users | — | everything |
+
+- **Deleting:** only with a POST form, after a confirmation page. A country that still has programs, universities, intakes or scholarships cannot be deleted; hide it instead.
+- **Uploads** (Media, or the image field of a country or leader):
+  - Only JPG, PNG and WebP, up to 5 MB, with one file extension.
+  - The content must really be an image. Each image is decoded and saved again with GD, which removes hidden code.
+  - Saved with a random name in `uploads/YYYY/MM/`. Images larger than 2000 px are scaled down.
+  - PHP never runs in `uploads/` (403 under Apache).
+- **Checks before saving:**
+  - required fields, lengths, dates (an intake cannot close before it opens), links (https only), unique address names;
+  - photo focus (`50% 40%`);
+  - the program JSON fields (English, tuition, scholarships) must have the exact shape the program pages and cost estimator expect, and currencies must exist in Settings.
+- **Settings (Admin):**
+  - phone, WhatsApp, email, address and hours (with Bangla), social links;
+  - the promo bar messages (with Bangla);
+  - exchange rates, with "last updated" set automatically.
+- **Escaping:** while testing I found that the homepage program finder, photo attributes, photo-credit links and tuition values were written into the page without escaping. They are escaped now, and the server also refuses such values.
+
+Tested: 38 end-to-end checks covering every Phase 3 item on the security checklist, plus:
+- upload attacks: `.php`, `shell.php.jpg`, PHP disguised as a JPG, PHP hidden inside a real JPEG, GIF, SVG;
+- role limits for Editors;
+- XSS in names, Bangla, promo bar and address (site and admin, English and বাংলা);
+- hiding a country, an intake, a university or a leader without breaking any page.
+
+Saving all 65 existing items through the forms without changes leaves the website data byte-for-byte identical.
+
 ## Folder structure
 
 ```
@@ -61,9 +111,9 @@ app/
   bootstrap.php     config, autoload, error handling
   routes.php        all website addresses
   config/           config.php lives here on each server, never in Git
-  core/             Config, Database (PDO), Router, View, Response, ErrorHandler, Session, Csrf, Auth, Mailer
-  Controllers/      PageController; Admin/ (Auth, Panel, User)
-  Models/           ContentRepository (reads content in data.js shape)
+  core/             Config, Database (PDO), Router, View, Response, ErrorHandler, Session, Csrf, Auth, Mailer, Upload
+  Controllers/      PageController; Admin/ (Auth, Panel, User, Content, Media, Settings)
+  Models/           Sections (editable sections), Content (saving), ContentRepository (website data in data.js shape), AdminUser
   Views/pages/      the page templates (the old *.html files)
   Views/admin/      admin panel templates
   Helpers/          e(), json_for_script(), url()
@@ -73,9 +123,9 @@ database/           schema.sql, migrations/, seed/content.json
 partials/           icon sprite master copy (not served)
 ```
 
-## Changing content before content editing arrives (until Phase 3)
+## Changing content
 
-Edit `public_html/js/data.js`, then on your PC run `node bin/export-data.js` and commit. On the server run `php bin/import-data.php --replace`. From Phase 3 the admin panel replaces this.
+Use the admin panel at `/admin`. The built-in lists in `public_html/js/data.js` are only a fallback for when the database cannot be reached. `bin/import-data.php --replace` resets the database to them, and asks before deleting staff changes.
 
 ## Run it on your PC
 
@@ -108,6 +158,12 @@ php -S localhost:8000 -t public_html bin/dev-router.php
    In `config.php` set `mail.transport` to `mail` so reset and invite links are emailed from `noreply@eduriseglobal.bd`.
 6. Open https://staging.eduriseglobal.bd and click through every page, then sign in at `/admin` and add the EduRise staff under **Users**.
 
-**Database already set up from Phase 1?** Run `database/migrations/2026-10-19-phase2-admin.sql` once in phpMyAdmin (SQL tab) before `create-admin.php`.
+**Database already set up from an earlier phase?** In phpMyAdmin (SQL tab), run each migration in `database/migrations/` that has not been run yet, oldest first:
+- `2026-10-19-phase2-admin.sql` (before `create-admin.php`)
+- `2026-10-20-phase3-content.sql`
+
+Then run `php bin/import-data.php --replace` once, to copy the existing Bangla into the new columns. Only do this before staff start editing, because it replaces the content.
+
+Also set PHP's `upload_max_filesize` to 8M and `post_max_size` to 12M in *MultiPHP INI Editor*, so the 5 MB image limit is the one staff meet.
 
 Later deploys: push to `PHP`, then *Pull* and *Deploy HEAD Commit* in cPanel. `config.php`, logs and uploads on the server are never overwritten.

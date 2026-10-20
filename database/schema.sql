@@ -87,7 +87,7 @@ CREATE TABLE media (
 
 CREATE TABLE settings (
   id              INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  setting_key     VARCHAR(80) NOT NULL,               -- site, rates, rates_updated, living_costs ...
+  setting_key     VARCHAR(80) NOT NULL,               -- site, site_bn, promo, rates, rates_updated, living_costs
   value_json      JSON NOT NULL,
   updated_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
@@ -98,8 +98,8 @@ CREATE TABLE settings (
 -- Content tables (shown on the website)
 -- Columns mirror the fields in public_html/js/data.js, so the pages render
 -- exactly as before. Lists and nested values are JSON columns.
--- Bangla text still comes from js/i18n.js; *_bn columns arrive with the
--- admin editor, when staff start changing text.
+-- Bangla: each table's bn column holds the Bangla version of its text
+-- fields; the server adds those pairs to the i18n.js dictionary.
 -- ---------------------------------------------------------------------------
 
 CREATE TABLE destinations (
@@ -120,6 +120,7 @@ CREATE TABLE destinations (
   photo_license_url  VARCHAR(255) NULL,
   photo_page         VARCHAR(500) NULL,
   photo_pos          VARCHAR(20) NULL,
+  bn                 JSON NULL,                         -- Bangla versions of the text fields: {"field": "..."} (lists as lists)
   sort_order         SMALLINT NOT NULL DEFAULT 0,
   is_visible         TINYINT(1) NOT NULL DEFAULT 1,
   tbc                TINYINT(1) NOT NULL DEFAULT 0,
@@ -140,6 +141,7 @@ CREATE TABLE universities (
   summary            TEXT NULL,
   facts              JSON NOT NULL,                     -- [["English", "IELTS 5.5"], ...]
   website_url        VARCHAR(255) NULL,
+  bn                 JSON NULL,                         -- Bangla versions of the text fields: {"field": "..."} (lists as lists)
   sort_order         SMALLINT NOT NULL DEFAULT 0,
   is_visible         TINYINT(1) NOT NULL DEFAULT 1,
   tbc                TINYINT(1) NOT NULL DEFAULT 0,
@@ -162,6 +164,7 @@ CREATE TABLE intakes (
   starts_on          DATE NULL,                         -- first day to apply (Dhaka time)
   ends_on            DATE NULL,                         -- last day to apply
   tba                TINYINT(1) NOT NULL DEFAULT 0,     -- dates not announced yet
+  bn                 JSON NULL,                         -- Bangla versions of the text fields: {"field": "..."} (lists as lists)
   sort_order         SMALLINT NOT NULL DEFAULT 0,
   is_visible         TINYINT(1) NOT NULL DEFAULT 1,
   tbc                TINYINT(1) NOT NULL DEFAULT 0,
@@ -183,6 +186,7 @@ CREATE TABLE scholarships (
   award              VARCHAR(190) NULL,
   condition_text     VARCHAR(255) NULL,
   intake_slug        VARCHAR(60) NULL,                  -- links to intakes.slug
+  bn                 JSON NULL,                         -- Bangla versions of the text fields: {"field": "..."} (lists as lists)
   sort_order         SMALLINT NOT NULL DEFAULT 0,
   is_visible         TINYINT(1) NOT NULL DEFAULT 1,
   tbc                TINYINT(1) NOT NULL DEFAULT 0,
@@ -203,6 +207,7 @@ CREATE TABLE gov_scholarships (
   levels_text        VARCHAR(190) NULL,
   url                VARCHAR(255) NULL,
   note               VARCHAR(500) NULL,
+  bn                 JSON NULL,                         -- Bangla versions of the text fields: {"field": "..."} (lists as lists)
   sort_order         SMALLINT NOT NULL DEFAULT 0,
   is_visible         TINYINT(1) NOT NULL DEFAULT 1,
   tbc                TINYINT(1) NOT NULL DEFAULT 0,
@@ -234,6 +239,7 @@ CREATE TABLE programs (
   intakes            JSON NOT NULL,                     -- intake slugs
   milestones         JSON NULL,
   highlights         JSON NOT NULL,
+  bn                 JSON NULL,                         -- Bangla versions of the text fields: {"field": "..."} (lists as lists)
   sort_order         SMALLINT NOT NULL DEFAULT 0,
   is_visible         TINYINT(1) NOT NULL DEFAULT 1,
   tbc                TINYINT(1) NOT NULL DEFAULT 0,
@@ -260,6 +266,7 @@ CREATE TABLE team (
   motto              VARCHAR(255) NULL,
   tags               JSON NOT NULL,
   on_home            TINYINT(1) NOT NULL DEFAULT 1,     -- 0 = only on the leadership page
+  bn                 JSON NULL,                         -- Bangla versions of the text fields: {"field": "..."} (lists as lists)
   sort_order         SMALLINT NOT NULL DEFAULT 0,
   is_visible         TINYINT(1) NOT NULL DEFAULT 1,
   tbc                TINYINT(1) NOT NULL DEFAULT 0,
@@ -280,6 +287,7 @@ CREATE TABLE offices (
   phone              VARCHAR(40) NULL,
   email              VARCHAR(190) NULL,
   hours              VARCHAR(190) NULL,
+  bn                 JSON NULL,                         -- Bangla versions of the text fields: {"field": "..."} (lists as lists)
   sort_order         SMALLINT NOT NULL DEFAULT 0,
   is_visible         TINYINT(1) NOT NULL DEFAULT 1,
   tbc                TINYINT(1) NOT NULL DEFAULT 0,
@@ -298,6 +306,7 @@ CREATE TABLE news (
   body               MEDIUMTEXT NULL,
   cover_media_id     INT UNSIGNED NULL,
   status             ENUM('draft','published') NOT NULL DEFAULT 'published',
+  bn                 JSON NULL,                         -- Bangla versions of the text fields: {"field": "..."} (lists as lists)
   sort_order         SMALLINT NOT NULL DEFAULT 0,
   is_visible         TINYINT(1) NOT NULL DEFAULT 1,
   tbc                TINYINT(1) NOT NULL DEFAULT 0,
@@ -320,6 +329,7 @@ CREATE TABLE testimonials (
   photo_media_id     INT UNSIGNED NULL,
   consent            TINYINT(1) NOT NULL DEFAULT 0,     -- written consent from the student is on file
   verified           TINYINT(1) NOT NULL DEFAULT 0,     -- real student, checked by an admin
+  bn                 JSON NULL,                         -- Bangla versions of the text fields: {"field": "..."} (lists as lists)
   sort_order         SMALLINT NOT NULL DEFAULT 0,
   is_visible         TINYINT(1) NOT NULL DEFAULT 0,     -- hidden until checked
   tbc                TINYINT(1) NOT NULL DEFAULT 0,
@@ -336,6 +346,7 @@ CREATE TABLE policies (
   slug               VARCHAR(60) NOT NULL,              -- privacy, terms, disclaimer
   title              VARCHAR(190) NOT NULL,
   paragraphs         JSON NOT NULL,
+  bn                 JSON NULL,                         -- Bangla versions of the text fields: {"field": "..."} (lists as lists)
   sort_order         SMALLINT NOT NULL DEFAULT 0,
   is_visible         TINYINT(1) NOT NULL DEFAULT 1,
   tbc                TINYINT(1) NOT NULL DEFAULT 0,

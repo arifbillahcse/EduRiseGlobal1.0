@@ -318,6 +318,9 @@ const PROGRAM_TYPES = [
     destinations: ['malaysia'] }
 ];
 
+/* a country hidden in the admin drops out of the program types too */
+PROGRAM_TYPES.forEach(p => { p.destinations = p.destinations.filter(id => DESTINATIONS.some(d => d.id === id)); });
+
 /* =====================================================================
    SCHOLARSHIPS (Phase 4, Package 1: list written at development time)
    University offers are SAMPLE data from EduRise Facebook posts (TBC).

@@ -32,7 +32,7 @@ function destCardHTML(d) {
   return `<a class="dest-card" href="destination.html#${d.id}">
     <span class="dest-card__media" style="--sky-a:${sky[0]};--sky-b:${sky[1]}">
       ${art ? Landmarks.sceneSVG(d.id) : ''}
-      ${ph ? `<img class="dest-card__img" src="${ph.src}" alt="${esc(ph.alt)}" width="1280" height="853" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="object-position:${ph.pos}" onerror="this.remove()">` : ''}
+      ${ph ? `<img class="dest-card__img" src="${esc(ph.src)}" alt="${esc(ph.alt)}" width="1280" height="853" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="object-position:${esc(ph.pos)}" onerror="this.remove()">` : ''}
       ${art ? `<span class="dest-card__flag">${Landmarks.flagSVG(d.id)}</span>` : ''}
     </span>
     <span class="dest-card__route">DAC → ${d.code} · ${esc(d.city)}</span>
@@ -160,7 +160,7 @@ function renderServicesPage() {
 function leaderCardHTML(p) {
   const story = [].concat(p.story || p.bio);                 // story can be one paragraph or several
   return `<article class="leader card" id="leader-${p.id}">
-    <img class="leader__photo" src="${p.photo}" alt="Portrait of ${esc(p.name)}" width="320" height="320" loading="lazy">
+    <img class="leader__photo" src="${esc(p.photo)}" alt="Portrait of ${esc(p.name)}" width="320" height="320" loading="lazy">
     <div class="leader__body">
       ${p.location ? `<span class="person__loc">${icon('pin', 'icon--sm')}${esc(p.location)}</span>` : ''}
       <h3 class="person__name">${esc(p.name)}</h3>
@@ -270,9 +270,9 @@ function renderPoliciesPage() {
     $('#policyBody').insertAdjacentHTML('beforeend', `<section class="policy" id="photo-credits">
       <h2>Photo credits</h2>
       <p>Destination photos are from Wikimedia Commons and are used under the licences below.</p>
-      <ul class="credits">${Object.entries(DEST_PHOTOS).map(([id, ph]) => {
+      <ul class="credits">${Object.entries(DEST_PHOTOS).filter(([, ph]) => ph.by).map(([id, ph]) => {   // own photos without a credit are not listed
         const d = DESTINATIONS.find(x => x.id === id);
-        return `<li><b>${esc(d ? d.name : id)}</b>: ${esc(ph.alt)}. Photo by <a href="${ph.page}" target="_blank" rel="noopener">${esc(ph.by)}</a>, <a href="${ph.licenseUrl}" target="_blank" rel="noopener license">${esc(ph.license)}</a>.</li>`;
+        return `<li><b>${esc(d ? d.name : id)}</b>: ${esc(ph.alt)}. Photo by <a href="${esc(ph.page || '#')}" target="_blank" rel="noopener">${esc(ph.by)}</a>, <a href="${esc(ph.licenseUrl || '#')}" target="_blank" rel="noopener license">${esc(ph.license)}</a>.</li>`;
       }).join('')}</ul>
     </section>`);
   }

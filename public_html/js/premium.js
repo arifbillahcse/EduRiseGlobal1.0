@@ -26,8 +26,8 @@ function programWindow(p) {
 function tuitionText(t) {
   if (!t) return 'Ask a counsellor';
   if (t.amount === 0) return 'Waived';
-  if (t.min !== undefined) return `${fmtNum(t.min)} to ${fmtNum(t.max)} ${t.cur} / ${t.per}`;
-  return `${fmtMoney(t.amount, t.cur)} / ${t.per}`;
+  if (t.min !== undefined) return `${fmtNum(t.min)} to ${fmtNum(t.max)} ${esc(t.cur)} / ${esc(t.per)}`;
+  return `${fmtMoney(t.amount, t.cur)} / ${esc(t.per)}`;
 }
 function tuitionBDT(t) {
   if (!t || t.amount === 0) return '';
@@ -147,7 +147,7 @@ function renderProgramPage() {
         <tbody>${feeRows.map(r => `<tr><td>${esc(r[0])}</td><td class="num tnum">${esc(r[1])}</td><td class="num tnum">${esc(r[2])}</td></tr>`).join('')}
         ${firstPay ? `<tr class="fee-total"><td>${esc(firstPay.label)}</td><td class="num tnum">${esc(firstPay.local)}</td><td class="num tnum">${esc(firstPay.bdt)}</td></tr>` : ''}</tbody></table></div>
         ${t && t.note ? `<p class="note">${esc(t.note)}</p>` : ''}
-        <p class="form-note">Taka amounts use the sample rate of 1 ${t.cur} = ${RATES[t.cur]} BDT (updated ${formatDate(RATES_UPDATED)}). <span class="tbc">TBC</span> Final amounts follow the university invoice.</p>`
+        <p class="form-note">Taka amounts use the sample rate of 1 ${esc(t.cur)} = ${esc(String(RATES[t.cur]))} BDT (updated ${formatDate(RATES_UPDATED)}). <span class="tbc">TBC</span> Final amounts follow the university invoice.</p>`
       : `<p class="muted">${t && t.amount === 0 ? esc(t.note) : 'Fees vary by university. A counsellor will send you the current fees for your shortlist.'}</p>`}
       ${LIVING_COSTS[p.dest] ? `<a class="btn btn--ghost btn--sm" href="cost-estimator.html#${p.id}" style="margin-top:14px">${icon('filter')}Estimate my total cost</a>` : ''}
     </section>
@@ -256,7 +256,7 @@ function renderBoard() {
     }
     if (imInRange) lane += `<span class="ical__start" style="left:${pos(imIso).toFixed(2)}%" title="Studies start ${esc(it.intake)}">${icon('plane')}</span>`;
     else if (imIso) lane += `<span class="ical__start ical__start--later">${esc(it.intake)} ${icon('arrow')}</span>`;
-    sr += ` Intake ${it.intake}.`;
+    sr += ` Intake ${it.intake}.`;                 // sr is escaped where it is written
     return `<a class="ical__row" href="${href}" style="--i:${i}">
       <span class="ical__label"><span class="ical__code">${d.code}</span><span class="ical__name"><b>${esc(uni)}</b><small>${esc(course || '')}${course && it.round ? ' · ' : ''}${esc(it.round || '')}</small></span></span>
       <span class="ical__lane" aria-hidden="true">${lane}</span>

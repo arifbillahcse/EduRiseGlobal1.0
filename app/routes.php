@@ -9,6 +9,9 @@
 declare(strict_types=1);
 
 use App\Controllers\Admin\AuthController;
+use App\Controllers\Admin\ContentController;
+use App\Controllers\Admin\MediaController;
+use App\Controllers\Admin\SettingsController;
 use App\Controllers\Admin\PanelController;
 use App\Controllers\Admin\UserController;
 use App\Controllers\PageController;
@@ -30,7 +33,24 @@ $router->post('/admin/users', [UserController::class, 'store']);
 $router->get('/admin/users/{id}', [UserController::class, 'editForm']);
 $router->post('/admin/users/{id}', [UserController::class, 'update']);
 $router->post('/admin/users/{id}/link', [UserController::class, 'link']);
-$router->get('/admin/{section}', [PanelController::class, 'section']);
+$router->get('/admin/media', [MediaController::class, 'index']);
+$router->post('/admin/media', [MediaController::class, 'upload']);
+$router->post('/admin/media/{id}', [MediaController::class, 'describe']);
+$router->get('/admin/media/{id}/delete', [MediaController::class, 'deleteForm']);
+$router->post('/admin/media/{id}/delete', [MediaController::class, 'delete']);
+$router->get('/admin/settings', [SettingsController::class, 'form']);
+$router->post('/admin/settings', [SettingsController::class, 'save']);
+
+/* content sections (destinations, programs, news ...): App\Models\Sections */
+$router->get('/admin/{key}', [ContentController::class, 'index']);
+$router->get('/admin/{key}/new', [ContentController::class, 'createForm']);
+$router->post('/admin/{key}', [ContentController::class, 'store']);
+$router->get('/admin/{key}/{id}', [ContentController::class, 'editForm']);
+$router->post('/admin/{key}/{id}', [ContentController::class, 'update']);
+$router->post('/admin/{key}/{id}/visible', [ContentController::class, 'toggle']);
+$router->post('/admin/{key}/{id}/move', [ContentController::class, 'move']);
+$router->get('/admin/{key}/{id}/delete', [ContentController::class, 'deleteForm']);
+$router->post('/admin/{key}/{id}/delete', [ContentController::class, 'delete']);
 $router->get('/admin.html', [PanelController::class, 'legacyDemo']);   // old demo dashboard address
 
 /* ---------- website ---------- */

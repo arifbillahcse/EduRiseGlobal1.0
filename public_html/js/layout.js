@@ -15,7 +15,7 @@ function brandHTML(label = 'EduRise Global, home') {
 }
 
 /* announcement bar above the header: short promotional lines, one at a time (facts from data.js) */
-const RIBBON_MSGS = [
+const RIBBON_MSGS = FROM_DB.promo || [
   'Free study abroad counselling: share your results and get an honest plan',
   'South Korea: tuition scholarships of 30% to 50% at many universities, based on your English score',
   'Japan: selected Master’s programs without IELTS',
@@ -43,7 +43,7 @@ function topHTML() {
   <div class="site-top" role="region" aria-label="Contact and language">
   <div class="ribbon" role="region" aria-label="Announcements"><div class="container">
     <span class="ribbon__tag">${ico('award')}Now enrolling</span>
-    <span class="ribbon__msgs">${RIBBON_MSGS.map((m, i) => `<span class="ribbon__msg${i ? '' : ' is-on'}"${i ? ' aria-hidden="true"' : ''}>${m}</span>`).join('')}</span>
+    <span class="ribbon__msgs">${RIBBON_MSGS.map((m, i) => `<span class="ribbon__msg${i ? '' : ' is-on'}"${i ? ' aria-hidden="true"' : ''}>${esc(m)}</span>`).join('')}</span>
     <a class="ribbon__cta" href="contact.html">Book a free consultation${ico('arrow')}</a>
   </div></div>
   <div class="topbar"><div class="container">

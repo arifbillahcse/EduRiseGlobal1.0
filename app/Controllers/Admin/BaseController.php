@@ -14,20 +14,21 @@ abstract class BaseController
 {
     /** Admin panel sections. admin = only the Admin role; phase = when editing arrives (null = built). */
     public const SECTIONS = [
-        'destinations' => ['label' => 'Destinations',  'admin' => false, 'phase' => 3, 'note' => 'Countries, intro text, requirements and photos'],
-        'programs'     => ['label' => 'Programs',      'admin' => false, 'phase' => 3, 'note' => 'Program detail pages, fees and scholarships'],
-        'universities' => ['label' => 'Universities',  'admin' => false, 'phase' => 3, 'note' => 'University cards'],
-        'intakes'      => ['label' => 'Intakes',       'admin' => false, 'phase' => 3, 'note' => 'Application windows and dates'],
-        'scholarships' => ['label' => 'Scholarships',  'admin' => false, 'phase' => 3, 'note' => 'University offers and government scholarships'],
-        'team'         => ['label' => 'Leadership',    'admin' => false, 'phase' => 3, 'note' => 'Leader profiles and photos'],
-        'news'         => ['label' => 'News',          'admin' => false, 'phase' => 3, 'note' => 'Posts, drafts and publishing'],
-        'testimonials' => ['label' => 'Testimonials',  'admin' => false, 'phase' => 3, 'note' => 'Student stories with written consent'],
-        'offices'      => ['label' => 'Offices',       'admin' => true,  'phase' => 3, 'note' => 'Addresses and opening hours'],
-        'policies'     => ['label' => 'Policies',      'admin' => true,  'phase' => 3, 'note' => 'Privacy, terms and disclaimer'],
-        'media'        => ['label' => 'Media',         'admin' => false, 'phase' => 3, 'note' => 'Uploaded images'],
-        'leads'        => ['label' => 'Leads',         'admin' => false, 'phase' => 5, 'note' => 'Enquiries from the website forms'],
-        'settings'     => ['label' => 'Settings',      'admin' => true,  'phase' => 3, 'note' => 'Phone, WhatsApp, promo bar, rates'],
-        'users'        => ['label' => 'Users',         'admin' => true,  'phase' => null, 'note' => 'Who can sign in, and their role'],
+        'destinations'     => ['label' => 'Destinations',  'admin' => false, 'phase' => null, 'note' => 'Countries, intro text, requirements and photos'],
+        'programs'         => ['label' => 'Programs',      'admin' => false, 'phase' => null, 'note' => 'Program detail pages, fees and scholarships'],
+        'universities'     => ['label' => 'Universities',  'admin' => false, 'phase' => null, 'note' => 'University cards'],
+        'intakes'          => ['label' => 'Intakes',       'admin' => false, 'phase' => null, 'note' => 'Application windows and dates'],
+        'scholarships'     => ['label' => 'Scholarships',  'admin' => false, 'phase' => null, 'note' => 'University scholarship offers'],
+        'gov-scholarships' => ['label' => 'Gov. scholarships', 'admin' => false, 'phase' => null, 'note' => 'Government scholarships (Fulbright, Chevening …)'],
+        'team'             => ['label' => 'Leadership',    'admin' => false, 'phase' => null, 'note' => 'Leader profiles and photos'],
+        'news'             => ['label' => 'News',          'admin' => false, 'phase' => null, 'note' => 'Posts, drafts and publishing'],
+        'testimonials'     => ['label' => 'Testimonials',  'admin' => false, 'phase' => null, 'note' => 'Student stories with written consent'],
+        'offices'          => ['label' => 'Offices',       'admin' => true,  'phase' => null, 'note' => 'Office addresses'],
+        'policies'         => ['label' => 'Policies',      'admin' => true,  'phase' => null, 'note' => 'Privacy, terms and disclaimer'],
+        'media'            => ['label' => 'Media',         'admin' => false, 'phase' => null, 'note' => 'Uploaded images'],
+        'leads'            => ['label' => 'Leads',         'admin' => false, 'phase' => 5,    'note' => 'Enquiries from the website forms'],
+        'settings'         => ['label' => 'Settings',      'admin' => true,  'phase' => null, 'note' => 'Phone, WhatsApp, social links, promo bar, rates'],
+        'users'            => ['label' => 'Users',         'admin' => true,  'phase' => null, 'note' => 'Who can sign in, and their role'],
     ];
 
     /** Headers for every admin response: never cached, never framed, never indexed, strict CSP. */
@@ -39,7 +40,7 @@ abstract class BaseController
         header('X-Robots-Tag: noindex, nofollow');
         header('Referrer-Policy: no-referrer');
         header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; "
-             . "font-src https://fonts.gstatic.com; img-src 'self' data:; form-action 'self'; frame-ancestors 'none'; base-uri 'none'; object-src 'none'");
+             . "font-src https://fonts.gstatic.com; img-src 'self' data: https://upload.wikimedia.org; form-action 'self'; frame-ancestors 'none'; base-uri 'none'; object-src 'none'");
     }
 
     /** Signed-in user or a redirect to the sign-in page. */
@@ -84,6 +85,15 @@ abstract class BaseController
     {
         if (Csrf::valid()) {
             return true;
+        }
+        // a POST bigger than the server's post_max_size arrives empty: say so instead of "expired"
+        if (!$_POST && (int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+            self::render('error', [
+                'title' => 'Too large', 'user' => $user, 'status' => 413,
+                'heading' => 'The upload is too large',
+                'message' => 'Nothing was saved. Images can be up to 5 MB. Go back and choose a smaller file.',
+            ], 413);
+            return false;
         }
         self::render('error', [
             'title' => 'Form expired', 'user' => $user, 'status' => 419,
