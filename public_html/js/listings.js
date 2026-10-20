@@ -152,7 +152,7 @@ function universityCardHTML(u) {
     <div class="tag-row">${u.levels.map(l => `<span class="tag">${esc(l)}</span>`).join('')}</div>
     <p class="uni-card__summary">${esc(u.summary)}</p>
     <dl class="facts">${u.facts.map(f => `<div><dt>${esc(f[0])}</dt><dd>${esc(f[1])}</dd></div>`).join('')}</dl>
-    ${(typeof PROGRAMS !== 'undefined' && PROGRAMS.find(p => p.uni === u.id)) ? `<a class="link-arrow" href="program.html#${PROGRAMS.find(p => p.uni === u.id).id}">View program details ${icon('arrow')}</a>` : ''}
+    ${(typeof PROGRAMS !== 'undefined' && PROGRAMS.find(p => p.uni === u.id)) ? `<a class="link-arrow" href="${progUrl(PROGRAMS.find(p => p.uni === u.id).id)}">View program details ${icon('arrow')}</a>` : ''}
     <button type="button" class="btn btn--go btn--sm btn--block" data-enquire="${esc(u.name)}">${icon('whatsapp')}Enquire</button>
   </article>`;
 }

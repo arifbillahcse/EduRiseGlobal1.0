@@ -120,6 +120,8 @@ CREATE TABLE destinations (
   photo_license_url  VARCHAR(255) NULL,
   photo_page         VARCHAR(500) NULL,
   photo_pos          VARCHAR(20) NULL,
+  seo_title          VARCHAR(120) NULL,                 -- empty = written from the content
+  seo_description    VARCHAR(300) NULL,
   bn                 JSON NULL,                         -- Bangla versions of the text fields: {"field": "..."} (lists as lists)
   sort_order         SMALLINT NOT NULL DEFAULT 0,
   is_visible         TINYINT(1) NOT NULL DEFAULT 1,
@@ -239,6 +241,8 @@ CREATE TABLE programs (
   intakes            JSON NOT NULL,                     -- intake slugs
   milestones         JSON NULL,
   highlights         JSON NOT NULL,
+  seo_title          VARCHAR(120) NULL,                 -- empty = written from the content
+  seo_description    VARCHAR(300) NULL,
   bn                 JSON NULL,                         -- Bangla versions of the text fields: {"field": "..."} (lists as lists)
   sort_order         SMALLINT NOT NULL DEFAULT 0,
   is_visible         TINYINT(1) NOT NULL DEFAULT 1,

@@ -54,6 +54,8 @@ final class Sections
                     'photo_page'   => ['type' => 'url', 'label' => 'Photo source page'],
                     'photo_pos'    => ['type' => 'text', 'label' => 'Photo focus', 'max' => 20, 'help' => 'Which part stays visible when cropped, e.g. 50% 40%'],
                     'tbc'          => ['type' => 'check', 'label' => 'Details still to be confirmed (shows a TBC note)'],
+                    'seo_title'       => ['type' => 'text', 'label' => 'Search title (Google)', 'max' => 120, 'help' => 'Empty = “Study in <country> from Bangladesh | EduRise Global”. Aim for under 60 characters.'],
+                    'seo_description' => ['type' => 'textarea', 'label' => 'Search description (Google)', 'max' => 300, 'rows' => 3, 'help' => 'Empty = the start of the introduction. Aim for 120 to 160 characters.'],
                 ],
             ],
             'programs' => [
@@ -81,6 +83,8 @@ final class Sections
                     'intakes'      => ['type' => 'lines', 'label' => 'Intakes', 'help' => 'Address names of intakes, one per line, e.g. gachon-r1'],
                     'milestones'   => ['type' => 'pairs', 'label' => 'Milestones', 'bn' => true, 'nullable' => true, 'help' => 'One per line: Step | date'],
                     'highlights'   => ['type' => 'lines', 'label' => 'Highlights', 'bn' => true, 'help' => 'One per line'],
+                    'seo_title'       => ['type' => 'text', 'label' => 'Search title (Google)', 'max' => 120, 'help' => 'Empty = “<program>, <university> | EduRise Global”. Aim for under 60 characters.'],
+                    'seo_description' => ['type' => 'textarea', 'label' => 'Search description (Google)', 'max' => 300, 'rows' => 3, 'help' => 'Empty = the start of the program facts. Aim for 120 to 160 characters.'],
                 ],
             ],
             'universities' => [

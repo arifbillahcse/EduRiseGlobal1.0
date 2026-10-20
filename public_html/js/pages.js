@@ -29,7 +29,7 @@ function destCardHTML(d) {
   const ph = (typeof DEST_PHOTOS !== 'undefined' && DEST_PHOTOS[d.id]) || null;
   const art = typeof Landmarks !== 'undefined';
   const sky = art ? Landmarks.sky(d.id) : ['#DDE6F5', '#AFC0E6'];
-  return `<a class="dest-card" href="destination.html#${d.id}">
+  return `<a class="dest-card" href="${destUrl(d.id)}">
     <span class="dest-card__media" style="--sky-a:${sky[0]};--sky-b:${sky[1]}">
       ${art ? Landmarks.sceneSVG(d.id) : ''}
       ${ph ? `<img class="dest-card__img" src="${esc(ph.src)}" alt="${esc(ph.alt)}" width="1280" height="853" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="object-position:${esc(ph.pos)}" onerror="this.remove()">` : ''}
@@ -63,9 +63,8 @@ function renderDestinationsPage() {
 
 /* ================= destination.html#<id> ================= */
 function renderCountryPage() {
-  const id = location.hash.replace('#', '');
-  const d = destById(id) || DESTINATIONS[0];
-  document.title = `Study in ${d.name} | EduRise Global`;
+  const d = destById(routeId()) || DESTINATIONS[0];
+  if (!window.EDURISE_ROUTE) document.title = `Study in ${d.name} | EduRise Global`;   // the server sets the title on clean addresses
   const docs = documentsFor(d);
   const others = DESTINATIONS.filter(x => x.id !== d.id).slice(0, 4);
   const programLinks = PROGRAM_TYPES.filter(p => p.destinations.includes(d.id));
@@ -124,7 +123,7 @@ function renderProgramsPage() {
     <p>${esc(p.text)}</p>
     <div class="program__cols">
       <div><h3>Typical requirements</h3><ul class="checks checks--sm">${p.requirements.map(r => `<li>${icon('check')}<span>${esc(r)}</span></li>`).join('')}</ul></div>
-      <div><h3>Where you can study</h3><div class="tag-row">${p.destinations.map(id => { const d = destById(id); return `<a class="tag tag--link" href="destination.html#${id}">${esc(d.name)}</a>`; }).join('')}</div></div>
+      <div><h3>Where you can study</h3><div class="tag-row">${p.destinations.map(id => { const d = destById(id); return `<a class="tag tag--link" href="${destUrl(id)}">${esc(d.name)}</a>`; }).join('')}</div></div>
     </div>
   </article>`).join('');
   mountCTA('programCta', 'Which program is right for you?', 'A counsellor will look at your results and goals and suggest the level and programs that fit.');
@@ -298,7 +297,7 @@ function renderChecklistPage() {
       <div class="cl-brand"><img src="assets/img/brand/logo-mark.png" alt="" width="71" height="40"><div><b>EduRise Global</b><span>Guiding Your Global Future</span></div></div>
       <div class="cl-actions no-print">
         <button type="button" class="btn btn--brand btn--sm" id="clPrint">${icon('download')}Print or save as PDF</button>
-        <a class="btn btn--ghost btn--sm" href="destination.html#${d.id}">Back to ${esc(d.name)}</a>
+        <a class="btn btn--ghost btn--sm" href="${destUrl(d.id)}">Back to ${esc(d.name)}</a>
       </div>
     </header>
     <h1>Document checklist: ${esc(d.name)}</h1>

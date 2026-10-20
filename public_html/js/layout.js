@@ -166,7 +166,7 @@ function renderNav(activeId) {
   $('#footerNav').innerHTML  = NAV.filter(n => n.id !== 'home').concat(FOOTER_EXTRA)
     .map(n => `<li><a href="${n.href}" data-phase="${n.phase}">${esc(n.label)}</a></li>`).join('');
   $('#footerDest').innerHTML = DESTINATIONS.slice(0, 8)
-    .map(d => `<li><a href="destination.html#${d.id}">${esc(d.name)}</a></li>`).join('');
+    .map(d => `<li><a href="${destUrl(d.id)}">${esc(d.name)}</a></li>`).join('');
   $('#footerLegal').innerHTML = LEGAL
     .map(l => `<a href="${l.href}" data-phase="${l.phase}">${esc(l.label)}</a>`).join('');
 }

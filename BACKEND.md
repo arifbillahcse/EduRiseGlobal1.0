@@ -9,8 +9,8 @@ Plan document: https://claude.ai/code/artifact/d8bfb890-a05d-4d20-88bd-900cc19b5
 | 1 | Front controller, router, DB layer, pages served from PHP with content from the database | Done |
 | 2 | Admin login, Admin/Editor roles, sessions, CSRF, password reset, users | Done |
 | 3 | Content editing in English and Bangla, image uploads, settings | Done |
-| 4 | SEO: page titles and descriptions per country and program, sitemap from the database | Next |
-| 5 | Forms and leads in the database, email, spam protection | |
+| 4 | SEO: own address, title and description per country and program; sitemap and robots from the database | Done |
+| 5 | Forms and leads in the database, email, spam protection | Next |
 | 6 | Launch checks: live server, backups, clean-up | |
 
 ## How Phase 1 works
@@ -103,6 +103,42 @@ Tested: 38 end-to-end checks covering every Phase 3 item on the security checkli
 
 Saving all 65 existing items through the forms without changes leaves the website data byte-for-byte identical.
 
+## How Phase 4 works (SEO)
+
+- **Own address per country and program:**
+  - `/study-in-korea` and `/program-gachon-mba`. Before, every country shared one page (`destination.html#korea`), and search engines ignore the `#` part.
+  - The site's own links use the new addresses.
+  - Old `#` links (bookmarks, shared links, Facebook posts) forward in the browser. The old pages carry `noindex`.
+- **Each of those pages gets its own head from the server, before any script runs:**
+  - `<title>`, meta description (at most 160 characters, cut at a word), canonical address;
+  - share tags (`og:title`, `og:description`, `og:url`, `og:image` = the country's photo);
+  - structured data: a breadcrumb, plus `Course` with the university for programs.
+- **Search title and description in the admin:** Destinations and Programs have *Search title (Google)* and *Search description (Google)*.
+  - Empty means written automatically, e.g. "Study in Japan from Bangladesh | EduRise Global" plus the start of the introduction.
+  - HTML tags are removed and quotes escaped.
+- **Homepage:** canonical `/` and organisation data (`EducationalOrganization`: name, logo, phone, email, address, Facebook), taken from Settings.
+- **`/sitemap.xml`:** generated from the database, with every page, visible country and visible program and its last change date. A hidden country and its programs drop out at once.
+- **`/robots.txt`:**
+  - Live: everything except `/admin`, the style guide and the checklist, plus the sitemap address.
+  - Staging and local: `Disallow: /`, and every page sends `X-Robots-Tag: noindex`, so staging never shows up in Google.
+- **One address for the site:** `eduriseglobal.bd/...` → `https://www.eduriseglobal.bd/...` in a single 301 (`.htaccess`). Canonical links use `base_url`, so on live they point at `https://www.eduriseglobal.bd`.
+- **Database down:** country and program pages, their titles and the sitemap still work from the built-in content.
+
+Tested:
+- 20 checks:
+  - every country and program address and its tags;
+  - the sitemap: valid XML, every address answers 200, hidden items left out;
+  - robots on live and staging;
+  - title override kept by the page script;
+  - escaping;
+  - old addresses forwarding;
+  - no old-style links left on the site;
+  - database down.
+- Apache: the domain redirects.
+- Phases 2 and 3 suites rerun: 35/35 and 38/38.
+
+After launch: add the site to Google Search Console and submit `https://www.eduriseglobal.bd/sitemap.xml`. If EduRise also owns `eduriseglobal.com`, point it at the same hosting and add a redirect to the `.bd` address.
+
 ## Folder structure
 
 ```
@@ -112,8 +148,8 @@ app/
   routes.php        all website addresses
   config/           config.php lives here on each server, never in Git
   core/             Config, Database (PDO), Router, View, Response, ErrorHandler, Session, Csrf, Auth, Mailer, Upload
-  Controllers/      PageController; Admin/ (Auth, Panel, User, Content, Media, Settings)
-  Models/           Sections (editable sections), Content (saving), ContentRepository (website data in data.js shape), AdminUser
+  Controllers/      PageController, SeoController (sitemap, robots); Admin/ (Auth, Panel, User, Content, Media, Settings)
+  Models/           Sections (editable sections), Content (saving), ContentRepository (website data in data.js shape), Seo, AdminUser
   Views/pages/      the page templates (the old *.html files)
   Views/admin/      admin panel templates
   Helpers/          e(), json_for_script(), url()
@@ -161,6 +197,7 @@ php -S localhost:8000 -t public_html bin/dev-router.php
 **Database already set up from an earlier phase?** In phpMyAdmin (SQL tab), run each migration in `database/migrations/` that has not been run yet, oldest first:
 - `2026-10-19-phase2-admin.sql` (before `create-admin.php`)
 - `2026-10-20-phase3-content.sql`
+- `2026-10-20-phase4-seo.sql`
 
 Then run `php bin/import-data.php --replace` once, to copy the existing Bangla into the new columns. Only do this before staff start editing, because it replaces the content.
 

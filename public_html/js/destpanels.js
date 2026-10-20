@@ -49,7 +49,7 @@ const DestPanels = (() => {
           </dl>
         </div>
         <div class="dpanel__actions">
-          <a class="btn btn--sun btn--sm" href="destination.html#${d.id}">Explore ${esc(d.name)}${icon('arrow')}</a>
+          <a class="btn btn--sun btn--sm" href="${destUrl(d.id)}">Explore ${esc(d.name)}${icon('arrow')}</a>
           <button type="button" class="dpanel__ask" data-enquire="${esc('Studying in ' + d.name)}">${icon('whatsapp')}Ask us</button>
         </div>
       </div>

@@ -4,6 +4,12 @@
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
+/* page addresses for a country and a program: /study-in-korea, /program-gachon-mba */
+const destUrl = id => 'study-in-' + id;
+const progUrl = id => 'program-' + id;
+/* the country or program a page shows: set by the server for clean addresses, else the old #hash */
+const routeId = () => (window.EDURISE_ROUTE && window.EDURISE_ROUTE.id) || location.hash.slice(1);
+
 /* escape text before putting it into HTML */
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 

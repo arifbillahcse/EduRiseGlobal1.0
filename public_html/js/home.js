@@ -44,7 +44,7 @@ const DestCards = (() => {
       <div class="postcard__tear" aria-hidden="true"></div>
       <div class="postcard__stub">
         <span class="postcard__barcode" aria-hidden="true"></span>
-        <a class="link-arrow" href="destination.html#${d.id}" tabindex="-1">Explore ${esc(d.country)}${icon('arrow')}</a>
+        <a class="link-arrow" href="${destUrl(d.id)}" tabindex="-1">Explore ${esc(d.country)}${icon('arrow')}</a>
         <span class="postcard__count tnum">${i + 1} / ${total}</span>
       </div>
     </article>`;

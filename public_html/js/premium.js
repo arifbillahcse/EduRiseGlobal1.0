@@ -41,7 +41,7 @@ function programCardHTML(p, extra = '') {
   const d = destOf(p.dest), w = programWindow(p);
   return `<article class="prog-card card">
     <div class="prog-card__top"><span class="uni-card__country">${d.code} · ${esc(d.name)}</span>${w ? statusChip(w.st) : ''}</div>
-    <h3><a href="program.html#${p.id}">${esc(p.title)}</a></h3>
+    <h3><a href="${progUrl(p.id)}">${esc(p.title)}</a></h3>
     <p class="prog-card__uni">${esc(p.university)}</p>
     <dl class="facts facts--2">
       <div><dt>English</dt><dd>${p.english.none ? 'Without IELTS' : 'IELTS ' + p.english.ielts}</dd></div>
@@ -50,7 +50,7 @@ function programCardHTML(p, extra = '') {
       <div><dt>Language</dt><dd>${esc(p.language)}</dd></div>
     </dl>
     ${extra}
-    <a class="link-arrow" href="program.html#${p.id}">View program details ${icon('arrow')}</a>
+    <a class="link-arrow" href="${progUrl(p.id)}">View program details ${icon('arrow')}</a>
   </article>`;
 }
 
@@ -91,12 +91,12 @@ function renderProgramFinder() {
 /* ---------- program.html#<id> ---------- */
 let countdownTimer = null;
 function renderProgramPage() {
-  const p = programById(location.hash.slice(1)) || PROGRAMS[0];
+  const p = programById(routeId()) || PROGRAMS[0];
   const d = destOf(p.dest), w = programWindow(p);
-  document.title = `${p.title}, ${p.university} | EduRise Global`;
+  if (!window.EDURISE_ROUTE) document.title = `${p.title}, ${p.university} | EduRise Global`;   // the server sets the title on clean addresses
 
   $('#progHead').innerHTML = `
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><a href="programs.html">Programs</a><span>/</span><a href="destination.html#${d.id}">${esc(d.name)}</a><span>/</span><span aria-current="page">${esc(p.university)}</span></nav>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><a href="programs.html">Programs</a><span>/</span><a href="${destUrl(d.id)}">${esc(d.name)}</a><span>/</span><span aria-current="page">${esc(p.university)}</span></nav>
     <span class="eyebrow eyebrow--sun">DAC → ${d.code} · ${esc(p.city)} <span class="pkg pkg--3">Package 3</span></span>
     <h1>${esc(p.title)}</h1>
     <p>${esc(p.university)}</p>
@@ -138,7 +138,7 @@ function renderProgramPage() {
       <div class="table-wrap"><table class="data-table"><tbody>
         <tr><th scope="row">English</th><td>${esc(p.english.text)}</td></tr>
         <tr><th scope="row">Academic</th><td>${p.levels.includes('Master’s') ? 'Completed Bachelor’s degree' : p.levels.includes('Language') ? 'HSC or Bachelor’s, depending on the next degree' : 'HSC / A-levels or equivalent'}${p.cgpa ? `, CGPA ${p.cgpa.toFixed(2)}+` : ''}</td></tr>
-        <tr><th scope="row">Documents</th><td>See the <a href="destination.html#${d.id}">${esc(d.name)} document checklist</a></td></tr>
+        <tr><th scope="row">Documents</th><td>See the <a href="${destUrl(d.id)}">${esc(d.name)} document checklist</a></td></tr>
       </tbody></table></div>
     </section>
     <section class="card"><h2>Fees and costs</h2>
@@ -236,7 +236,7 @@ function renderBoard() {
   const rows = items.map((it, i) => {
     const d = destOf(it.dest), st = windowStatus(it);
     const prog = PROGRAMS.find(p => p.intakes.includes(it.id));
-    const href = prog ? `program.html#${prog.id}` : 'universities.html#intakes';
+    const href = prog ? `${progUrl(prog.id)}` : 'universities.html#intakes';
     const [uni, course] = it.title.split(' · ');
     const im = intakeMonth(it.intake);
     const imIso = im ? isoOf(im.y, im.m) : null;
@@ -391,7 +391,7 @@ function renderEstimator() {
       </tbody></table></div>
       <p class="note small"><b>This is an estimate, not a quote.</b> Tuition comes from the university’s published fees, living costs are typical amounts (${esc(lc.note.toLowerCase())}), and taka uses sample exchange rates updated ${formatDate(RATES_UPDATED)}. <span class="tbc">TBC</span> It does not include flights, visa medicals, insurance or our service charge.</p>
       <button type="button" class="btn btn--go btn--block" data-enquire="${esc(`Cost estimate: ${p.university}, ${p.title}, ${fmtBDT(total)} for ${years === 1 ? 'the first year' : years + ' years'}`)}">${icon('whatsapp')}Discuss this estimate</button>
-      <a class="link-arrow" href="program.html#${p.id}">View program details ${icon('arrow')}</a>`;
+      <a class="link-arrow" href="${progUrl(p.id)}">View program details ${icon('arrow')}</a>`;
   };
   fillScholarships();
   $('#es-p').addEventListener('change', () => { fillScholarships(); draw(); });

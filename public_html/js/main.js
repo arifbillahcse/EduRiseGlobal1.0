@@ -7,10 +7,10 @@
 const PAGE_RENDERERS = {
   home:         () => { initHome(); renderBoard(); renderHomeNews(); renderHomeStories(); },
   destinations: () => renderDestinationsPage(),
-  destination:  () => { renderCountryPage(); window.addEventListener('hashchange', () => { renderCountryPage(); bindSite(); }); },
+  destination:  () => { if (!window.EDURISE_ROUTE) return location.replace(destUrl(destById(location.hash.slice(1)) ? location.hash.slice(1) : DESTINATIONS[0].id)); renderCountryPage(); },
   universities: () => renderUniversitiesPage(),
   programs:     () => { renderProgramFinder(); renderProgramsPage(); },
-  program:      () => { renderProgramPage(); window.addEventListener('hashchange', renderProgramPage); },
+  program:      () => { if (!window.EDURISE_ROUTE) return location.replace(progUrl(programById(location.hash.slice(1)) ? location.hash.slice(1) : PROGRAMS[0].id)); renderProgramPage(); },
   eligibility:  () => renderEligibility(),
   estimator:    () => { renderEstimator(); window.addEventListener('hashchange', renderEstimator); },
   scholarships: () => renderScholarshipsPage(),

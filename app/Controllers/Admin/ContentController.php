@@ -245,7 +245,7 @@ final class ContentController extends BaseController
         $slug = (string) ($row['slug'] ?? '');
         return match ($key) {
             'destinations' => "study-in-$slug",
-            'programs'     => "program.html#$slug",
+            'programs'     => "program-$slug",
             'universities', 'intakes' => 'universities.html',
             'scholarships', 'gov-scholarships' => 'scholarships.html',
             'team'         => "leadership.html#leader-$slug",

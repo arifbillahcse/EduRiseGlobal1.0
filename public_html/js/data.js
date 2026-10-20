@@ -57,7 +57,7 @@ const LEGAL = [
 ];
 
 /* =====================================================================
-   DESTINATIONS (Phase 4) — one entry per country page: destination.html#<id>
+   DESTINATIONS (Phase 4) — one entry per country page: /study-in-<id>
    code = airport/city code shown on cards
    ===================================================================== */
 const DESTINATIONS = FROM_DB.destinations || [
@@ -446,7 +446,7 @@ const LIVING_COSTS = FROM_DB.livingCosts || {
   china:    { amount: 170,    cur: 'USD', note: 'Dormitory, food and transport' }
 };
 
-/* programs with full detail pages: program.html#<id>
+/* programs with full detail pages: /program-<id>
    tuition: { amount, per: 'semester' | 'year', cur } or { min, max, per, cur } for a range; null = ask a counsellor
    scholarships: pct is a tuition discount; scope 'first' = first semester only, 'all' = whole program
    english: { ielts: 5.5 } or { none: true }; budget: low | mid | high (used by the eligibility check)

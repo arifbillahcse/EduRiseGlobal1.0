@@ -8,6 +8,7 @@ use App\Core\Config;
 use App\Core\Response;
 use App\Core\View;
 use App\Models\ContentRepository;
+use App\Models\Seo;
 
 final class PageController
 {
@@ -18,7 +19,9 @@ final class PageController
 
     public static function home(): void
     {
-        View::page('index', ContentRepository::forPages());
+        $data = ContentRepository::forPages();
+        $site = isset($data['site']) ? json_decode(json_encode($data['site']), true) : null;   // stored as a JSON object
+        View::page('index', $data, 200, ['path' => '', 'jsonld' => [Seo::organization($site)]]);
     }
 
     /** /about.html */
@@ -32,7 +35,9 @@ final class PageController
             self::home();
             return;
         }
-        View::page($page, ContentRepository::forPages());
+        // the old one-template pages (destination.html#korea) forward to clean addresses in the browser
+        $meta = in_array($page, ['destination', 'program'], true) ? ['robots' => 'noindex, follow'] : ['path' => $page . '.html'];
+        View::page($page, ContentRepository::forPages(), 200, $meta);
     }
 
     /** /about -> /about.html (one address per page) */
@@ -46,18 +51,26 @@ final class PageController
         Response::redirect(base_path() . '/' . ($page === 'index' ? '' : $page . '.html') . ($qs !== '' ? '?' . $qs : ''));
     }
 
-    /** /study-in-cyprus: the country guide, without needing #cyprus in the address */
+    /** /study-in-cyprus: one country guide at its own address */
     public static function studyIn(string $slug): void
     {
-        $data = ContentRepository::forPages();
-        $slugs = array_column($data['destinations'] ?? self::builtInDestinations(), 'id');
-        if (!in_array($slug, $slugs, true)) {
+        $meta = Seo::destination($slug);
+        if ($meta === null) {
             self::notFound();
             return;
         }
-        // the page script reads the country from the #hash; set it before any script runs
-        $head = '<script>if(!location.hash)history.replaceState(null,"",location.pathname+location.search+"#"+' . json_for_script($slug) . ');</script>';
-        View::page('destination', $data, 200, $head);
+        View::page('destination', ContentRepository::forPages(), 200, $meta);
+    }
+
+    /** /program-gachon-mba: one program at its own address */
+    public static function program(string $slug): void
+    {
+        $meta = Seo::program($slug);
+        if ($meta === null) {
+            self::notFound();
+            return;
+        }
+        View::page('program', ContentRepository::forPages(), 200, $meta);
     }
 
     public static function notFound(): void
@@ -73,14 +86,4 @@ final class PageController
         return !(Config::isLive() && in_array($page, self::NOT_ON_LIVE, true));
     }
 
-    /** destination ids when the database is unavailable (matches js/data.js) */
-    private static function builtInDestinations(): array
-    {
-        $seed = APP_ROOT . '/database/seed/content.json';
-        if (!is_file($seed)) {
-            return [];
-        }
-        $json = json_decode((string) file_get_contents($seed), true);
-        return $json['DESTINATIONS'] ?? [];
-    }
 }

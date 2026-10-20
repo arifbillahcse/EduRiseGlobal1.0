@@ -15,6 +15,7 @@ use App\Controllers\Admin\SettingsController;
 use App\Controllers\Admin\PanelController;
 use App\Controllers\Admin\UserController;
 use App\Controllers\PageController;
+use App\Controllers\SeoController;
 
 /* ---------- admin panel ---------- */
 $router->get('/admin', [PanelController::class, 'dashboard']);
@@ -57,6 +58,9 @@ $router->get('/admin.html', [PanelController::class, 'legacyDemo']);   // old de
 $router->get('/', [PageController::class, 'home']);
 $router->get('/{page}.html', [PageController::class, 'show']);
 $router->get('/study-in-{slug}', [PageController::class, 'studyIn']);
+$router->get('/program-{slug}', [PageController::class, 'program']);
+$router->get('/sitemap.xml', [SeoController::class, 'sitemap']);
+$router->get('/robots.txt', [SeoController::class, 'robots']);
 $router->get('/{page}', [PageController::class, 'withoutExtension']);
 
 $router->notFound([PageController::class, 'notFound']);

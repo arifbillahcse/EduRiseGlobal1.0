@@ -17,6 +17,10 @@ final class Response
             header('Strict-Transport-Security: max-age=31536000');
         }
         header_remove('X-Powered-By');
+        // staging and local copies must never appear in search results
+        if (!Config::isLive()) {
+            header('X-Robots-Tag: noindex, nofollow');
+        }
     }
 
     public static function html(string $html, int $status = 200): void
